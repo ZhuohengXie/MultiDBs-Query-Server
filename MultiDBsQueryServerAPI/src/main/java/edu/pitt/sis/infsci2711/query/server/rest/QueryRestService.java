@@ -9,7 +9,11 @@ import javax.ws.rs.core.Response;
 
 import edu.pitt.sis.infsci2711.query.server.business.QueryService;
 import edu.pitt.sis.infsci2711.query.server.models.QueryModel;
+import edu.pitt.sis.infsci2711.query.server.models.QueryResultModel;
+import edu.pitt.sis.infsci2711.query.server.viewModels.QueryResultViewModel;
 import edu.pitt.sis.infsci2711.query.server.viewModels.QueryViewModel;
+import edu.pitt.sis.infsci2711.query.server.viewModels.RowViewModel;
+import edu.pitt.sis.infsci2711.query.server.viewModels.SchemaViewModel;
 
 @Path("Query/")
 public class QueryRestService {
@@ -68,7 +72,7 @@ public class QueryRestService {
 		try {
 			QueryResultModel queryResult = queryService.run(convertViewModelToDB(query));
 		
-			Person personInserted = convertDbToViewModel(personsDB);
+			QueryResultViewModel personInserted = convertDbToViewModel(queryResult);
 			
 			return Response.status(200).entity(personInserted).build();
 		} catch (Exception e) {
@@ -80,17 +84,17 @@ public class QueryRestService {
 	private QueryModel convertViewModelToDB(final QueryViewModel query) {
 		return new QueryModel(query.getQuery());
 	}
-//
-//	private List<Person> convertDbToViewModel(final List<PersonDBModel> personsDB) {
-//		List<Person> result = new ArrayList<Person>();
-//		for(PersonDBModel personDB : personsDB) {
-//			result.add(convertDbToViewModel(personDB));
-//		}
-//		
-//		return result;
-//	}
-//	
-//	private Person convertDbToViewModel(final PersonDBModel personDB) {
-//		return new Person(personDB.getId(), personDB.getFirstName(), personDB.getLastName());
-//	}
+
+	private QueryResultViewModel convertDbToViewModel(final QueryResultModel queryResult) {
+		SchemaViewModel schema = new SchemaViewModel(queryResult.getSchema().getColumnNames());
+		RowViewModel[] data = new RowViewModel[queryResult.getData().length];
+		
+		for (int i = 0; i < data.length; i++) {
+			data[i] = new RowViewModel(queryResult.getData()[i].getRow());
+		}
+		
+		QueryResultViewModel result = new QueryResultViewModel(schema, data);
+		
+		return result;
+	}
 }
