@@ -72,9 +72,11 @@ public class QueryRestService {
 		try {
 			QueryResultModel queryResult = queryService.run(convertViewModelToDB(query));
 		
-			QueryResultViewModel personInserted = convertDbToViewModel(queryResult);
+			QueryResultViewModel queryResultViewModel = convertDbToViewModel(queryResult);
 			
-			return Response.status(200).entity(personInserted).build();
+		//	GenericEntity<QueryResultViewModel> entity = new GenericEntity<QueryResultViewModel>(queryResultViewModel) {};
+			
+			return Response.status(200).entity(queryResultViewModel).build();
 		} catch (Exception e) {
 			return Response.status(500).build();
 		}
