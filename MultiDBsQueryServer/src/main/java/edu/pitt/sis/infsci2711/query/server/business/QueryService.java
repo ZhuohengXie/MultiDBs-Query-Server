@@ -16,10 +16,11 @@ public class QueryService {
 		
 		logger.info("Got query to run: " + convertViewModelToDB.getQuery());
 		
-		Schema schema = new Schema(new String[] {"A", "B", "C"});
-		Row[] data = new Row[] { 	new Row(new String[] {"1", "2", "3"}),
-									new Row(new String[] {"4", "5", "6"}),
-									new Row(new String[] {"7", "8", "9"})
+		Schema schema = new Schema(new String[] {"A", "B", "C", "D"});
+		Row[] data = new Row[] { 	new Row(new String[] {"1", "2", "3", "D1"}),
+									new Row(new String[] {"4", "5", "6", "D2"}),
+									new Row(new String[] {"7", "8", "9", "D3"}),
+									new Row(new String[] {"10", "11", "12", "D4"})
 		};
 		
 		QueryResultModel queryResultModel = new QueryResultModel(schema, data);
