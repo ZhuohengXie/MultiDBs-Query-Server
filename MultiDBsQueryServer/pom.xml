@@ -12,13 +12,17 @@
 		<artifactId>multidbsqueryserver-main</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-
+	 
 	<properties>
 		<!-- ${project.parent.basedir} didn't work -->
 		<main.basedir>${project.basedir}/..</main.basedir>
 	</properties>
 
 	<dependencies>
-
+			 <dependency>
+		    		<groupId>com.facebook.presto</groupId>
+		   			<artifactId>presto-jdbc</artifactId>
+		    		<version>0.97</version>
+				</dependency>
 	</dependencies>
 </project>
