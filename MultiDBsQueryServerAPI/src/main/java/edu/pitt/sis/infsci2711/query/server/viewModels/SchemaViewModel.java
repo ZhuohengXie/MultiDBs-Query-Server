@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class SchemaViewModel {
 	//@XmlElementWrapper(name="columnNames")
-	@XmlElement
+	@XmlElement(name="columnNames")
 	String[] columnNames;
 	
 	public SchemaViewModel() {

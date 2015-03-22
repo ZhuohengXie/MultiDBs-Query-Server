@@ -12,7 +12,7 @@ public class QueryResultViewModel {
 	SchemaViewModel schema;
 	
 	//@XmlElementWrapper(name="data")
-	@XmlElement
+	@XmlElement(name="data")
 	RowViewModel[] data;
 	
 	public QueryResultViewModel() {

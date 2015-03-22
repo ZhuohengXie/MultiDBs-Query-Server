@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class RowViewModel {
 	//@XmlElementWrapper(name="row")
-	@XmlElement
+	@XmlElement(name="row")
 	String[] row;
 	
 	public RowViewModel() {
