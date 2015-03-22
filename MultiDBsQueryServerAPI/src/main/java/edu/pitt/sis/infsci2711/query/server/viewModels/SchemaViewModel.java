@@ -1,11 +1,13 @@
 package edu.pitt.sis.infsci2711.query.server.viewModels;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class SchemaViewModel {
-	@XmlElementWrapper(name="columnNames")
+	//@XmlElementWrapper(name="columnNames")
+	@XmlElement
 	String[] columnNames;
 	
 	public SchemaViewModel() {

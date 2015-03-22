@@ -11,7 +11,8 @@ public class QueryResultViewModel {
 	@XmlElement(name="schema")
 	SchemaViewModel schema;
 	
-	@XmlElementWrapper(name="data")
+	//@XmlElementWrapper(name="data")
+	@XmlElement
 	RowViewModel[] data;
 	
 	public QueryResultViewModel() {
