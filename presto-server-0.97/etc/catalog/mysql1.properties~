@@ -1,0 +1,4 @@
+connector.name=mysql
+connection-url=jdbc:mysql://150.212.44.196:3306
+connection-user=multidbsuser
+connection-password=infsci2711
