@@ -32,43 +32,38 @@ CREATE TABLE `Person` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `test1`;
-DROP TABLE IF EXISTS `test2`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test1` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `value` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `test2`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test2` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `number` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-INSERT INTO `test1`
-VALUES (1,2);
-INSERT INTO `test1`
-VALUES (3,4);
-INSERT INTO `test1`
-VALUES (5,6);
-INSERT INTO `test1`
-VALUES (7,8);
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-INSERT INTO `test2`
-VALUES (2,123);
-INSERT INTO `test2`
-VALUES (3,456);
-INSERT INTO `test2`
-VALUES (5,789);
-INSERT INTO `test2`
-VALUES (8,147);
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- Dump completed on 2015-03-17  9:55:15
 
-CREATE USER `group2`@`localhost` IDENTIFIED BY `infsci2711`;
-grant all privileges on *.* to `dataverse`@`localhost`;
-
-CREATE USER `multidbsuser`@`%` IDENTIFIED BY `infsci2711`;
-grant all privileges on *.* to `dataverse`@`%`;
+CREATE USER 'multidbsuser'@'%' IDENTIFIED BY 'infsci2711';
+grant all privileges on *.* to 'multidbsuser'@'%';
 
 FLUSH PRIVILEGES;
+
