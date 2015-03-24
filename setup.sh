@@ -21,4 +21,4 @@ sudo git clone https://github.com/infsci2711/MultiDBs-Utils.git
 
 sudo mkdir presto-bk
 
-mysql -u root -pproot < db_init.sql
+mysql -u root -pproot < dbinit.sql
