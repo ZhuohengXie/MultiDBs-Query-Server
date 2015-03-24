@@ -1,12 +1,15 @@
 package edu.pitt.sis.infsci2711.query.server.business;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 //import java.util.ArrayList;
 //import java.util.List;
+
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,35 +31,73 @@ public class QueryService {
 		
 		try (Connection connection = JdbcPresto.getConnection()) {
 			String sql = convertViewModelToDB.getQuery() ;
-			if(sql.endsWith(";"))
+			//logger.info("ends with: " + sql.endsWith(";")+"actual"+sql.charAt( sql.length()-1) );
+			while(sql.endsWith(";")||sql.endsWith("\n"))
 			{
-				//logger.info("length: " + String.format("%d", sql.length()));
+				//logger.info("ends with: " + sql.endsWith(";") );
 				sql=sql.substring(0, sql.length()-1);
-			}		
+			}	
+			while(sql.startsWith(";")||sql.startsWith("\n")||sql.startsWith(" ")||sql.startsWith("\t")||sql.startsWith("\r"))
+			{
+				//logger.info("ends with: " + sql.endsWith(";") );
+				sql=sql.substring(1);
+			}
+			DatabaseMetaData md = connection.getMetaData();
+            logger.info("support multi update?:    "+md.supportsBatchUpdates()); 
 			try (Statement statement = connection.createStatement())
 			{
-				ResultSet resultSet = statement.executeQuery(sql);
-
-				logger.info("after trim: " + sql);
-				ResultSetMetaData rsmd=resultSet.getMetaData();
-				int ncol=rsmd.getColumnCount();
+				int nrow = 0;	
+				int ncol=	0;
+				if(sql.startsWith("create")||sql.startsWith("Create"))
+				{
+					nrow=-1;;//nrow=0;
+				}
+				else
+				{
+					ResultSet resultSet = statement.executeQuery(sql);
 				
-				int nrow = 0;
-				try {
-//					resultSet.last();
-//					nrow = resultSet.getRow();
-					while(resultSet.next())
-					{
-						nrow++;
+					logger.info("after trim: " + sql);
+					//ResultSetMetaData rsmd=resultSet.getMetaData();
+					
+					
+	
+					try {
+	//					resultSet.last();
+	//					nrow = resultSet.getRow();
+						if(sql.startsWith("create")||sql.startsWith("Create"))
+						{
+							nrow=-1;
+						}
+						else
+						{
+							while(resultSet.next())
+							{
+								nrow++;
+							}
+						}
+					   // resultSet.beforeFirst();
 					}
-				   // resultSet.beforeFirst();
-				}
-				catch(Exception ex) {
-					nrow=0;
-				    logger.info(ex.toString());
+					catch(Exception ex) {
+						nrow=0;
+					    logger.info(ex.toString());
+					}
 				}
 				
-				resultSet = statement.executeQuery(sql);
+				ResultSet resultSet = statement.executeQuery(sql);
+				ResultSetMetaData rsmd=resultSet.getMetaData();
+				ncol=rsmd.getColumnCount();
+				if(nrow==-1)
+				{
+				    String[] cols=new String[1];
+				    cols[0]="status";
+				    Schema schema = new Schema(cols);
+				    String[] arr=new String[1];arr[0]="executed";
+				    Row[] data=new Row[1];
+				    data[0]=new Row(arr);
+				    
+					QueryResultModel queryResultModel = new QueryResultModel(schema, data);
+					return queryResultModel;					
+				}
 				String[] cols=new String[ncol];
 				for(int k=0;k<ncol;k++)
 				{
@@ -81,7 +122,16 @@ public class QueryService {
 			}
 			catch (Exception ex) {
 				
-			    logger.info(ex.toString());return null;
+			    logger.info(ex.toString());
+			    String[] cols=new String[1];
+			    cols[0]="error message";
+			    Schema schema = new Schema(cols);
+			    String[] arr=new String[1];arr[0]=ex.toString();
+			    Row[] data=new Row[1];
+			    data[0]=new Row(arr);
+			    
+				QueryResultModel queryResultModel = new QueryResultModel(schema, data);
+				return queryResultModel;
 			}
 		}
 		
