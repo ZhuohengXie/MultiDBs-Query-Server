@@ -1,0 +1,221 @@
+#This is a guide for *developers* to set up presto on ubuntu 14.01 LTS x64
+================================================================================================
+Chpt1 About presto
+
+Presto is a distributed query engine. It supports sql queries but it is not a database.
+It only does query stuff. No actual data is stored on presto.
+
+see more at: https://prestodb.io/docs/0.97/
+-------------------------------------------------------------------------------------------------
+Chpt2 Downloading and configuring
+
+!!!!presto requires oracle java 8, and a 64-bit mac or linux
+to install java 8 on ubuntu, do the following in terminal:
+
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+
+Now install presto-0.97.
+Download link:
+https://repo1.maven.org/maven2/com/facebook/presto/presto-server/0.97/presto-server-0.97.tar.gz
+
+Unpack it,then go to the where you unpacked. Now you should see presto-server-0.97 folder.
+First create a folder beside presto-server-0.97, named presto-bk.
+Go inside presto-server-0.97 folder, create another folder called etc, then go inside.
+create 4 files, each with the following content:
+(visually better see https://prestodb.io/docs/0.97/installation/deployment.html)
+
+#file 1: config.properties
+coordinator=true
+node-scheduler.include-coordinator=true
+http-server.http.port=8080
+task.max-memory=1GB
+discovery-server.enabled=true
+discovery.uri=http://localhost:8080
+
+#file 2: jvm.config
+-server
+-Xmx16G
+-XX:+UseConcMarkSweepGC
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+CMSClassUnloadingEnabled
+-XX:+AggressiveOpts
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:OnOutOfMemoryError=kill -9 %p
+-XX:ReservedCodeCacheSize=150M
+
+#file 3: log.properties
+com.facebook.presto=INFO
+
+#file 4: node.properties
+node.environment=production
+node.id=ffffffff-ffff-ffff-ffff-ffffffffffff
+node.data-dir=../../presto-bk
+
+--------------------------------------------------------------------------------------------------
+Chpt3 Add a Catalog
+
+Create a catalog folder under etc folder, then go inside.
+Here you store catalogs.
+
+Suppose you have mysql on local machine.
+Create a catalog file named whatever you want, say 'local.properties'.
+
+#catalog file: local.properties
+connector.name=mysql
+connection-url=jdbc:mysql://localhost:3306
+connection-user=USERNAME
+connection-password=PASSWORD
+
+Let's look at this catalog file.
+The file name (local.properties) contains the catalog name. So the catalog is called 'local'.
+Any catalog file is catalogName.properties. Catalog is actually a data source. 
+This catalog file records how to access the data source for presto.
+
+The first line specifies the database type it is connecting to. 
+For example, for oracle, it will be 'connector.name=oracle'.
+
+The second line specifies the ip and port of the data source.
+For example, there is a data source which is a mysql database on 192.268.0.1, port 3306.
+So this line should be 'connection-url=jdbc:mysql://192.168.0.1:3306'.
+
+The third and fourth line specifies the username and password to access the data source.
+Note that this is not the username for a single database, it is for the whole database server.
+
+Another problem is that presto does not automatically detect changes in /etc/catalog folder.
+So if you added a new catalog file to the server, you should restart the server to let presto load it.
+
+#note that you are now at folder 'presto-server-0.97'
+bin/launcher restart
+
+#note that bin/launcher is actually the server code, written in python.
+-------------------------------------------------------------------------------------------------------
+Chpt4 Terms and How to use
+
+The following shows what the term in presto means.
+===================|=====================|
+       presto      |      usual term     |
+===================|=====================|
+     catalog       | data source, server |
+-------------------|---------------------|
+      schema       |      database       |
+-------------------|---------------------|
+
+Download the cli for presto here: 
+https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.97/presto-cli-0.97-executable.jar
+
+Place it in the presto-server-0.97 folder. Rename it as 'presto'. (so the '.jar' is also removed.)
+
+#note that you are now at folder 'presto-server-0.97'
+launch terminal, run:
+sudo chmod +x ./presto
+
+First, start(restart the server):
+bin/launcher restart
+
+Then, run presto cli with command:
+./presto
+
+Presto's cli command interface works like the following:
+./presto --server serverIP:8080 --catalog catalogName --schema databaseName
+
+All parameters can be empty, but if you specify schema, you should specify catalog first.
+No other problems otherwise.
+
+
+To explore presto and run queries:
+(suppose you run the presto cli with no parameters; remember that a ';' is required in cli after sql statement.)
+(you can view the execution status by visiting http://localhost:8080/)
+Suppose we have one datasource(catalog) called 'local'. There are two databases each containing a table.
+The whole structure should be like this.
+
+-local
+    -db1
+        -table1
+    -db2
+        -table2
+
+#to show all catalogs we have, run:
+show catalogs;
+#should return
+---------------
+catalog
+---------------
+local
+
+#to show all databases within one catalog:
+show schemas from catalog;
+#should return
+-----------------
+schema
+-----------------
+db1
+db2
+-----------------
+
+#to show tables in a database, e.g. show tables in database 'db1'
+show tables from local.db1;
+#should return:
+---------------
+table
+---------------
+table1
+---------------
+
+(Here note that as you logged in with no parameters, you should specify catalogname.databasename.tablename to access the table.)
+
+#to show column information (usually it is useless unless you are only curious about the column names.)
+describe local.db1.table1;
+-----------------------------------
+name    type    null
+-----------------------------------
+id     bigint   true
+-----------------------------------
+
+
+And you can do your own sql queries. But here are things to be careful:
+1. no inserts!
+2. no drops!
+3. use statement only works in the cli, it won't work in your java. If you use it, extract it and specify it in connection().
+
+------------------------------------------------------------------------------------------------------------------------------------
+Chpt5 About the jdbc
+Don't do what is said on presto website. Just add presto-jdbc-0.97 as maven dependency in your project.
+
+These following connection string patterns are supported.
+jdbc:presto://host:port        (only specifies server)
+jdbc:presto://host:port/catalog    (restricts all things within a single catalog, ignore other catalogs)
+jdbc:presto://host:port/catalog/schema (limit all things inside a single database. won't see more.)
+
+The way your program (with a mysql database as real db storage) runs queries is like the following:
+1. Your program talks to presto jdbc, to get connection;
+2. Presto jdbc talks to presto-mysql connector. (A connector defines all supports for queries. Use, drop and insert not supported.)
+3. Presto-mysql connector uses mysql-jdbc to run queries.
+4. Connector sends results from mysql-jdbc to presto-jdbc;
+5. Your program gets the result.
+
+The usage of presto jdbc is pretty like mysql-jdbc. Note the following:
+1. Presto does not enable Batch update. So execute one SQL query at a time.
+2. Presto resultset cannot be iterated as you like. It is only serial, front to end.
+3. Use, drop and insert not supported.
+4. The sql string should not have ';'.
+--------------------------------------------------------------------------------------------------------------------------------------
+In my case, it is very good to have the environment set on the local machine so that you can test it at any time.
+To develop on your local machine, if you are using ubuntu or another linux system, I suggest you to install smartgithg.
+Smartgithg is a GUI git, like your Github client. Very convenient.
+All you need to do is to generate a ssh key from your github account, and give it to smartgithg.
+Before that, you'd better have used 'sudo apt-get install softwarename' to install the following softwares:
+1. git
+2. openjdk-7-jdk
+3. python
+4. mysql
+
+And after that, run the following commands:
+sudo add-apt-repository ppa:eugenesan/ppa
+sudo apt-get update
+sudo apt-get install smartgithg
+
+End. Thanks.
+
+
