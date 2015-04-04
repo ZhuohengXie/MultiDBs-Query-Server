@@ -50,13 +50,11 @@ CREATE TABLE `test2` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-INSERT INTO `person` (firstName, lastName) VALUES 
-(`Ming`,`Chi`) , (`Hao`,`Wu`) , (`Deepak`,`Mathur`) , (`Mengdie`,`Liu`) , (`Sanket`,`Rajeev`) , (`Zhuoheng`,`Xie`) ;
 
 INSERT INTO `test1` (value) VALUES 
 (`abc`) , (`def`) , (`ghi`) , (`jkl`) , (`mno`) , (`pqr`)  ;
 
-INSERT INTO `test2` (value) VALUES 
+INSERT INTO `test2` (number) VALUES 
 (`abc`) , (`111`) , (`ghi`) , (`222`) , (`mno`) , (`333`)  ;
 
 USE `infsci2711_tutorial`;
