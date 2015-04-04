@@ -1,4 +1,5 @@
 CREATE DATABASE  IF NOT EXISTS `infsci2711_tutorial` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `prestomatch` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `infsci2711_tutorial`;
 -- MySQL dump 10.13  Distrib 5.6.11, for osx10.6 (i386)
 --
@@ -24,7 +25,7 @@ USE `infsci2711_tutorial`;
 DROP TABLE IF EXISTS `person`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Person` (
+CREATE TABLE `person` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(45) DEFAULT NULL,
   `lastName` varchar(45) DEFAULT NULL,
@@ -49,6 +50,28 @@ CREATE TABLE `test2` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
+INSERT INTO `person` (firstName,lastName) VALUES 
+(`Ming`,`Chi`) , (`Hao`,`Wu`) , (`Deepak`,`Mathur`) , (`Mengdie`,`Liu`) , (`Sanket`,`Rajeev`) , (`Zhuoheng`,`Xie`) ;
+
+INSERT INTO `test1` (value) VALUES 
+(`abc`) , (`def`) , (`ghi`) , (`jkl`) , (`mno`) , (`pqr`)  ;
+
+INSERT INTO `test2` (value) VALUES 
+(`abc`) , (`111`) , (`ghi`) , (`222`) , (`mno`) , (`333`)  ;
+
+USE `infsci2711_tutorial`;
+DROP TABLE IF EXISTS `prestomatch`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prestomatch` (
+  `did` int(11) NOT NULL AUTO_INCREMENT,
+  `catalog` varchar(45) DEFAULT NULL,
+  `dbname` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`did`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+INSERT INTO `prestomatch` (catalog,dbname) VALUES 
+(`localhost`,`infsci2711_tutorial`) ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

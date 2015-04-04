@@ -1,15 +1,15 @@
 package edu.pitt.sis.infsci2711.query.server.business;
 
+import java.io.File;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.sql.Statement;
-//import java.util.ArrayList;
-//import java.util.List;
-
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,8 +17,11 @@ import org.apache.logging.log4j.Logger;
 import edu.pitt.sis.infsci2711.query.server.models.QueryModel;
 import edu.pitt.sis.infsci2711.query.server.models.QueryResultModel;
 import edu.pitt.sis.infsci2711.query.server.models.Row;
+import edu.pitt.sis.infsci2711.query.server.models.SaveQueryModel;
 import edu.pitt.sis.infsci2711.query.server.models.Schema;
+import edu.pitt.sis.infsci2711.query.server.utils.CatalogFileBuilder;
 import edu.pitt.sis.infsci2711.query.server.utils.JdbcPresto;
+import edu.pitt.sis.infsci2711.query.server.utils.SQLParser;
 
 
 public class QueryService {
@@ -29,28 +32,23 @@ public class QueryService {
 		
 		logger.info("Got query to run: " + convertViewModelToDB.getQuery());
 		
+		
 		try (Connection connection = JdbcPresto.getConnection()) {
 			String sql = convertViewModelToDB.getQuery() ;
-			//logger.info("ends with: " + sql.endsWith(";")+"actual"+sql.charAt( sql.length()-1) );
-			while(sql.endsWith(";")||sql.endsWith("\n"))
-			{
-				//logger.info("ends with: " + sql.endsWith(";") );
-				sql=sql.substring(0, sql.length()-1);
-			}	
-			while(sql.startsWith(";")||sql.startsWith("\n")||sql.startsWith(" ")||sql.startsWith("\t")||sql.startsWith("\r"))
-			{
-				//logger.info("ends with: " + sql.endsWith(";") );
-				sql=sql.substring(1);
-			}
-			DatabaseMetaData md = connection.getMetaData();
-            logger.info("support multi update?:    "+md.supportsBatchUpdates()); 
+			sql=SQLParser.rebuild(sql);
+			logger.info("after parse:  "+sql );
+
+			//DatabaseMetaData md = connection.getMetaData();
+           // logger.info("support multi update?:    "+md.supportsBatchUpdates()); 
 			try (Statement statement = connection.createStatement())
 			{
 				int nrow = 0;	
 				int ncol=	0;
-				if(sql.startsWith("create")||sql.startsWith("Create"))
+				String tmp=sql.toLowerCase();
+				if(tmp.startsWith("create")||tmp.startsWith("insert")||tmp.startsWith("use"))
 				{
 					nrow=-1;;//nrow=0;
+					throw new SQLFeatureNotSupportedException("'create', 'use', 'insert', 'drop' statements are not supported.");
 				}
 				else
 				{
@@ -58,9 +56,7 @@ public class QueryService {
 				
 					logger.info("after trim: " + sql);
 					//ResultSetMetaData rsmd=resultSet.getMetaData();
-					
-					
-	
+
 					try {
 	//					resultSet.last();
 	//					nrow = resultSet.getRow();
@@ -120,21 +116,47 @@ public class QueryService {
 				QueryResultModel queryResultModel = new QueryResultModel(schema, data);
 				return queryResultModel;
 			}
-			catch (Exception ex) {
-				
-			    logger.info(ex.toString());
-			    String[] cols=new String[1];
-			    cols[0]="error message";
-			    Schema schema = new Schema(cols);
-			    String[] arr=new String[1];arr[0]=ex.toString();
-			    Row[] data=new Row[1];
-			    data[0]=new Row(arr);
-			    
-				QueryResultModel queryResultModel = new QueryResultModel(schema, data);
-				return queryResultModel;
-			}
+			//throw exception will be handled elsewhere;
 		}
+
+	}
+
+	public boolean save(final SaveQueryModel convertViewModelToDB) throws SQLException, Exception {
 		
+		logger.info("Got query to run & save: " + convertViewModelToDB.getQuery());
+		
+		try (Connection connection = JdbcPresto.getConnection()) {
+			String sql = convertViewModelToDB.getQuery() ;
+			sql=SQLParser.rebuild(sql);
+			logger.info("after parse:  "+sql );
+
+			try (Statement statement = connection.createStatement())
+			{
+				String tmp=sql.toLowerCase();
+				if(!tmp.startsWith("select"))
+				{
+					throw new SQLFeatureNotSupportedException("Only 'select' statements can be saved.");
+				}
+				else
+				{
+				    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
+				    Calendar cal = Calendar.getInstance();
+				    String strm=dateFormat.format(cal.getTime());//String.format("-%d.properties", cal.get(Calendar.MILLISECOND));
+					CatalogFileBuilder ncatalog=new CatalogFileBuilder(CatalogFileBuilder.MysqlConnURL("localhost", "3306"),"root","proot");
+					String fileurl=ncatalog.write(strm, "");
+					File f=new File(fileurl);
+					if(f.exists())
+					{f.delete();}
+					boolean x =false;
+					//x=statement.execute(sql);				
+					//logger.info("after trim: " + sql);
+					return x;
+				}
+			}
+//	    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
+//	    Calendar cal = Calendar.getInstance();
+//	    String strm=".properties";//String.format("-%d.properties", cal.get(Calendar.MILLISECOND));
+//	    System.out.println(dateFormat.format(cal.getTime())+strm);		
 		
 //		Schema schema = new Schema(new String[] {"A", "B", "C", "D"});
 //		Row[] data = new Row[] { 	new Row(new String[] {"1", "2", "3", "D1"}),
@@ -146,6 +168,6 @@ public class QueryService {
 //		QueryResultModel queryResultModel = new QueryResultModel(schema, data);
 //		
 //		return queryResultModel;
+		}
 	}
-
 }
