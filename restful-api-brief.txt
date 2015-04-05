@@ -1,0 +1,185 @@
+##  This is a brief restful api documentation of our presto query server  \^o^/
+
+1.query
+
+#description:
+Accepts a sql query string (like select ... from databaseid.tablename), and then returns the result content.
+
+#url:
+http://54.174.80.167/Query/
+
+#request:
+content-type: application/json
+request-type: PUT
+request-json-format:
+{"query":"your query string here"}
+-root
+  -query String
+
+#response:
+content-type: application/json
+response-json-format:
+{
+    "schema": {
+        "columnNames": ["column1", "column2", "column3"]
+    },
+    "data": [{
+        "row": ["value11", "value12", "value13"]
+    }]
+}
+-root
+  -schema
+    -columnNames (String[])
+  -data  (row[])
+    -row (String[])
+      .
+      .
+      .
+    -row (String[])
+
+#error response:
+response-json-format
+{
+	"error" : "error type",
+	"message" : "description of error"
+}
+
+
+2.get table content
+
+#description:
+Accepts databseid and tableName as parameters, and then returns the table content.
+
+#url
+http://54.174.80.167/Query/{databaseid}/{tablename}
+
+#request:
+request-type: GET
+request-json-format:
+
+#response: (same as above)
+content-type: application/json
+response-json-format:
+{
+    "schema": {
+        "columnNames": ["column1", "column2", "column3"]
+    },
+    "data": [{
+        "row": ["value11", "value12", "value13"]
+    }]
+}
+-root
+  -schema
+    -columnNames (String[])
+  -data  (row[])
+    -row (String[])
+      .
+      .
+      .
+    -row (String[])
+
+#error response:
+response-json-format
+{
+	"error" : "error type",
+	"message" : "description of error"
+}
+
+
+
+3. save query result as new datasource
+
+#description:
+With user input register information, it saves the query result as a new datasource. Will register on metastore and our matcher.
+Only select queries can be saved.
+
+#url:
+http://54.174.80.167/Query/
+
+#request:
+content-type: application/json
+request-type: PUT
+request-json-format:  (may later add dbtype to it to support hive, cassandra, etc.)
+{
+	"ip":"xxx.xxx.xxx.xxx",
+	"port":"pppp",
+	"username":"your username",
+	"password":"your password",
+	"dbname":"database name",
+	"title":"title of the post",
+	"description":"description of the post",
+	"query":"your query string here"
+}
+-root
+  -ip String
+  -port String
+  -username String
+  -password String
+  -dbname String
+  -title String
+  -description String
+  -query String
+
+#response: (may change, e.g. add created database did to it)
+content-type: application/json
+response-json-format:
+{
+    "success": "the table has been saved"
+}
+-root
+  -success String("the table has been saved")
+    
+
+#error response:
+response-json-format
+{
+	"error" : "error type",
+	"message" : "description of error"
+}
+
+
+4. add catalog (currently not available, not ui-visible, only open to metastore)
+
+#description:
+With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.
+
+#url:
+http://54.174.80.167/Catalog/
+
+#request:
+content-type: application/json
+request-type: PUT
+request-json-format:  (may later add dbtype to it to support hive, cassandra, etc.)
+{
+	"ip":"xxx.xxx.xxx.xxx",
+	"port":"pppp",
+	"username":"your username",
+	"password":"your password",
+	"did":"database id",
+	"dbname":"database name",
+}
+-root
+  -ip String
+  -port String
+  -username String
+  -password String
+  -did String
+  -dbname String
+
+
+#response: (may change, e.g. add created database did to it)
+content-type: application/json
+response-json-format:
+{
+    "success": "the table has been saved"
+}
+-root
+  -success String("the table has been saved")
+    
+
+#error response:
+response-json-format
+{
+	"error" : "error type",
+	"message" : "description of error"
+}
