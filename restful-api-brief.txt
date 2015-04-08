@@ -87,7 +87,7 @@ response-json-format
 
 
 
-3. save query result as new datasource
+3. save query result as new datasource (debugging)
 
 #description:
 With user input register information, it saves the query result as a new datasource. Will register on metastore and our matcher.
@@ -193,7 +193,7 @@ response-json-format
 5. drop catalog (debugging, only open to metastore)
 
 #description:
-With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.
+Delete both the catalog file and the record in our matcher, where the database id is did.
 
 #url:
 http://54.174.80.167/Catalog/drop/did
