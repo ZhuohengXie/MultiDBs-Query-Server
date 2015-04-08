@@ -99,25 +99,29 @@ http://54.174.80.167/Query/
 #request:
 content-type: application/json
 request-type: PUT
-request-json-format:  (may later add dbtype to it to support hive, cassandra, etc.)
+request-json-format:
 {
 	"ip":"xxx.xxx.xxx.xxx",
 	"port":"pppp",
-	"username":"your username",
-	"password":"your password",
+	"dbtype":"MySQL",
+	"username":"your_username",
+	"password":"your_password",
 	"dbname":"database name",
 	"title":"title of the post",
 	"description":"description of the post",
+	"tablename":"your_table_name",
 	"query":"your query string here"
 }
 -root
   -ip String
   -port String
+  -dbtype String
   -username String
   -password String
   -dbname String
   -title String
   -description String
+  -tablename String
   -query String
 
 #response: (may change, e.g. add created database did to it)
@@ -138,43 +142,73 @@ response-json-format
 }
 
 
-4. add catalog (currently not available, not ui-visible, only open to metastore)
+4. add catalog (debugging, only open to metastore)
 
 #description:
 With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.
 
 #url:
-http://54.174.80.167/Catalog/
+http://54.174.80.167/Catalog/add
 
 #request:
 content-type: application/json
 request-type: PUT
-request-json-format:  (may later add dbtype to it to support hive, cassandra, etc.)
+request-json-format:  (may later extend dbtype to support hive, cassandra, etc.)
 {
+	"id":"databaseid",
 	"ip":"xxx.xxx.xxx.xxx",
 	"port":"pppp",
+	"dbtype:"MySQL",
 	"username":"your username",
 	"password":"your password",
-	"did":"database id",
 	"dbname":"database name",
 }
 -root
+  -id String
   -ip String
   -port String
+  -dbtype String
   -username String
   -password String
-  -did String
   -dbname String
 
 
-#response: (may change, e.g. add created database did to it)
+#response: (may change, e.g. add successful database did or catalog name to it)
 content-type: application/json
 response-json-format:
 {
-    "success": "the table has been saved"
+    "success": "the record has been saved"
 }
 -root
-  -success String("the table has been saved")
+  -success String("the record has been saved")
+    
+
+#error response:
+response-json-format
+{
+	"error" : "error type",
+	"message" : "description of error"
+}
+
+5. drop catalog (debugging, only open to metastore)
+
+#description:
+With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.
+
+#url:
+http://54.174.80.167/Catalog/drop/did
+
+#request: did is the database id
+request-type: GET
+
+#response:
+content-type: application/json
+response-json-format:
+{
+    "success": "the record has been deleted"
+}
+-root
+  -success String("the record has been deleted")
     
 
 #error response:
