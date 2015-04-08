@@ -14,14 +14,21 @@ import java.util.Calendar;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
 import edu.pitt.sis.infsci2711.query.server.models.QueryModel;
 import edu.pitt.sis.infsci2711.query.server.models.QueryResultModel;
 import edu.pitt.sis.infsci2711.query.server.models.Row;
 import edu.pitt.sis.infsci2711.query.server.models.SaveQueryModel;
 import edu.pitt.sis.infsci2711.query.server.models.Schema;
 import edu.pitt.sis.infsci2711.query.server.utils.CatalogFileBuilder;
+import edu.pitt.sis.infsci2711.query.server.utils.JdbcMysql;
 import edu.pitt.sis.infsci2711.query.server.utils.JdbcPresto;
+import edu.pitt.sis.infsci2711.query.server.utils.PrestoCmdManager;
 import edu.pitt.sis.infsci2711.query.server.utils.SQLParser;
+import edu.pitt.sis.infsci2711.query.server.utils.SingletonConfig;
 
 
 public class QueryService {
@@ -37,9 +44,7 @@ public class QueryService {
 			String sql = convertViewModelToDB.getQuery() ;
 			sql=SQLParser.rebuild(sql);
 			logger.info("after parse:  "+sql );
-
-			//DatabaseMetaData md = connection.getMetaData();
-           // logger.info("support multi update?:    "+md.supportsBatchUpdates()); 
+			
 			try (Statement statement = connection.createStatement())
 			{
 				int nrow = 0;	
@@ -121,53 +126,99 @@ public class QueryService {
 
 	}
 
-	public boolean save(final SaveQueryModel convertViewModelToDB) throws SQLException, Exception {
+	public boolean save(final SaveQueryModel saveInfo) throws SQLException, Exception {
 		
-		logger.info("Got query to run & save: " + convertViewModelToDB.getQuery());
+		logger.info("Got query to run & save: " + saveInfo.getQuery());
 		
-		try (Connection connection = JdbcPresto.getConnection()) {
-			String sql = convertViewModelToDB.getQuery() ;
-			sql=SQLParser.rebuild(sql);
-			logger.info("after parse:  "+sql );
-
-			try (Statement statement = connection.createStatement())
+		String sql = saveInfo.getQuery() ;
+		sql=SQLParser.rebuild(sql);
+		logger.info("after parse:  "+sql );		
+			String tmp=sql.toLowerCase();
+			if(!tmp.startsWith("select"))
 			{
-				String tmp=sql.toLowerCase();
-				if(!tmp.startsWith("select"))
-				{
-					throw new SQLFeatureNotSupportedException("Only 'select' statements can be saved.");
-				}
-				else
-				{
-				    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
-				    Calendar cal = Calendar.getInstance();
-				    String strm=dateFormat.format(cal.getTime());//String.format("-%d.properties", cal.get(Calendar.MILLISECOND));
-					CatalogFileBuilder ncatalog=new CatalogFileBuilder(CatalogFileBuilder.MysqlConnURL("localhost", "3306"),"root","proot");
-					String fileurl=ncatalog.write(strm, "");
-					File f=new File(fileurl);
-					if(f.exists())
-					{f.delete();}
-					boolean x =false;
-					//x=statement.execute(sql);				
-					//logger.info("after trim: " + sql);
-					return x;
-				}
+				throw new SQLFeatureNotSupportedException("Only 'select' statements can be saved.");
 			}
-//	    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
-//	    Calendar cal = Calendar.getInstance();
-//	    String strm=".properties";//String.format("-%d.properties", cal.get(Calendar.MILLISECOND));
-//	    System.out.println(dateFormat.format(cal.getTime())+strm);		
-		
-//		Schema schema = new Schema(new String[] {"A", "B", "C", "D"});
-//		Row[] data = new Row[] { 	new Row(new String[] {"1", "2", "3", "D1"}),
-//									new Row(new String[] {"4", "5", "6", "D2"}),
-//									new Row(new String[] {"7", "8", "9", "D3"}),
-//									new Row(new String[] {"10", "11", "12", "D4"})
-//		};
-//		
-//		QueryResultModel queryResultModel = new QueryResultModel(schema, data);
-//		
-//		return queryResultModel;
+			else
+			{
+				// a file name based on milliseconds
+				//PrestoCmdManager.stop(null);	
+			    DateFormat dateFormat = new SimpleDateFormat("HH-mm-ss-SSS");
+			    Calendar cal = Calendar.getInstance();
+			    String strm=dateFormat.format(cal.getTime());
+			    strm=strm.replaceAll("-", "");
+			    strm="temp"+strm;
+			    // Build a catalog file
+			    String dbconnUrl=CatalogFileBuilder.getConnectionURL(saveInfo.getDBType(),saveInfo.getIP(),saveInfo.getPort());
+				CatalogFileBuilder ncatalog=new CatalogFileBuilder(dbconnUrl,saveInfo.getUsername(),saveInfo.getPassword());
+				String fileurl=ncatalog.write(strm, "");
+				PrestoCmdManager.deepRestart(null);	
+				//Connector to mysql to create db first
+				try
+				{
+					//later this should be wrapped into a class for doing this stuff for different kinds of databases: cassandra, hive, etc.
+					if(saveInfo.getDBType().toLowerCase().equals("mysql"))
+					{
+						Connection mysqlConn=JdbcMysql.getConnection(saveInfo.getIP(), saveInfo.getPort(), saveInfo.getUsername(), saveInfo.getPassword());
+						Statement mysqlStatement=mysqlConn.createStatement();
+						String mysqlCreateDB=String.format("CREATE DATABASE IF NOT EXISTS `%s`",saveInfo.getDBname());
+						mysqlStatement.execute(mysqlCreateDB);
+					}
+					else
+					{
+						throw new Exception("Database type: "+saveInfo.getDBType()+" currently not supported;");
+					}
+				}
+				catch (Exception e)
+				{throw e;}
+			
+				try (Connection connection = JdbcPresto.getConnection()) {
+					;
+					try (Statement statement = connection.createStatement())
+					{
+							String sql2=String.format("create table %s.%s.%s as ",strm,saveInfo.getDBname(),saveInfo.gettableName())+sql;
+							logger.info("after manipulate:  "+sql2 );	
+							statement.executeQuery(sql2);
+							
+//							try {
+//
+//								Client client = Client.create();
+//								WebResource webResource = client.resource(SingletonConfig.getMetastoreURL()+"metasotre");
+//
+//								String input = "{\"query\":\"select * from 1.person\"}";
+//
+//								ClientResponse response = webResource.type("application/json").put(ClientResponse.class, input);
+//
+//								if (response.getStatus() != 200) {
+//									throw new RuntimeException("Failed : HTTP error code : "
+//											+ response.getStatus());
+//								}
+//
+//								System.out.println("Output from Server .... ");
+//								String output = response.getEntity(String.class);
+//								System.out.println(output);
+//
+//							} catch (Exception e) {
+//								e.printStackTrace();
+//								throw e;
+//							}
+							
+							File f=new File(fileurl);
+							if(f.exists())
+							{f.delete();}
+							boolean x =true;
+							//x=statement.execute(sql);				
+							//logger.info("after trim: " + sql);
+							return x;
+						
+					}
+					catch(Exception e)
+					{
+						File f=new File(fileurl);
+						if(f.exists())
+						{f.delete();}
+						throw e;
+					}
+			}
 		}
 	}
 }

@@ -50,26 +50,28 @@ CREATE TABLE `test2` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
+INSERT INTO `person` (firstName,lastName) VALUES 
+('Ming','Chi') , ('Hao','Wu') , ('Deepak','Mathur') , ('ZhuoHeng','Xie') , ('Mengdie','Liu') , ('Sanket','Dalal')  ;
 
 INSERT INTO `test1` (value) VALUES 
-(`abc`) , (`def`) , (`ghi`) , (`jkl`) , (`mno`) , (`pqr`)  ;
+('abc') , ('def') , ('ghi') , ('jkl') , ('mno') , ('pqr')  ;
 
 INSERT INTO `test2` (number) VALUES 
-(`abc`) , (`111`) , (`ghi`) , (`222`) , (`mno`) , (`333`)  ;
+('abc') , ('111') , ('ghi') , ('222') , ('mno') , ('333')  ;
 
-USE `infsci2711_tutorial`;
-DROP TABLE IF EXISTS `prestomatch`;
+USE `prestomatch`;
+DROP TABLE IF EXISTS `matcher`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prestomatch` (
+CREATE TABLE `matcher` (
   `did` int(11) NOT NULL AUTO_INCREMENT,
   `catalog` varchar(45) DEFAULT NULL,
   `dbname` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`did`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-INSERT INTO `prestomatch` (catalog,dbname) VALUES 
-(`localhost`,`infsci2711_tutorial`) ;
+INSERT INTO `matcher` (catalog,dbname) VALUES 
+('localhost','infsci2711_tutorial') ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

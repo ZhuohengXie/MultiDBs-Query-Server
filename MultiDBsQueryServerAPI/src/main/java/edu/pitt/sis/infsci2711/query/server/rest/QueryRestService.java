@@ -73,7 +73,8 @@ public class QueryRestService {
 		try {
 			boolean queryResult = queryService.save(convertViewModelToDB(query));
 		
-			//QueryResultViewModel queryResultViewModel = convertDbToViewModel(queryResult);
+			if(!queryResult)
+			{return Response.status(500).entity("{\"error\" : \"please check your input and try again\"}").build();}
 						
 			return Response.status(200).entity("{\"success\": \"the table has been saved\"}").build();
 		} catch (Exception e) {
@@ -94,7 +95,7 @@ public class QueryRestService {
 	}
 	
 	private SaveQueryModel convertViewModelToDB(final SaveQueryViewModel query) {
-		return new SaveQueryModel(query.getIP(),query.getPort(),query.getUsername(),query.getPassword(),query.getDBname(),query.getTitle(),query.getDescription(),query.getQuery());
+		return new SaveQueryModel(query.getIP(),query.getPort(),query.getDBType(),query.getUsername(),query.getPassword(),query.getDBname(),query.getTitle(),query.getDescription(),query.getTableName(),query.getQuery());
 	}
 	
 	private QueryResultViewModel convertDbToViewModel(final QueryResultModel queryResult) {

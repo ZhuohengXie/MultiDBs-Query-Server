@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URLDecoder;
+
 import edu.pitt.sis.infsci2711.query.server.utils.SingletonConfig;
 
 public class CatalogFileBuilder {
@@ -30,6 +31,19 @@ public class CatalogFileBuilder {
 		return "jdbc:mysql://"+mip+":"+mport;
 	}
 	
+	public static String getConnectionURL(String dbtype, String mip, String mport) throws Exception
+	{
+			if(checkConnector(dbtype))
+			{
+				if(dbtype.toLowerCase().equals("mysql"))
+				{return MysqlConnURL(mip,mport);}
+				else
+				{return null;}
+			}
+			else
+			{return null;}
+	
+	}
 	// complicated
 	public CatalogFileBuilder(String Connector, String JdbcString, String Username, String Password) throws Exception
 	{
@@ -62,9 +76,10 @@ public class CatalogFileBuilder {
 			throw new Exception("Invalid connector type");
 		}		
 	}
+	
 	public String write(String filetitle, String prestoRoot) throws Exception
 	{
-		if(prestoRoot=="")
+		if(prestoRoot==null||prestoRoot.equals(""))
 		{
 			prestoRoot=SingletonConfig.getPrestoRoot();
 		}
@@ -93,13 +108,23 @@ public class CatalogFileBuilder {
 		}
 		else 
 		{
+			
 			throw new Exception("Catalog File Already Exists!");
 		}
 	}
-	private boolean checkConnector(String connectorName)
+	
+	private static boolean checkConnector(String connectorName) throws Exception
 	{
 		connectorName=connectorName.toLowerCase();
-		return true;
+		
+		if(connectorName.equals("mysql"))
+		{
+			return true;
+		}
+		else
+		{
+			throw new Exception("Database Type Currently Not Supported.");
+		}
 	}
 
 	private void buildLines()

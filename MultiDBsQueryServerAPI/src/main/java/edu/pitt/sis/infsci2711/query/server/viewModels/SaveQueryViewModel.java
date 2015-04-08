@@ -4,12 +4,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class SaveQueryViewModel {
+public class SaveQueryViewModel {	
 		@XmlElement
 		private String ip;
 		@XmlElement
 		private String port;
-		//private String dbtype;
+		@XmlElement
+		private String dbtype;
 		@XmlElement
 		private String username;
 		@XmlElement
@@ -20,14 +21,16 @@ public class SaveQueryViewModel {
 		private String title;
 		@XmlElement
 		private String description;
+		@XmlElement
+		private String tablename;
 		@XmlElement		
 		private String query;
 		
 		public SaveQueryViewModel()
 		{}
-		public SaveQueryViewModel(String mIP, String mPort, String mUsername, String mPassword, String mDBname, String mTitle, String mDescription, String mQuery)
+		public SaveQueryViewModel( String mIP, String mPort,  String mdbtype, String mUsername, String mPassword, String mDBname, String mTitle, String mDescription, String mtableName, String mQuery)
 		{
-			//this.dbtype="MySQL";
+			this.dbtype=mdbtype;
 			this.query=mQuery;
 			this.ip=mIP;
 			this.port=mPort;
@@ -36,6 +39,7 @@ public class SaveQueryViewModel {
 			this.dbname=mDBname;
 			this.title=mTitle;
 			this.description=mDescription;
+			this.tablename=mtableName;
 		}
 		public String getQuery(){return this.query;}
 		public String getIP(){return this.ip;}
@@ -45,5 +49,6 @@ public class SaveQueryViewModel {
 		public String getDBname(){return this.dbname;}
 		public String getTitle(){return this.title;}
 		public String getDescription(){return this.description;}
-		//public String getDBType(){return this.dbtype;}
+		public String getDBType(){return this.dbtype;}
+		public String getTableName(){return this.tablename;}
 }

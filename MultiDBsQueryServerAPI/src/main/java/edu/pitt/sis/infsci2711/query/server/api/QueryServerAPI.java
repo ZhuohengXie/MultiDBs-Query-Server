@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 
 import edu.pitt.sis.infsci2711.multidbs.utils.JerseyJettyServer;
 import edu.pitt.sis.infsci2711.query.server.utils.SingletonConfig;
+import edu.pitt.sis.infsci2711.query.server.utils.PrestoCmdManager;
+import edu.pitt.sis.infsci2711.query.server.utils.CatalogMatcherManager;
 
 public class QueryServerAPI {
 	
@@ -66,26 +68,29 @@ public class QueryServerAPI {
 		}
 		System.out.println("config file valid. loading...");
 		SingletonConfig.onlyInit(metastore, prestohome);
-		String cmd=SingletonConfig.getPrestoRoot()+"bin/launcher start";
 		
-	    Process p=null;
-	    String s=null;
-	    try{
-	        p=Runtime.getRuntime().exec(cmd);
-	        p.waitFor();
-	        BufferedReader br=new BufferedReader(new InputStreamReader(p.getInputStream()));
-	        
-	        while((s=br.readLine())!=null)
-	            System.out.println("line: "+s);
-	        p.waitFor();
-	        System.out.println("exit: "+p.exitValue());
-	        p.destroy();
-	        
-	    }catch(Exception e){System.out.println("wrong");}
-	  
-		final JerseyJettyServer server = new JerseyJettyServer(7654, "edu.pitt.sis.infsci2711.query.server.rest");
-		
-		server.start();
-		
+		String[] ids=CatalogMatcherManager.checkCatalogs();
+		if(ids!=null&&ids.length>0)
+		{
+			try{
+			CatalogMatcherManager.fixLostCatalogs(ids);
+			CatalogMatcherManager.flushChanges();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Error when fixing catalogs:"+e.toString());
+				return;
+			}
+		}
+		//start it from cmd, path is default (the one recorded in SingletonConfig). See PrestoCmdManager class for more information
+		if(PrestoCmdManager.start(null))	
+		{
+			final JerseyJettyServer server = new JerseyJettyServer(7654, "edu.pitt.sis.infsci2711.query.server.rest");		
+			server.start();
+		}
+		else
+		{
+			System.out.println("will not start the server because of presto starting failure");
+		}
 	}
 }
