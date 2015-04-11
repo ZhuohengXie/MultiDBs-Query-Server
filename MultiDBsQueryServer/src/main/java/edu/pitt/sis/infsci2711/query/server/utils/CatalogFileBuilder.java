@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URLDecoder;
 
-import edu.pitt.sis.infsci2711.query.server.utils.SingletonConfig;
+import edu.pitt.sis.infsci2711.query.server.utils.PropertiesPlugin;
 
 public class CatalogFileBuilder {
 	
@@ -81,7 +81,7 @@ public class CatalogFileBuilder {
 	{
 		if(prestoRoot==null||prestoRoot.equals(""))
 		{
-			prestoRoot=SingletonConfig.getPrestoRoot();
+			prestoRoot=PropertiesPlugin.getPrestoRoot();
 		}
 		
 		buildLines();

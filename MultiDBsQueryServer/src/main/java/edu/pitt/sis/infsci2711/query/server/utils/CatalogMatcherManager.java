@@ -2,6 +2,7 @@ package edu.pitt.sis.infsci2711.query.server.utils;
 
 import java.io.File;
 import java.util.LinkedList;
+
 import edu.pitt.sis.infsci2711.query.server.utils.*;
 
 import com.sun.jersey.api.client.Client;
@@ -14,7 +15,7 @@ import com.sun.jersey.api.client.WebResource;
 public class CatalogMatcherManager {
 	
 		//restart presto server to apply all the changes
-		public static void flushChanges()
+		public static void flushChanges() throws Exception
 		{
 				PrestoCmdManager.restart(null);
 		}

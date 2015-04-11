@@ -28,7 +28,7 @@ import edu.pitt.sis.infsci2711.query.server.utils.JdbcMysql;
 import edu.pitt.sis.infsci2711.query.server.utils.JdbcPresto;
 import edu.pitt.sis.infsci2711.query.server.utils.PrestoCmdManager;
 import edu.pitt.sis.infsci2711.query.server.utils.SQLParser;
-import edu.pitt.sis.infsci2711.query.server.utils.SingletonConfig;
+import edu.pitt.sis.infsci2711.query.server.utils.PropertiesPlugin;
 
 
 public class QueryService {

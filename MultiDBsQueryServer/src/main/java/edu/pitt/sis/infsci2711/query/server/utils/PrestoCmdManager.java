@@ -5,12 +5,12 @@ import java.io.InputStreamReader;
 
 public class PrestoCmdManager {
 	//you can pass "" or null to use the default
-	public static boolean deepRestart(String prestoRoot)
+	public static boolean deepRestart(String prestoRoot) throws Exception
 	{
 		String cmd=prestoRoot;
 		if(cmd==null||cmd.equals(""))
 		{
-			cmd=SingletonConfig.getPrestoRoot()+"bin/launcher restart";
+			cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher restart";
 		}
 	    Process p=null;
 	    String s=null;
@@ -35,12 +35,12 @@ public class PrestoCmdManager {
 	    }	
 	}
 	//you can pass "" or null to use the default
-		public static boolean restart(String prestoRoot)
+		public static boolean restart(String prestoRoot) throws Exception
 		{
 			String cmd=prestoRoot;
 			if(cmd==null||cmd.equals(""))
 			{
-				cmd=SingletonConfig.getPrestoRoot()+"bin/launcher restart";
+				cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher restart";
 			}
 		    Process p=null;
 		    String s=null;
@@ -66,12 +66,12 @@ public class PrestoCmdManager {
 			
 		}
 		
-		public static boolean start(String prestoRoot)
+		public static boolean start(String prestoRoot) throws Exception
 		{
 			String cmd=prestoRoot;
 			if(cmd==null||cmd.equals(""))
 			{
-				cmd=SingletonConfig.getPrestoRoot()+"bin/launcher start";
+				cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher start";
 			}
 		    Process p=null;
 		    String s=null;
@@ -94,12 +94,12 @@ public class PrestoCmdManager {
 		    }
 		}
 
-		public static boolean deepStart(String prestoRoot)
+		public static boolean deepStart(String prestoRoot) throws Exception
 		{
 			String cmd=prestoRoot;
 			if(cmd==null||cmd.equals(""))
 			{
-				cmd=SingletonConfig.getPrestoRoot()+"bin/launcher start";
+				cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher start";
 			}
 		    Process p=null;
 		    String s=null;
@@ -123,12 +123,12 @@ public class PrestoCmdManager {
 		    }
 		}
 		
-		public static boolean stop(String prestoRoot)
+		public static boolean stop(String prestoRoot) throws Exception
 		{
 			String cmd=prestoRoot;
 			if(cmd==null||cmd.equals(""))
 			{
-				cmd=SingletonConfig.getPrestoRoot()+"bin/launcher stop";
+				cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher stop";
 			}
 		    Process p=null;
 		    String s=null;

@@ -13,7 +13,7 @@ import edu.pitt.sis.infsci2711.query.server.models.CatalogModel;
 import edu.pitt.sis.infsci2711.query.server.utils.CatalogFileBuilder;
 import edu.pitt.sis.infsci2711.query.server.utils.JdbcMysql;
 import edu.pitt.sis.infsci2711.query.server.utils.PrestoCmdManager;
-import edu.pitt.sis.infsci2711.query.server.utils.SingletonConfig;
+import edu.pitt.sis.infsci2711.query.server.utils.PropertiesPlugin;
 
 public class CatalogService {
 	
@@ -37,7 +37,7 @@ public class CatalogService {
 				String dbconnUrl=CatalogFileBuilder.getConnectionURL(saveInfo.getDBType(),saveInfo.getIP(),saveInfo.getPort());
 				CatalogFileBuilder ncatalog=new CatalogFileBuilder(dbconnUrl,saveInfo.getUsername(),saveInfo.getPassword());
 				String strm="db"+saveInfo.getId();
-				String fileurl=SingletonConfig.getPrestoRoot()+"etc/catalog/"+strm+".properties";
+				String fileurl=PropertiesPlugin.getPrestoRoot()+"etc/catalog/"+strm+".properties";
 				File f=new File(fileurl);
 				if(f.exists())
 				{f.delete();}						
@@ -75,7 +75,7 @@ public class CatalogService {
 			catch (Exception e)
 			{throw e;}	
 			String strm="db"+did;
-			String fileurl=SingletonConfig.getPrestoRoot()+"etc/catalog/"+strm+".properties";
+			String fileurl=PropertiesPlugin.getPrestoRoot()+"etc/catalog/"+strm+".properties";
 			File f=new File(fileurl);
 			//Connect to prestomatch.matcher to remove log
 			try
