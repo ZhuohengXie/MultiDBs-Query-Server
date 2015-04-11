@@ -43,31 +43,10 @@ public class QueryServerAPI {
 		System.out.println("found the config file.");
 		PropertiesManager.getInstance().loadProperties(f);
 		
-//		FileInputStream fin=new FileInputStream(f);
-//		BufferedReader br1=new BufferedReader(new InputStreamReader(fin));
-//		String tmp="";
 		String prestohome=PropertiesManager.getInstance().getStringProperty("presto.root", "");
 		String metastore=PropertiesManager.getInstance().getStringProperty("metastore.rest.base", "");
 		String metastoreRegister=PropertiesManager.getInstance().getStringProperty("metastore.rest.addDatasource", "");
-		//prestohome=
-//		tmp=br1.readLine();
-//		while(tmp!=null)
-//		{
-//			String[] arr=tmp.split("=");
-//			if(arr.length==2)
-//			{
-//					String tmp2=arr[0].replaceAll("\\s", "");
-//					String tmp3=arr[1].replaceAll("\\s", "");
-//					if(tmp2.matches("presto-home"))
-//					{prestohome=tmp3;}
-//					else if(tmp2.matches("metastore-url"))
-//					{metastore=tmp3;}
-//					else
-//					{;}
-//			}
-//			tmp=br1.readLine();
-//		}
-//		br1.close();
+
 		if(prestohome.length()*metastore.length()*metastoreRegister.length()==0)
 		{
 			System.out.println("Information in config file has lost.\n Check if 'presto.root', 'metastore.rest.addDatasource' and 'metastore.rest.base' exist and are correct.");
