@@ -74,7 +74,7 @@ public class QueryRestService {
 			boolean queryResult = queryService.save(convertViewModelToDB(query));
 		
 			if(!queryResult)
-			{return Response.status(500).entity("{\"error\" : \"please check your input and try again\"}").build();}
+			{return Response.status(500).entity("{\"error\" : \"error registering datasource on Metastore\"}").build();}
 						
 			return Response.status(200).entity("{\"success\": \"the table has been saved\"}").build();
 		} catch (Exception e) {

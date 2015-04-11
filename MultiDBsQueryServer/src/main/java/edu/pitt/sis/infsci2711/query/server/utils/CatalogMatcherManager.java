@@ -4,10 +4,7 @@ import java.io.File;
 import java.util.LinkedList;
 
 import edu.pitt.sis.infsci2711.query.server.utils.*;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import edu.pitt.sis.infsci2711.multidbs.utils.JerseyClientUtil;
 
 //  this class is currently left an empty shell here
 //  but its purpose is to check if the catalogs in the prestomatch.matcher table exists

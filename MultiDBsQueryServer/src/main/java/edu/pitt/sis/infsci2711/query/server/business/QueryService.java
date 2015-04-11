@@ -11,13 +11,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.ws.rs.core.Response;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-
+import edu.pitt.sis.infsci2711.multidbs.utils.JerseyClientUtil;
 import edu.pitt.sis.infsci2711.query.server.models.QueryModel;
 import edu.pitt.sis.infsci2711.query.server.models.QueryResultModel;
 import edu.pitt.sis.infsci2711.query.server.models.Row;
@@ -29,6 +28,7 @@ import edu.pitt.sis.infsci2711.query.server.utils.JdbcPresto;
 import edu.pitt.sis.infsci2711.query.server.utils.PrestoCmdManager;
 import edu.pitt.sis.infsci2711.query.server.utils.SQLParser;
 import edu.pitt.sis.infsci2711.query.server.utils.PropertiesPlugin;
+import edu.pitt.sis.infsci2711.query.server.viewModels.RegisterViewModel;
 
 
 public class QueryService {
@@ -151,6 +151,8 @@ public class QueryService {
 			    String dbconnUrl=CatalogFileBuilder.getConnectionURL(saveInfo.getDBType(),saveInfo.getIP(),saveInfo.getPort());
 				CatalogFileBuilder ncatalog=new CatalogFileBuilder(dbconnUrl,saveInfo.getUsername(),saveInfo.getPassword());
 				String fileurl=ncatalog.write(strm, "");
+				
+				//here just simply restart, but later, please change it to double-threading to reduce the response time.
 				PrestoCmdManager.deepRestart(null);	
 				//Connector to mysql to create db first
 				try
@@ -179,35 +181,22 @@ public class QueryService {
 							logger.info("after manipulate:  "+sql2 );	
 							statement.executeQuery(sql2);
 							
-//							try {
-//
-//								Client client = Client.create();
-//								WebResource webResource = client.resource(SingletonConfig.getMetastoreURL()+"metasotre");
-//
-//								String input = "{\"query\":\"select * from 1.person\"}";
-//
-//								ClientResponse response = webResource.type("application/json").put(ClientResponse.class, input);
-//
-//								if (response.getStatus() != 200) {
-//									throw new RuntimeException("Failed : HTTP error code : "
-//											+ response.getStatus());
-//								}
-//
-//								System.out.println("Output from Server .... ");
-//								String output = response.getEntity(String.class);
-//								System.out.println(output);
-//
-//							} catch (Exception e) {
-//								e.printStackTrace();
-//								throw e;
-//							}
+							int intport=Integer.parseInt(saveInfo.getPort());
+							RegisterViewModel model=new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
+								saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription()	);
+							
+							Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
+
 							
 							File f=new File(fileurl);
 							if(f.exists())
 							{f.delete();}
-							boolean x =true;
-							//x=statement.execute(sql);				
-							//logger.info("after trim: " + sql);
+							boolean x =false;
+							if( result2.getStatus()!=200 )
+							{return x;}
+							//JSONObject jo=new JSONObject(EntityUtils.toString((HttpEntity) result2.getEntity()));
+							//String addedId=jo.getString("id");						
+							x=true;
 							return x;
 						
 					}

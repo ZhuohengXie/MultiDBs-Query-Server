@@ -23,7 +23,7 @@ public class PropertiesPlugin {
 		   String metastoreRegister = PropertiesManager.getInstance().getStringProperty("metastore.rest.addDatasource");
 			if(metastoreRegister==null)
 			{ throw new Exception("The properties manager has not been initiallized correctly."); }
-			metastoreRegister = getMetastoreURL()+metastoreRegister;
+			//metastoreRegister = getMetastoreURL()+metastoreRegister;
 	      return metastoreRegister;
 	   }
 
