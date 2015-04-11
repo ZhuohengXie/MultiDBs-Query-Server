@@ -5,16 +5,17 @@ import java.io.InputStreamReader;
 
 public class PrestoCmdManager {
 	//you can pass "" or null to use the default
-	public static boolean deepRestart(String prestoRoot) throws Exception
+	public static boolean deepRestart(String prestoRoot)
 	{
-		String cmd=prestoRoot;
-		if(cmd==null||cmd.equals(""))
-		{
-			cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher restart";
-		}
-	    Process p=null;
-	    String s=null;
-	    try{
+		try{
+			String cmd=prestoRoot;
+			if(cmd==null||cmd.equals(""))
+			{
+				cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher restart";
+			}
+		    Process p=null;
+		    String s=null;
+	    
 	        p=Runtime.getRuntime().exec(cmd);
 	        p.waitFor();
 	        BufferedReader br=new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -35,16 +36,17 @@ public class PrestoCmdManager {
 	    }	
 	}
 	//you can pass "" or null to use the default
-		public static boolean restart(String prestoRoot) throws Exception
+		public static boolean restart(String prestoRoot) 
 		{
-			String cmd=prestoRoot;
-			if(cmd==null||cmd.equals(""))
-			{
-				cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher restart";
-			}
-		    Process p=null;
-		    String s=null;
-		    try{
+		    try{			
+		    	String cmd=prestoRoot;
+				if(cmd==null||cmd.equals(""))
+				{
+					cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher restart";
+				}
+			    Process p=null;
+			    String s=null;
+
 		        p=Runtime.getRuntime().exec(cmd);
 		        p.waitFor();
 		        BufferedReader br=new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -66,16 +68,17 @@ public class PrestoCmdManager {
 			
 		}
 		
-		public static boolean start(String prestoRoot) throws Exception
+		public static boolean start(String prestoRoot) 
 		{
-			String cmd=prestoRoot;
-			if(cmd==null||cmd.equals(""))
-			{
-				cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher start";
-			}
-		    Process p=null;
-		    String s=null;
-		    try{
+		    try{			
+		    	String cmd=prestoRoot;
+				if(cmd==null||cmd.equals(""))
+				{
+					cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher start";
+				}
+			    Process p=null;
+			    String s=null;
+
 		        p=Runtime.getRuntime().exec(cmd);
 		        p.waitFor();
 		        BufferedReader br=new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -94,16 +97,17 @@ public class PrestoCmdManager {
 		    }
 		}
 
-		public static boolean deepStart(String prestoRoot) throws Exception
+		public static boolean deepStart(String prestoRoot)
 		{
-			String cmd=prestoRoot;
-			if(cmd==null||cmd.equals(""))
-			{
-				cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher start";
-			}
-		    Process p=null;
-		    String s=null;
-		    try{
+		    try{			
+		    	String cmd=prestoRoot;
+				if(cmd==null||cmd.equals(""))
+				{
+					cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher start";
+				}
+			    Process p=null;
+			    String s=null;
+
 		        p=Runtime.getRuntime().exec(cmd);
 		        p.waitFor();
 		        BufferedReader br=new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -123,16 +127,17 @@ public class PrestoCmdManager {
 		    }
 		}
 		
-		public static boolean stop(String prestoRoot) throws Exception
+		public static boolean stop(String prestoRoot) 
 		{
-			String cmd=prestoRoot;
-			if(cmd==null||cmd.equals(""))
-			{
-				cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher stop";
-			}
-		    Process p=null;
-		    String s=null;
-		    try{
+		    try{			
+		    	String cmd=prestoRoot;
+				if(cmd==null||cmd.equals(""))
+				{
+					cmd=PropertiesPlugin.getPrestoRoot()+"bin/launcher stop";
+				}
+			    Process p=null;
+			    String s=null;
+
 		        p=Runtime.getRuntime().exec(cmd);
 		        p.waitFor();
 		        BufferedReader br=new BufferedReader(new InputStreamReader(p.getInputStream()));
