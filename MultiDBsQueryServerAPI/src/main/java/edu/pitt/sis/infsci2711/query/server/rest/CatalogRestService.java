@@ -10,11 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import edu.pitt.sis.infsci2711.query.server.business.CatalogService;
-import edu.pitt.sis.infsci2711.query.server.business.QueryService;
 import edu.pitt.sis.infsci2711.query.server.models.CatalogModel;
-import edu.pitt.sis.infsci2711.query.server.models.QueryResultModel;
 import edu.pitt.sis.infsci2711.query.server.viewModels.CatalogViewModel;
-import edu.pitt.sis.infsci2711.query.server.viewModels.QueryResultViewModel;
 
 @Path("Catalog/")
 public class CatalogRestService {
