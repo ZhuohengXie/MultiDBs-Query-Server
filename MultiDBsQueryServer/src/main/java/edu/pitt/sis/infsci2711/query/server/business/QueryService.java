@@ -37,8 +37,7 @@ public class QueryService {
 
 	public QueryResultModel run(final QueryModel convertViewModelToDB) throws SQLException, Exception {
 		
-		logger.info("Got query to run: " + convertViewModelToDB.getQuery());
-		
+		logger.info("Got query to run: " + convertViewModelToDB.getQuery());	
 		
 		try (Connection connection = JdbcPresto.getConnection()) {
 			String sql = convertViewModelToDB.getQuery() ;

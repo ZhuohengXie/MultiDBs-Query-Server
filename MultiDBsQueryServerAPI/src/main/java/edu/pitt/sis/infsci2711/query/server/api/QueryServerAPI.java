@@ -1,14 +1,9 @@
 package edu.pitt.sis.infsci2711.query.server.api;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-
 import edu.pitt.sis.infsci2711.multidbs.utils.JerseyJettyServer;
 import edu.pitt.sis.infsci2711.multidbs.utils.PropertiesManager;
 
-import edu.pitt.sis.infsci2711.query.server.utils.PropertiesPlugin;
 import edu.pitt.sis.infsci2711.query.server.utils.PrestoCmdManager;
 import edu.pitt.sis.infsci2711.query.server.utils.CatalogMatcherManager;
 
