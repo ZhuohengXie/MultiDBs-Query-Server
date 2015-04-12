@@ -142,7 +142,7 @@ response-json-format
 }
 
 
-4. add catalog (debugging, only open to metastore)
+4. add catalog (done, only open to metastore)
 
 #description:
 With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.
@@ -190,7 +190,7 @@ response-json-format
 	"message" : "description of error"
 }
 
-5. drop catalog (debugging, only open to metastore)
+5. drop catalog (done, only open to metastore)
 
 #description:
 Delete both the catalog file and the record in our matcher, where the database id is did.
