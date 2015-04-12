@@ -158,10 +158,10 @@ request-json-format:  (may later extend dbtype to support hive, cassandra, etc.)
 	"id":"databaseid",
 	"ip":"xxx.xxx.xxx.xxx",
 	"port":"pppp",
-	"dbtype:"MySQL",
+	"dbtype":"MySQL",
 	"username":"your username",
 	"password":"your password",
-	"dbname":"database name",
+	"dbname":"database name"
 }
 -root
   -id String
