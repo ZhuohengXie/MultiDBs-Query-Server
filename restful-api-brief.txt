@@ -6,7 +6,7 @@
 Accepts a sql query string (like select ... from databaseid.tablename), and then returns the result content.
 
 #url:
-http://54.174.80.167/Query/
+http://54.174.80.167:7654/Query/
 
 #request:
 content-type: application/json
@@ -51,7 +51,7 @@ response-json-format
 Accepts databseid and tableName as parameters, and then returns the table content.
 
 #url
-http://54.174.80.167/Query/{databaseid}/{tablename}
+http://54.174.80.167:7654/Query/{databaseid}/{tablename}
 
 #request:
 request-type: GET
@@ -94,7 +94,7 @@ With user input register information, it saves the query result as a new datasou
 Only select queries can be saved.
 
 #url:
-http://54.174.80.167/Query/
+http://54.174.80.167:7654/Query/Save/
 
 #request:
 content-type: application/json
@@ -148,7 +148,7 @@ response-json-format
 With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.
 
 #url:
-http://54.174.80.167/Catalog/add
+http://54.174.80.167:7654/Catalog/add
 
 #request:
 content-type: application/json
@@ -196,7 +196,7 @@ response-json-format
 Delete both the catalog file and the record in our matcher, where the database id is did.
 
 #url:
-http://54.174.80.167/Catalog/drop/did
+http://54.174.80.167:7654/Catalog/drop/did
 
 #request: did is the database id
 request-type: GET
