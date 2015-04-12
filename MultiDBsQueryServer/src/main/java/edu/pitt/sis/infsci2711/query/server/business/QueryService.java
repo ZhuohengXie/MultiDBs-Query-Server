@@ -177,7 +177,7 @@ public class QueryService {
 					;
 					try (Statement statement = connection.createStatement())
 					{
-							String sql2=String.format("create table %s.%s.%s as ",strm,saveInfo.getDBname(),saveInfo.gettableName())+sql;
+							String sql2=String.format("create table %s.%s.\"%s\" as ",strm,saveInfo.getDBname(),saveInfo.gettableName())+sql;
 							logger.info("after manipulate:  "+sql2 );	
 							statement.executeQuery(sql2);
 							
@@ -186,16 +186,16 @@ public class QueryService {
 								saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription()	);
 							
 							Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
-
+							
+							
 							
 							File f=new File(fileurl);
 							if(f.exists())
 							{f.delete();}
 							boolean x =false;
-							if( result2.getStatus()!=200 )
-							{return x;}
-							//JSONObject jo=new JSONObject(EntityUtils.toString((HttpEntity) result2.getEntity()));
-							//String addedId=jo.getString("id");						
+//							if( result2.getStatus()!=200 )
+//							{return x;}
+
 							x=true;
 							return x;
 						
