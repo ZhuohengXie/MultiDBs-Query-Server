@@ -24,7 +24,7 @@ public class PrestoCmdManager {
 	            System.out.println("line: "+s);
 	        p.waitFor();
 	        System.out.println("exit: "+p.exitValue());
-	        Thread.sleep(8000);
+	        Thread.sleep(12000);
 	        //p.destroy();  
 	        
 	        return true;
@@ -116,7 +116,7 @@ public class PrestoCmdManager {
 		            System.out.println("line: "+s);
 		        p.waitFor();
 		        System.out.println("exit: "+p.exitValue());
-		        Thread.sleep(8000);
+		        Thread.sleep(12000);
 		       //p.destroy();  
 		        return true;
 		    }
