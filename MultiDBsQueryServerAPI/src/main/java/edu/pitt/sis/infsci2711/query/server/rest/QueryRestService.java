@@ -30,6 +30,7 @@ public class QueryRestService {
 		QueryService queryService = new QueryService();
 		
 		try {
+		  //see function convertViewModelToDB() below
 					QueryResultModel queryResult=queryService.run(convertViewModelToDB(id,tableName));
 					QueryResultViewModel viewModel = convertDbToViewModel(queryResult);
 					return Response.status(200).entity(viewModel).build();
@@ -45,7 +46,7 @@ public class QueryRestService {
 	public Response runQuery(final QueryViewModel query) {
 		
 		QueryService queryService = new QueryService();
-		
+		//see function convertViewModelToDB() below
 		try {
 			QueryResultModel queryResult = queryService.run(convertViewModelToDB(query));
 		

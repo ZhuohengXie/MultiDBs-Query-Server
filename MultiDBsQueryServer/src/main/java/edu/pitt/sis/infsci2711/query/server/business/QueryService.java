@@ -38,16 +38,17 @@ public class QueryService {
 	public QueryResultModel run(final QueryModel convertViewModelToDB) throws SQLException, Exception {
 		
 		logger.info("Got query to run: " + convertViewModelToDB.getQuery());	
-		
+		//run presto in local 
 		try (Connection connection = JdbcPresto.getConnection()) {
 			String sql = convertViewModelToDB.getQuery() ;
+			//parse sql
 			sql=SQLParser.rebuild(sql);
 			logger.info("after parse:  "+sql );
 			
 			try (Statement statement = connection.createStatement())
 			{
 				int nrow = 0;	
-				int ncol=	0;
+				int ncol=0;
 				String tmp=sql.toLowerCase();
 				if(tmp.startsWith("create")||tmp.startsWith("insert")||tmp.startsWith("use"))
 				{
