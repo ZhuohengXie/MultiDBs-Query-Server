@@ -40,7 +40,7 @@ public class SQLParser {
 	{
 		Connection conn=JdbcMysql.getConnection();
 		Statement st=conn.createStatement();
-		Pattern p1=Pattern.compile("(\\s\\d\\.\\w)");
+		Pattern p1=Pattern.compile("(\\s\\d+\\.\\w)");
 		Matcher m1=p1.matcher(sql);
 		int i=0;
 		while (m1.find())
@@ -89,7 +89,7 @@ public class SQLParser {
 	{
 		Connection conn=JdbcMysql.getConnection();
 		Statement st=conn.createStatement();
-		Pattern p2=Pattern.compile("(,\\d\\.\\w)");
+		Pattern p2=Pattern.compile("(,\\d+\\.\\w)");
 		Matcher m2=p2.matcher(sql);
 		int i=0;
 		while (m2.find())
