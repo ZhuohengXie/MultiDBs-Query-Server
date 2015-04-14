@@ -1,0 +1,227 @@
+<html>
+<head>
+#This is a guide for *developers* to set up presto on ubuntu 14.01 LTS x64
+</head>
+<body>
+================================================================================================</br>
+<h3>Chpt1 About presto</h3>
+<p>
+Presto is a distributed query engine. It supports sql queries but it is not a database.
+It only does query stuff. No actual data is stored on presto.
+</p>
+see more at: https://prestodb.io/docs/0.97/</br>
+-------------------------------------------------------------------------------------------------</br>
+<h3>Chpt2 Downloading and configuring</h3>
+</br>
+!!!!presto requires oracle java 8, and a 64-bit mac or linux</br>
+to install java 8 on ubuntu, do the following in terminal:</br>
+</br>
+sudo add-apt-repository ppa:webupd8team/java</br>
+sudo apt-get update</br>
+sudo apt-get install oracle-java8-installer</br>
+</br>
+!!!!note that when using presto adbc, the project should use “java-8-oracle” as JRE lib</br>
+</br>
+Now install presto-0.97.</br>
+Download link:</br>
+https://repo1.maven.org/maven2/com/facebook/presto/presto-server/0.97/presto-server-0.97.tar.gz</br>
+</br>
+Unpack it,then go to the where you unpacked. Now you should see presto-server-0.97 folder.</br>
+First create a folder beside presto-server-0.97, named presto-bk.</br>
+Go inside presto-server-0.97 folder, create another folder called etc, then go inside.</br>
+create 4 files, each with the following content:</br>
+(visually better see https://prestodb.io/docs/0.97/installation/deployment.html)</br>
+</br>
+#file 1: config.properties</br>
+coordinator=true</br>
+node-scheduler.include-coordinator=true</br>
+http-server.http.port=8080</br>
+task.max-memory=1GB</br>
+discovery-server.enabled=true</br>
+discovery.uri=http://localhost:8080</br>
+</br>
+#file 2: jvm.config</br>
+-server</br>
+-Xmx16G</br>
+-XX:+UseConcMarkSweepGC</br>
+-XX:+ExplicitGCInvokesConcurrent</br>
+-XX:+CMSClassUnloadingEnabled</br>
+-XX:+AggressiveOpts</br>
+-XX:+HeapDumpOnOutOfMemoryError</br>
+-XX:OnOutOfMemoryError=kill -9 %p</br>
+-XX:ReservedCodeCacheSize=150M</br>
+</br>
+#file 3: log.properties</br>
+com.facebook.presto=INFO</br>
+</br>
+#file 4: node.properties</br>
+node.environment=production</br>
+node.id=ffffffff-ffff-ffff-ffff-ffffffffffff</br>
+node.data-dir=../../presto-bk</br>
+</br>
+--------------------------------------------------------------------------------------------------</br>
+<h3>Chpt3 Add a Catalog</h3>
+</br>
+Create a catalog folder under etc folder, then go inside.</br>
+Here you store catalogs.</br>
+</br>
+Suppose you have mysql on local machine.</br>
+Create a catalog file named whatever you want, say 'local.properties'.</br>
+</br>
+#catalog file: local.properties</br>
+connector.name=mysql</br>
+connection-url=jdbc:mysql://localhost:3306</br>
+connection-user=USERNAME</br>
+connection-password=PASSWORD</br>
+</br>
+Let's look at this catalog file.</br>
+The file name (local.properties) contains the catalog name. So the catalog is called 'local'.</br>
+Any catalog file is catalogName.properties. Catalog is actually a data source. </br>
+This catalog file records how to access the data source for presto.</br>
+</br>
+The first line specifies the database type it is connecting to. </br>
+For example, for oracle, it will be 'connector.name=oracle'.</br>
+</br>
+The second line specifies the ip and port of the data source.</br>
+For example, there is a data source which is a mysql database on 192.268.0.1, port 3306.</br>
+So this line should be 'connection-url=jdbc:mysql://192.168.0.1:3306'.</br>
+</br>
+The third and fourth line specifies the username and password to access the data source.</br>
+Note that this is not the username for a single database, it is for the whole database server.</br>
+</br>
+Another problem is that presto does not automatically detect changes in /etc/catalog folder.</br>
+So if you added a new catalog file to the server, you should restart the server to let presto load it.</br>
+</br>
+#note that you are now at folder 'presto-server-0.97'</br>
+bin/launcher restart</br>
+</br>
+#note that bin/launcher is actually the server code, written in python.</br>
+-------------------------------------------------------------------------------------------------------</br>
+Chpt4 Terms and How to use</br>
+</br>
+The following shows what the term in presto means.</br>
+===================|=====================|</br>
+       presto      |      usual term     |</br>
+===================|=====================|</br>
+     catalog       | data source, server |</br>
+-------------------|---------------------|</br>
+      schema       |      database       |</br>
+-------------------|---------------------|</br>
+</br>
+Download the cli for presto here: </br>
+https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.97/presto-cli-0.97-executable.jar</br>
+</br>
+Place it in the presto-server-0.97 folder. Rename it as 'presto'. (so the '.jar' is also removed.)</br>
+</br>
+#note that you are now at folder 'presto-server-0.97'</br>
+launch terminal, run:</br>
+sudo chmod +x ./presto</br>
+</br>
+First, start(restart the server):</br>
+bin/launcher restart</br>
+</br>
+Then, run presto cli with command:</br>
+./presto</br>
+</br>
+Presto's cli command interface works like the following:</br>
+./presto --server serverIP:8080 --catalog catalogName --schema databaseName</br>
+</br>
+All parameters can be empty, but if you specify schema, you should specify catalog first.</br>
+No other problems otherwise.</br>
+</br>
+</br>
+To explore presto and run queries:</br>
+(suppose you run the presto cli with no parameters; remember that a ';' is required in cli after sql statement.)</br>
+(you can view the execution status by visiting http://localhost:8080/)</br>
+Suppose we have one datasource(catalog) called 'local'. There are two databases each containing a table.</br>
+The whole structure should be like this.</br>
+</br>
+-local</br>
+    -db1</br>
+        -table1</br>
+    -db2</br>
+        -table2</br>
+</br>
+#to show all catalogs we have, run:</br>
+show catalogs;</br>
+#should return</br>
+---------------</br>
+catalog</br>
+---------------</br>
+local</br>
+</br>
+#to show all databases within one catalog:</br>
+show schemas from catalog;</br>
+#should return</br>
+-----------------</br>
+schema</br>
+-----------------</br>
+db1</br>
+db2</br>
+-----------------</br>
+</br>
+#to show tables in a database, e.g. show tables in database 'db1'</br>
+show tables from local.db1;</br>
+#should return:</br>
+---------------</br>
+table</br>
+---------------</br>
+table1</br>
+---------------</br>
+</br>
+(Here note that as you logged in with no parameters, you should specify catalogname.databasename.tablename to access the table.)</br>
+</br>
+#to show column information (usually it is useless unless you are only curious about the column names.)</br>
+describe local.db1.table1;</br>
+-----------------------------------</br>
+name    type    null</br>
+-----------------------------------</br>
+id     bigint   true</br>
+-----------------------------------</br>
+</br>
+</br>
+And you can do your own sql queries. But here are things to be careful:</br>
+1. no inserts!</br>
+2. no drops!</br>
+3. use statement only works in the cli, it won't work in your java. If you use it, extract it and specify it in connection().</br>
+</br>
+------------------------------------------------------------------------------------------------------------------------------------</br>
+<h3>Chpt5 About the jdbc</h3>
+Don't do what is said on presto website. Just add presto-jdbc-0.97 as maven dependency in your project.</br>
+</br>
+These following connection string patterns are supported.</br>
+jdbc:presto://host:port        (only specifies server)</br>
+jdbc:presto://host:port/catalog    (restricts all things within a single catalog, ignore other catalogs)</br>
+jdbc:presto://host:port/catalog/schema (limit all things inside a single database. won't see more.)</br>
+</br>
+The way your program (with a mysql database as real db storage) runs queries is like the following:</br>
+1. Your program talks to presto jdbc, to get connection;</br>
+2. Presto jdbc talks to presto-mysql connector. (A connector defines all supports for queries. Use, drop and insert not supported.)</br>
+3. Presto-mysql connector uses mysql-jdbc to run queries.</br>
+4. Connector sends results from mysql-jdbc to presto-jdbc;</br>
+5. Your program gets the result.</br>
+
+The usage of presto jdbc is pretty like mysql-jdbc. Note the following:</br>
+1. Presto does not enable Batch update. So execute one SQL query at a time.</br>
+2. Presto resultset cannot be iterated as you like. It is only serial, front to end.</br>
+3. Use, drop and insert not supported.</br>
+4. The sql string should not have ';'.</br>
+---------------------------------------------------------------------------------------------------------------------------------</br>
+In my case, it is very good to have the environment set on the local machine so that you can test it at any time.</br>
+To develop on your local machine, if you are using ubuntu or another linux system, I suggest you to install smartgithg.</br>
+Smartgithg is a GUI git, like your Github client. Very convenient.</br>
+All you need to do is to generate a ssh key from your github account, and give it to smartgithg.</br>
+Before that, you'd better have used 'sudo apt-get install softwarename' to install the following softwares:</br>
+1. git</br>
+2. openjdk-7-jdk</br>
+3. python</br>
+4. mysql</br>
+</br>
+And after that, run the following commands:</br>
+sudo add-apt-repository ppa:eugenesan/ppa</br>
+sudo apt-get update</br>
+sudo apt-get install smartgithg</br>
+</br>
+End. Thanks.</br>
+</body>
+</html>
