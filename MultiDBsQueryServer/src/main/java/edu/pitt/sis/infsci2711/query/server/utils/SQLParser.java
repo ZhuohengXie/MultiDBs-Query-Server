@@ -60,6 +60,7 @@ public class SQLParser {
 					if(catalog.length()*dbname.length()!=0)
 					{
 						replace=catalog+"."+dbname;
+						System.out.println("replace:"+replace);
 					}
 					else
 					{
@@ -109,6 +110,7 @@ public class SQLParser {
 					if(catalog.length()*dbname.length()!=0)
 					{
 						replace=catalog+"."+dbname;
+						System.out.println("replace:"+replace);
 					}
 					else
 					{
