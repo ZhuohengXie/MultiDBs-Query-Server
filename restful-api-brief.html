@@ -193,34 +193,34 @@ response-json-format</br>
 {</br>
 	"error" : "error type",</br>
 	"message" : "description of error"</br>
-}
-
-5. drop catalog (done, only open to metastore)
-
-#description:
-Delete both the catalog file and the record in our matcher, where the database id is did.
-
-#url:
-http://54.174.80.167:7654/Catalog/drop/did
-
-#request: did is the database id
-request-type: GET
-
-#response:
-content-type: application/json
-response-json-format:
-{
-    "success": "the record has been deleted"
-}
--root
-  -success String("the record has been deleted")
-    
-
-#error response:
-response-json-format
-{
-	"error" : "error type",
-	"message" : "description of error"
-}
+}</br>
+</br>
+<h3>5. drop catalog (done, only open to metastore)</h3>
+</br>
+#description:</br>
+Delete both the catalog file and the record in our matcher, where the database id is did.</br>
+</br>
+#url:</br>
+http://54.174.80.167:7654/Catalog/drop/did</br>
+</br>
+#request: did is the database id</br>
+request-type: GET</br>
+</br>
+#response:</br>
+content-type: application/json</br>
+response-json-format:</br>
+{</br>
+    "success": "the record has been deleted"</br>
+}</br>
+-root</br>
+  -success String("the record has been deleted")</br>
+    </br>
+</br>
+#error response:</br>
+response-json-format</br>
+{</br>
+	"error" : "error type",</br>
+	"message" : "description of error"</br>
+}</br>
 </body>
 </html>
