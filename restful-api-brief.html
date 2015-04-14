@@ -2,196 +2,197 @@
 <head>
 </head>
 <body>
-##  This is a brief restful api documentation of our presto query server  \^o^/
+<h3>##  This is a brief restful api documentation of our presto query server  \^o^/</h3>
 
-1.query
+<h4>1.query</h4>
 
-#description:
-Accepts a sql query string (like select ... from databaseid.tablename), and then returns the result content.
-
-#url:
+<p>#description:
+Accepts a sql query string (like select ... from databaseid.tablename), and then returns the result content.</p>
+<p>#url:
 http://54.174.80.167:7654/Query/
+</p>
 
-#request:
-content-type: application/json
-request-type: PUT
-request-json-format:
-{"query":"your query string here"}
--root
-  -query String
-
-#response:
-content-type: application/json
-response-json-format:
-{
-    "schema": {
-        "columnNames": ["column1", "column2", "column3"]
-    },
-    "data": [{
-        "row": ["value11", "value12", "value13"]
-    }]
-}
--root
-  -schema
-    -columnNames (String[])
-  -data  (row[])
-    -row (String[])
-      .
-      .
-      .
-    -row (String[])
-
-#error response:
-response-json-format
-{
-	"error" : "error type",
-	"message" : "description of error"
-}
-
-
-2.get table content
-
-#description:
-Accepts databseid and tableName as parameters, and then returns the table content.
-
-#url
-http://54.174.80.167:7654/Query/{databaseid}/{tablename}
-
-#request:
-request-type: GET
-request-json-format:
-
-#response: (same as above)
-content-type: application/json
-response-json-format:
-{
-    "schema": {
-        "columnNames": ["column1", "column2", "column3"]
-    },
-    "data": [{
-        "row": ["value11", "value12", "value13"]
-    }]
-}
--root
-  -schema
-    -columnNames (String[])
-  -data  (row[])
-    -row (String[])
-      .
-      .
-      .
-    -row (String[])
-
-#error response:
-response-json-format
-{
-	"error" : "error type",
-	"message" : "description of error"
-}
-
-
-
-3. save query result as new datasource (debugging)
-
-#description:
+#request:</br>
+content-type: application/json</br>
+request-type: PUT</br>
+request-json-format:</br>
+{"query":"your query string here"}</br>
+-root</br>
+  -query String</br>
+</br>
+</br>
+#response:</br>
+content-type: application/json</br>
+response-json-format:</br>
+{</br>
+    "schema": {</br>
+        "columnNames": ["column1", "column2", "column3"]</br>
+    },</br>
+    "data": [{</br>
+        "row": ["value11", "value12", "value13"]</br>
+    }]</br>
+}</br>
+-root</br>
+  -schema</br>
+    -columnNames (String[])</br>
+  -data  (row[])</br>
+    -row (String[])</br>
+      .</br>
+      .</br>
+      .</br>
+    -row (String[])</br>
+</br>
+#error response:</br>
+response-json-format</br>
+{</br>
+	"error" : "error type",</br>
+	"message" : "description of error"</br>
+}</br>
+</br>
+</br>
+<h3>2.get table content</h3>
+</br>
+#description:</br>
+Accepts databseid and tableName as parameters, and then returns the table content.</br>
+</br>
+#url</br>
+http://54.174.80.167:7654/Query/{databaseid}/{tablename}</br>
+</br>
+#request:</br>
+request-type: GET</br>
+request-json-format:</br>
+</br>
+#response: (same as above)</br>
+content-type: application/json</br>
+response-json-format:</br>
+{</br>
+    "schema": {</br>
+        "columnNames": ["column1", "column2", "column3"]</br>
+    },</br>
+    "data": [{</br>
+        "row": ["value11", "value12", "value13"]</br>
+    }]</br>
+}</br>
+-root</br>
+  -schema</br>
+    -columnNames (String[])</br>
+  -data  (row[])</br>
+    -row (String[])</br>
+      .</br>
+      .</br>
+      .</br>
+    -row (String[])</br>
+</br>
+#error response:</br>
+response-json-format</br>
+{</br>
+	"error" : "error type",</br>
+	"message" : "description of error"</br>
+}</br>
+</br>
+</br>
+</br>
+<h3>3. save query result as new datasource (debugging)</h3>
+</br>
+#description:</br>
 With user input register information, it saves the query result as a new datasource. Will register on metastore and our matcher.
-Only select queries can be saved.
-
-#url:
-http://54.174.80.167:7654/Query/Save/
-
-#request:
-content-type: application/json
-request-type: PUT
-request-json-format:
-{
-	"ip":"xxx.xxx.xxx.xxx",
-	"port":"pppp",
-	"dbtype":"MySQL",
-	"username":"your_username",
-	"password":"your_password",
-	"dbname":"database name",
-	"title":"title of the post",
-	"description":"description of the post",
-	"tablename":"your_table_name",
-	"query":"your query string here"
-}
--root
-  -ip String
-  -port String
-  -dbtype String
-  -username String
-  -password String
-  -dbname String
-  -title String
-  -description String
-  -tablename String
-  -query String
-
-#response: (may change, e.g. add created database did to it)
-content-type: application/json
-response-json-format:
-{
-    "success": "the table has been saved"
-}
--root
-  -success String("the table has been saved")
-    
-
-#error response:
-response-json-format
-{
-	"error" : "error type",
-	"message" : "description of error"
-}
-
-
-4. add catalog (done, only open to metastore)
-
-#description:
-With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.
-
-#url:
-http://54.174.80.167:7654/Catalog/add
-
-#request:
-content-type: application/json
-request-type: PUT
-request-json-format:  (may later extend dbtype to support hive, cassandra, etc.)
-{
-	"id":"databaseid",
-	"ip":"xxx.xxx.xxx.xxx",
-	"port":"pppp",
-	"dbtype":"MySQL",
-	"username":"your username",
-	"password":"your password",
-	"dbname":"database name"
-}
--root
-  -id String
-  -ip String
-  -port String
-  -dbtype String
-  -username String
-  -password String
-  -dbname String
-
-
-#response: (may change, e.g. add successful database did or catalog name to it)
-content-type: application/json
-response-json-format:
-{
-    "success": "the record has been saved"
-}
--root
-  -success String("the record has been saved")
-    
-
-#error response:
-response-json-format
-{
-	"error" : "error type",
-	"message" : "description of error"
+Only select queries can be saved.</br>
+</br>
+#url:</br>
+http://54.174.80.167:7654/Query/Save/</br>
+</br>
+#request:</br>
+content-type: application/json</br>
+request-type: PUT</br>
+request-json-format:</br>
+{</br>
+	"ip":"xxx.xxx.xxx.xxx",</br>
+	"port":"pppp",</br>
+	"dbtype":"MySQL",</br>
+	"username":"your_username",</br>
+	"password":"your_password",</br>
+	"dbname":"database name",</br>
+	"title":"title of the post",</br>
+	"description":"description of the post",</br>
+	"tablename":"your_table_name",</br>
+	"query":"your query string here"</br>
+}</br>
+-root</br>
+  -ip String</br>
+  -port String</br>
+  -dbtype String</br>
+  -username String</br>
+  -password String</br>
+  -dbname String</br>
+  -title String</br>
+  -description String</br>
+  -tablename String</br>
+  -query String</br>
+</br>
+#response: (may change, e.g. add created database did to it)</br>
+content-type: application/json</br>
+response-json-format:</br>
+{</br>
+    "success": "the table has been saved"</br>
+}</br>
+-root</br>
+  -success String("the table has been saved")</br>
+    </br>
+</br>
+#error response:</br>
+response-json-format</br>
+{</br>
+	"error" : "error type",</br>
+	"message" : "description of error"</br>
+}</br>
+</br>
+</br>
+<h3>4. add catalog (done, only open to metastore)</h3>
+</br>
+#description:</br>
+With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.</br>
+</br>
+#url:</br>
+http://54.174.80.167:7654/Catalog/add</br>
+</br>
+#request:</br>
+content-type: application/json</br>
+request-type: PUT</br>
+request-json-format:  (may later extend dbtype to support hive, cassandra, etc.)</br>
+{</br>
+	"id":"databaseid",</br>
+	"ip":"xxx.xxx.xxx.xxx",</br>
+	"port":"pppp",</br>
+	"dbtype":"MySQL",</br>
+	"username":"your username",</br>
+	"password":"your password",</br>
+	"dbname":"database name"</br>
+}</br>
+-root</br>
+  -id String</br>
+  -ip String</br>
+  -port String</br>
+  -dbtype String</br>
+  -username String</br>
+  -password String</br>
+  -dbname String</br>
+</br>
+</br>
+#response: (may change, e.g. add successful database did or catalog name to it)</br>
+content-type: application/json</br>
+response-json-format:</br>
+{</br>
+    "success": "the record has been saved"</br>
+}</br>
+-root</br>
+  -success String("the record has been saved")</br>
+    </br>
+</br>
+#error response:</br>
+response-json-format</br>
+{</br>
+	"error" : "error type",</br>
+	"message" : "description of error"</br>
 }
 
 5. drop catalog (done, only open to metastore)
