@@ -37,7 +37,7 @@ DROP TABLE IF EXISTS `test1`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test1` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `value` int(11) DEFAULT NULL,
+  `value` varhar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `test2`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test2` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `number` int(11) DEFAULT NULL,
+  `number` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
@@ -54,10 +54,10 @@ INSERT INTO `person` (firstName,lastName) VALUES
 ('Ming','Chi') , ('Hao','Wu') , ('Deepak','Mathur') , ('ZhuoHeng','Xie') , ('Mengdie','Liu') , ('Sanket','Dalal')  ;
 
 INSERT INTO `test1` (value) VALUES 
-('abc') , ('def') , ('ghi') , ('jkl') , ('mno') , ('pqr')  ;
+(1) , (2) , (99) , (106) , (1) , (3)  ;
 
 INSERT INTO `test2` (number) VALUES 
-('abc') , ('111') , ('ghi') , ('222') , ('mno') , ('333')  ;
+(123) , (111) , (234) , (111) , (333) , (159)  ;
 
 USE `prestomatch`;
 DROP TABLE IF EXISTS `matcher`;
@@ -70,8 +70,8 @@ CREATE TABLE `matcher` (
   PRIMARY KEY (`did`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-INSERT INTO `matcher` (catalog,dbname) VALUES 
-('localhost','infsci2711_tutorial') ;
+INSERT INTO `matcher` (did,catalog,dbname) VALUES 
+(0,'localhost','infsci2711_tutorial') ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
