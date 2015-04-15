@@ -17,7 +17,7 @@ sudo mkdir project
 cd project
 
 #clone project
-sudo git clone https://github.com/infsci2711/MultiDBs-Query-Server.git
+sudo git clone https://github.com/infsci2711/MultiDBs-Query-WebClient.git
 sudo git clone https://github.com/infsci2711/MultiDBs-Utils.git
 
 sudo mkdir presto-bk
