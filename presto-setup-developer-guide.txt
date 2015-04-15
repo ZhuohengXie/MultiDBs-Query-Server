@@ -16,7 +16,7 @@ sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install oracle-java8-installer
 
-!!!!note that when using presto adbc, the project should use “java-8-oracle” as JRE lib
+!!!!note that when using presto jdbc, the project should use “java-8-oracle” as JRE lib
 
 Now install presto-0.97.
 Download link:
