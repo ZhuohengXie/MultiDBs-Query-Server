@@ -181,11 +181,12 @@ public class QueryService {
 							logger.info("after manipulate:  "+sql2 );	
 							statement.executeQuery(sql2);
 							
+							
 							int intport=Integer.parseInt(saveInfo.getPort());
 							RegisterViewModel model=new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
 								saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription()	);
 							
-							//Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
+							Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
 							
 							
 							
@@ -193,8 +194,8 @@ public class QueryService {
 							if(f.exists())
 							{f.delete();}
 							boolean x =false;
-//							if( result2.getStatus()!=200 )
-//							{return x;}
+							if( result2.getStatus()!=200 )
+							{return x;}
 
 							x=true;
 							return x;
