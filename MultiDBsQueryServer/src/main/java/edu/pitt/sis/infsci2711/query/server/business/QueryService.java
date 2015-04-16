@@ -146,7 +146,7 @@ public class QueryService {
 			    Calendar cal = Calendar.getInstance();
 			    String strm=dateFormat.format(cal.getTime());
 			    strm=strm.replaceAll("-", "");
-			    strm="temp"+strm;
+			    strm="tmp"+strm;
 			    // Build a catalog file
 			    String dbconnUrl=CatalogFileBuilder.getConnectionURL(saveInfo.getDBType(),saveInfo.getIP(),saveInfo.getPort());
 				CatalogFileBuilder ncatalog=new CatalogFileBuilder(dbconnUrl,saveInfo.getUsername(),saveInfo.getPassword());
@@ -185,7 +185,7 @@ public class QueryService {
 							RegisterViewModel model=new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
 								saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription()	);
 							
-							Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
+							//Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
 							
 							
 							
