@@ -155,60 +155,74 @@ public class QueryService {
 				//here just simply restart, but later, please change it to double-threading to reduce the response time.
 				PrestoCmdManager.deepRestart(null);	
 				//Connector to mysql to create db first
-				try
-				{
-					//later this should be wrapped into a class for doing this stuff for different kinds of databases: cassandra, hive, etc.
-					if(saveInfo.getDBType().toLowerCase().equals("mysql"))
-					{
-						Connection mysqlConn=JdbcMysql.getConnection(saveInfo.getIP(), saveInfo.getPort(), saveInfo.getUsername(), saveInfo.getPassword());
-						Statement mysqlStatement=mysqlConn.createStatement();
-						String mysqlCreateDB=String.format("CREATE DATABASE IF NOT EXISTS `%s`",saveInfo.getDBname());
-						mysqlStatement.execute(mysqlCreateDB);
-					}
-					else
-					{
-						throw new Exception("Database type: "+saveInfo.getDBType()+" currently not supported;");
-					}
-				}
-				catch (Exception e)
-				{throw e;}
+				createDatabaseIfNeeded(saveInfo);
 			
-				try (Connection connection = JdbcPresto.getConnection()) {
-					
-					try (Statement statement = connection.createStatement())
-					{
-							String sql2=String.format("create table %s.%s.\"%s\" as ",strm,saveInfo.getDBname(),saveInfo.gettableName())+sql;
-							logger.info("after manipulate:  "+sql2 );	
-							statement.executeQuery(sql2);
-							
-							
-							int intport=Integer.parseInt(saveInfo.getPort());
-							RegisterViewModel model = new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
-								saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription()	);
-							
-							//Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
-							
-							
-							
-							File f=new File(fileurl);
-							if(f.exists())
-							{f.delete();}
-							boolean x =false;
-//							if( result2.getStatus()!=200 )
-//							{return x;}
+				executeCreateTable(saveInfo, sql, strm, fileurl);
+				
+				boolean regSuccess = registerInMetastore(saveInfo);
+				
+				deleteCatalogIfExists(fileurl);
 
-							x=true;
-							return x;
-						
-					}
-					catch(Exception e)
-					{
-						File f=new File(fileurl);
-						if(f.exists())
-						{f.delete();}
-						throw e;
-					}
+				return regSuccess;
+		}
+	}
+
+	private void createDatabaseIfNeeded(final SaveQueryModel saveInfo)
+			throws Exception {
+		try
+		{
+			//later this should be wrapped into a class for doing this stuff for different kinds of databases: cassandra, hive, etc.
+			if(saveInfo.getDBType().toLowerCase().equals("mysql"))
+			{
+				Connection mysqlConn=JdbcMysql.getConnection(saveInfo.getIP(), saveInfo.getPort(), saveInfo.getUsername(), saveInfo.getPassword());
+				Statement mysqlStatement=mysqlConn.createStatement();
+				String mysqlCreateDB=String.format("CREATE DATABASE IF NOT EXISTS `%s`",saveInfo.getDBname());
+				mysqlStatement.execute(mysqlCreateDB);
 			}
+			else
+			{
+				throw new Exception("Database type: "+saveInfo.getDBType()+" currently not supported;");
+			}
+		}
+		catch (Exception e)
+		{throw e;}
+	}
+
+	private void executeCreateTable(final SaveQueryModel saveInfo, String sql,
+			String strm, String fileurl) throws Exception, SQLException {
+		try (Connection connection = JdbcPresto.getConnection()) {
+			
+			try (Statement statement = connection.createStatement())
+			{
+					String sql2=String.format("create table %s.%s.\"%s\" as ",strm,saveInfo.getDBname(),saveInfo.gettableName())+sql;
+					logger.info("after manipulate:  "+sql2 );	
+					statement.executeQuery(sql2);																				
+			}
+			catch(Exception e)
+			{
+				deleteCatalogIfExists(fileurl);
+				throw e;
+			}
+		}
+	}
+
+	private void deleteCatalogIfExists(String fileurl) {
+		File f=new File(fileurl);
+		if(f.exists())
+		{f.delete();}
+	}
+
+	private boolean registerInMetastore(final SaveQueryModel saveInfo) throws Exception {
+		int intport=Integer.parseInt(saveInfo.getPort());
+		RegisterViewModel model = new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
+			saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription()	);
+		
+		Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
+		if (result2.getStatus() != 200) {
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 }
