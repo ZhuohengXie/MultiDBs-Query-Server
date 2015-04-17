@@ -174,7 +174,7 @@ public class QueryService {
 				{throw e;}
 			
 				try (Connection connection = JdbcPresto.getConnection()) {
-					;
+					
 					try (Statement statement = connection.createStatement())
 					{
 							String sql2=String.format("create table %s.%s.\"%s\" as ",strm,saveInfo.getDBname(),saveInfo.gettableName())+sql;
@@ -183,10 +183,10 @@ public class QueryService {
 							
 							
 							int intport=Integer.parseInt(saveInfo.getPort());
-							RegisterViewModel model=new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
+							RegisterViewModel model = new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
 								saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription()	);
 							
-							Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
+							//Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
 							
 							
 							
@@ -194,8 +194,8 @@ public class QueryService {
 							if(f.exists())
 							{f.delete();}
 							boolean x =false;
-							if( result2.getStatus()!=200 )
-							{return x;}
+//							if( result2.getStatus()!=200 )
+//							{return x;}
 
 							x=true;
 							return x;
