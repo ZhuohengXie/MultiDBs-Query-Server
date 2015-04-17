@@ -158,9 +158,9 @@ public class QueryService {
 				createDatabaseIfNeeded(saveInfo);
 			
 				executeCreateTable(saveInfo, sql, strm, fileurl);
-				
-				boolean regSuccess = true;
-				//boolean regSuccess = registerInMetastore(saveInfo);
+				Thread.sleep(5000);
+				//boolean regSuccess = true;
+				boolean regSuccess = registerInMetastore(saveInfo);
 				
 				deleteCatalogIfExists(fileurl);
 
