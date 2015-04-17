@@ -178,11 +178,11 @@ public class QueryService {
 			String sql = String.format("select * from %s.%s.%s", catalogName, dbName, tableName);
 			logger.info("SQL to test if table was created: " + sql);
 			
-			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			try (Statement statement = connection.createStatement()) {
 				
 				for (int i = 0; i < PropertiesPlugin.getMakeSureTablesIsCreatedNumberAttemps(); i++) {
 					try {
-						ResultSet result = statement.executeQuery();
+						ResultSet result = statement.executeQuery(sql);
 						break;
 					}
 					catch (Exception e) {
