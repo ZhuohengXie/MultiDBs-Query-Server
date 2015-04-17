@@ -11,6 +11,7 @@ import edu.pitt.sis.infsci2711.query.server.utils.PropertiesPlugin;
 
 public class CatalogFileBuilder {
 	
+	private static final String PRESTO_ETC_CATALOG = "etc/catalog/";
 	private String connector;
 	private String connectionString;
 	private String username;	
@@ -77,23 +78,22 @@ public class CatalogFileBuilder {
 		}		
 	}
 	
-	public String write(String filetitle, String prestoRoot) throws Exception
+	public String write(String fileTitle, String prestoRoot) throws Exception
 	{
-		if(prestoRoot==null||prestoRoot.equals(""))
-		{
-			prestoRoot=PropertiesPlugin.getPrestoRoot();
+		if(prestoRoot == null || prestoRoot.equals(""))	{
+			prestoRoot = PropertiesPlugin.getPrestoRoot();
 		}
 		
 		buildLines();
 		
-		String filepath=prestoRoot+"etc/catalog/"+filetitle+".properties";
+		String filepath = prestoRoot + PRESTO_ETC_CATALOG + fileTitle + ".properties";
 		//URI uri=URI.create(filepath);
-		File f=new File(filepath);
+		File f = new File(filepath);
 		if(!f.exists())
 		{
 			f.createNewFile();
-			System.out.println("path is "+f.getAbsolutePath());
-			FileOutputStream fop=new FileOutputStream(f,true);
+			System.out.println("path is " + f.getAbsolutePath());
+			FileOutputStream fop = new FileOutputStream(f,true);
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fop));
 			bw.write(line1);
 			bw.newLine();
@@ -106,9 +106,7 @@ public class CatalogFileBuilder {
 			bw.close();
 			return filepath;
 		}
-		else 
-		{
-			
+		else {
 			throw new Exception("Catalog File Already Exists!");
 		}
 	}

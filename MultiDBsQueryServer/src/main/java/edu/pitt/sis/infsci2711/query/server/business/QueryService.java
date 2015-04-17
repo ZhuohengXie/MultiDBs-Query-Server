@@ -2,6 +2,7 @@ package edu.pitt.sis.infsci2711.query.server.business;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -131,41 +132,79 @@ public class QueryService {
 		logger.info("Got query to run & save: " + saveInfo.getQuery());
 		
 		String sql = saveInfo.getQuery() ;
-		sql=SQLParser.rebuild(sql);
-		logger.info("after parse:  "+sql );		
-			String tmp=sql.toLowerCase();
-			if(!tmp.startsWith("select"))
-			{
-				throw new SQLFeatureNotSupportedException("Only 'select' statements can be saved.");
-			}
-			else
-			{
-				// a file name based on milliseconds
-				//PrestoCmdManager.stop(null);	
-			    DateFormat dateFormat = new SimpleDateFormat("HH-mm-ss-SSS");
-			    Calendar cal = Calendar.getInstance();
-			    String strm=dateFormat.format(cal.getTime());
-			    strm=strm.replaceAll("-", "");
-			    strm="tmp"+strm;
-			    // Build a catalog file
-			    String dbconnUrl=CatalogFileBuilder.getConnectionURL(saveInfo.getDBType(),saveInfo.getIP(),saveInfo.getPort());
-				CatalogFileBuilder ncatalog=new CatalogFileBuilder(dbconnUrl,saveInfo.getUsername(),saveInfo.getPassword());
-				String fileurl=ncatalog.write(strm, "");
-				
-				//here just simply restart, but later, please change it to double-threading to reduce the response time.
-				PrestoCmdManager.deepRestart(null);	
-				//Connector to mysql to create db first
-				createDatabaseIfNeeded(saveInfo);
-			
-				executeCreateTable(saveInfo, sql, strm, fileurl);
-				Thread.sleep(5000);
-				//boolean regSuccess = true;
-				boolean regSuccess = registerInMetastore(saveInfo);
-				
-				deleteCatalogIfExists(fileurl);
-
-				return regSuccess;
+		sql = SQLParser.rebuild(sql);
+		
+		logger.info("after parse:  " + sql);		
+		
+		if (!sql.toLowerCase().startsWith("select")) {
+			throw new SQLFeatureNotSupportedException("Only 'select' statements can be saved.");
 		}
+		else
+		{
+			// a file name based on milliseconds
+			//PrestoCmdManager.stop(null);	
+		    String catalogTempFileName = generateTempCatalogFileName();
+		    
+		    // Build a catalog file
+		    String dbconnUrl = CatalogFileBuilder.getConnectionURL(saveInfo.getDBType(), saveInfo.getIP(), saveInfo.getPort());
+			CatalogFileBuilder ncatalog = new CatalogFileBuilder(dbconnUrl, saveInfo.getUsername(), saveInfo.getPassword());
+			
+			String fileurl = ncatalog.write(catalogTempFileName, "");
+			
+			//here just simply restart, but later, please change it to double-threading to reduce the response time.
+			PrestoCmdManager.deepRestart(null);	
+			
+			//Connector to mysql to create db first
+			createDatabaseIfNeeded(saveInfo);
+		
+			executeCreateTable(saveInfo, sql, catalogTempFileName, fileurl);
+			
+			makeSureTablesIsCreated(catalogTempFileName, saveInfo.getDBname(), saveInfo.gettableName());
+			
+//			Thread.sleep(5000);
+			//boolean regSuccess = true;
+			boolean regSuccess = registerInMetastore(saveInfo);
+			
+			deleteCatalogIfExists(fileurl);
+
+			return regSuccess;
+		}
+	}
+
+	private void makeSureTablesIsCreated(String catalogName, String dbName, String tableName) throws SQLException, Exception {
+		// TODO Auto-generated method stub
+		try (Connection connection = JdbcPresto.getConnection()) {
+			
+			String sql = String.format("select * from %s.%s.%s", catalogName, dbName, tableName);
+			logger.info("SQL to test if table was created: " + sql);
+			
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				
+				for (int i = 0; i < PropertiesPlugin.getMakeSureTablesIsCreatedNumberAttemps(); i++) {
+					try {
+						ResultSet result = statement.executeQuery();
+						break;
+					}
+					catch (Exception e) {
+						// Ignoring since we need to retry the query for several times.
+						Thread.sleep(PropertiesPlugin.getMakeSureTablesIsCreatedSleepMilliseconds());
+					}
+				}
+																								
+			}
+			catch(Exception e) {
+				throw e;
+			}
+		}
+	}
+
+	private String generateTempCatalogFileName() {
+		DateFormat dateFormat = new SimpleDateFormat("HH-mm-ss-SSS");
+		Calendar cal = Calendar.getInstance();
+		String strm = dateFormat.format(cal.getTime());
+		strm = strm.replaceAll("-", "");
+		strm = "tmp" + strm;
+		return strm;
 	}
 
 	private void createDatabaseIfNeeded(final SaveQueryModel saveInfo)
@@ -190,17 +229,16 @@ public class QueryService {
 	}
 
 	private void executeCreateTable(final SaveQueryModel saveInfo, String sql,
-			String strm, String fileurl) throws Exception, SQLException {
+			String catalogName, String fileurl) throws Exception, SQLException {
 		try (Connection connection = JdbcPresto.getConnection()) {
 			
-			try (Statement statement = connection.createStatement())
-			{
-					String sql2=String.format("create table %s.%s.\"%s\" as ",strm,saveInfo.getDBname(),saveInfo.gettableName())+sql;
-					logger.info("after manipulate:  "+sql2 );	
-					statement.executeQuery(sql2);																				
+			try (Statement statement = connection.createStatement()) {
+				String sql2 = String.format("create table %s.%s.\"%s\" as %s", catalogName,
+						saveInfo.getDBname(), saveInfo.gettableName(), sql);
+				logger.info("after manipulate:  " + sql2 );	
+				statement.executeQuery(sql2);																				
 			}
-			catch(Exception e)
-			{
+			catch(Exception e) {
 				deleteCatalogIfExists(fileurl);
 				throw e;
 			}

@@ -26,5 +26,13 @@ public class PropertiesPlugin {
 			//metastoreRegister = getMetastoreURL()+metastoreRegister;
 	      return metastoreRegister;
 	   }
+	   
+	public static int getMakeSureTablesIsCreatedNumberAttemps() {
+		return PropertiesManager.getInstance().getIntProperty("makeSureTableIsCreatedNumberAttemps");
+	}
+	
+	public static long getMakeSureTablesIsCreatedSleepMilliseconds() {
+		return PropertiesManager.getInstance().getIntProperty("makeSureTableIsCreatedNumberSleepMilliseconds");
+	}
 
 }
