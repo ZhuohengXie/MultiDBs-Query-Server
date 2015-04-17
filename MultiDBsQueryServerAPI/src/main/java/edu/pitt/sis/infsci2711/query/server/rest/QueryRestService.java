@@ -9,6 +9,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import edu.pitt.sis.infsci2711.query.server.business.QueryService;
 import edu.pitt.sis.infsci2711.query.server.models.QueryModel;
 import edu.pitt.sis.infsci2711.query.server.models.QueryResultModel;
@@ -21,7 +24,8 @@ import edu.pitt.sis.infsci2711.query.server.viewModels.SchemaViewModel;
 
 @Path("Query/")
 public class QueryRestService {
-
+	private static final Logger logger = LogManager.getLogger(QueryService.class);
+	
 	@Path("{id}/{tableName}")
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -36,6 +40,7 @@ public class QueryRestService {
 					return Response.status(200).entity(viewModel).build();
 		} catch (Exception e) {
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
+			logger.error("error:",e);
 			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
 		}
 	}
@@ -57,7 +62,7 @@ public class QueryRestService {
 			return Response.status(200).entity(queryResultViewModel).build();
 		} catch (Exception e) {
 			//return Response.status(500).build();
-			System.out.println(e.getMessage());
+			logger.error("error:",e);
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
 			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
 		}
@@ -85,6 +90,7 @@ public class QueryRestService {
 		} catch (Exception e) {
 			//return Response.status(500).build();
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
+			logger.error("error:",e);
 			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
 		}
 		

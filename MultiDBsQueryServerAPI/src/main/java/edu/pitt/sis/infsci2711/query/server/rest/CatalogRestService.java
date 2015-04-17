@@ -9,12 +9,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import edu.pitt.sis.infsci2711.query.server.business.CatalogService;
+import edu.pitt.sis.infsci2711.query.server.business.QueryService;
 import edu.pitt.sis.infsci2711.query.server.models.CatalogModel;
 import edu.pitt.sis.infsci2711.query.server.viewModels.CatalogViewModel;
 
 @Path("Catalog/")
 public class CatalogRestService {
+	private static final Logger logger = LogManager.getLogger(QueryService.class);
+	
 	@Path("add/")
 	@PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -33,6 +39,7 @@ public class CatalogRestService {
 		} catch (Exception e) {
 			//return Response.status(500).build();
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
+			logger.error("error:",e);
 			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
 		}
 		
@@ -54,6 +61,7 @@ public class CatalogRestService {
 			return Response.status(200).entity("{\"success\": \"the record has been deleted\"}").build();
 		} catch (Exception e) {
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
+			logger.error("error:",e);
 			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
 		}
 	}
