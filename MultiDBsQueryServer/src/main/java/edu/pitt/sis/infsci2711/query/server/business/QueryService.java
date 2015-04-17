@@ -178,24 +178,20 @@ public class QueryService {
 			String sql = String.format("select * from %s.%s.%s", catalogName, dbName, tableName);
 			logger.info("SQL to test if table was created: " + sql);
 			
-			try (Statement statement = connection.createStatement()) {
+			for (int i = 0; i < PropertiesPlugin.getMakeSureTablesIsCreatedNumberAttemps(); i++) {
+				logger.info(String.format("Going to retry %d the query %s", i + 1, sql));
 				
-				for (int i = 0; i < PropertiesPlugin.getMakeSureTablesIsCreatedNumberAttemps(); i++) {
-					try {
-						ResultSet result = statement.executeQuery(sql);
-						break;
-					}
-					catch (Exception e) {
-						// Ignoring since we need to retry the query for several times.
-						logger.error("Sleep for 2", e);
-						Thread.sleep(PropertiesPlugin.getMakeSureTablesIsCreatedSleepMilliseconds());
-					}
+				try (Statement statement = connection.createStatement()) {
+					logger.info("About to execute query");
+					ResultSet result = statement.executeQuery(sql);
+					logger.info("exectued successfully, not going to break");
+					break;
 				}
-																								
-			}
-			catch(Exception e) {
-				logger.error("create statement fialed",e);
-				throw e;
+				catch (Exception e) {
+					// Ignoring since we need to retry the query for several times.
+					logger.error("Sleep before trying again", e);
+					Thread.sleep(PropertiesPlugin.getMakeSureTablesIsCreatedSleepMilliseconds());
+				}
 			}
 		}
 	}
