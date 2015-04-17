@@ -159,7 +159,8 @@ public class QueryService {
 			
 				executeCreateTable(saveInfo, sql, strm, fileurl);
 				
-				boolean regSuccess = true;//registerInMetastore(saveInfo);
+				//boolean regSuccess = true;
+				boolean regSuccess = registerInMetastore(saveInfo);
 				
 				deleteCatalogIfExists(fileurl);
 
