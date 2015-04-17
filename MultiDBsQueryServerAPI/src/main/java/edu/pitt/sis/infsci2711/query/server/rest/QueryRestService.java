@@ -77,7 +77,7 @@ public class QueryRestService {
 			if(!queryResult)
 			{return Response.status(500).entity("{\"error\" : \"error creating table\"}").build();}
 			
-			boolean registerResult = queryService.registerInMetastore(convertViewModelToDB(query));
+			boolean registerResult = true;//queryService.registerInMetastore(convertViewModelToDB(query));
 			if(!registerResult)
 			{return Response.status(500).entity("{\"error\" : \"error registering datasource on Metastore\"}").build();}
 			
