@@ -75,8 +75,12 @@ public class QueryRestService {
 			boolean queryResult = queryService.save(convertViewModelToDB(query));
 		
 			if(!queryResult)
+			{return Response.status(500).entity("{\"error\" : \"error creating table\"}").build();}
+			
+			boolean registerResult = queryService.registerInMetastore(convertViewModelToDB(query));
+			if(!registerResult)
 			{return Response.status(500).entity("{\"error\" : \"error registering datasource on Metastore\"}").build();}
-						
+			
 			return Response.status(200).entity("{\"success\": \"the table has been saved\"}").build();
 		} catch (Exception e) {
 			//return Response.status(500).build();

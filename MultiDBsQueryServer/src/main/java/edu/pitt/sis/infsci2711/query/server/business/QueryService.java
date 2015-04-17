@@ -159,8 +159,8 @@ public class QueryService {
 			
 				executeCreateTable(saveInfo, sql, strm, fileurl);
 				
-				//boolean regSuccess = true;
-				boolean regSuccess = registerInMetastore(saveInfo);
+				boolean regSuccess = true;
+				//boolean regSuccess = registerInMetastore(saveInfo);
 				
 				deleteCatalogIfExists(fileurl);
 
@@ -213,7 +213,7 @@ public class QueryService {
 		{f.delete();}
 	}
 
-	private boolean registerInMetastore(final SaveQueryModel saveInfo) throws Exception {
+	public boolean registerInMetastore(final SaveQueryModel saveInfo) throws Exception {
 		int intport=Integer.parseInt(saveInfo.getPort());
 		RegisterViewModel model = new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
 			saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription()	);
