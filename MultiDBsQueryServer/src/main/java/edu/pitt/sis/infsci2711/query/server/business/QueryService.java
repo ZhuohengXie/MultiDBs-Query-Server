@@ -184,7 +184,7 @@ public class QueryService {
 				try (Statement statement = connection.createStatement()) {
 					logger.info("About to execute query");
 					ResultSet result = statement.executeQuery(sql);
-					logger.info("exectued successfully, not going to break");
+					logger.info("exectued successfully, now going to break");
 					break;
 				}
 				catch (Exception e) {
