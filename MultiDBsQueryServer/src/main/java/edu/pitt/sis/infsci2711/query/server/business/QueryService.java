@@ -187,12 +187,14 @@ public class QueryService {
 					}
 					catch (Exception e) {
 						// Ignoring since we need to retry the query for several times.
+						logger.error("Sleep for 2", e);
 						Thread.sleep(PropertiesPlugin.getMakeSureTablesIsCreatedSleepMilliseconds());
 					}
 				}
 																								
 			}
 			catch(Exception e) {
+				logger.error("create statement fialed",e);
 				throw e;
 			}
 		}
