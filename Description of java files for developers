@@ -1,0 +1,6 @@
+<h3>edu.pitt.sis.infsci2711.query.server.rest </h3>
+<p>
+    Catalog Rest Service.java: This file consumes JSON request to add catalog in Presto and provides output in JSON form to indicate 
+    catalog is added/ dropped  successfully or not.
+    This class has two functions add and drop to process request accordingly.
+</p>    
