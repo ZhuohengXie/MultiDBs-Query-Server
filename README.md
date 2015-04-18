@@ -46,7 +46,7 @@
 </ul>
 ------------------------------------------------------------------------
 
-<h2>File Structure of MultiDbsQueryServerAPI</h2>
+<h3>File Structure of MultiDbsQueryServerAPI</h3>
 
 <ul>
   <li>MultiDbsQueryServerAPI</li>
