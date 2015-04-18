@@ -1,8 +1,12 @@
-<h3>edu.pitt.sis.infsci2711.query.server.rest </h3>
-<p>
+# To add catalog in presto
+ edu.pitt.sis.infsci2711.query.server.rest 
+
     Catalog Rest Service.java: This file consumes JSON request to add catalog in Presto and provides output in JSON form to indicate 
     catalog is added/ dropped  successfully or not.
     This class has two functions add and drop to process request accordingly.
-    |add function : Parameter which function accepts is CatalogViewModel and response is in JSON form to reflect record is added or failed.
-    |drop function: Parameter which function accepts is CatalogViewModel and response is in JSON fomr to reflect catalog is dropped or failed.
-</p>    
+    |add function : Parameter which function accepts is CatalogViewModel(explained down) and response is in JSON form to reflect record is added or failed.
+    |drop function: Parameter which function accepts is CatalogViewModel(explained down) and response is in JSON fomr to reflect catalog is dropped or failed.
+    
+    To add incoming catalog request is redirected to CatalogService.java class in business package.
+    To drop incoming catalog request is redirected to CatalogService.java at drop function in business package
+   
