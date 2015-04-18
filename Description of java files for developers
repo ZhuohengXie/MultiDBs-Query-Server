@@ -1,12 +1,19 @@
-# To add catalog in presto
+
+ > MultiDBSQueryServerAPI
  edu.pitt.sis.infsci2711.query.server.rest 
 
     Catalog Rest Service.java: This file consumes JSON request to add catalog in Presto and provides output in JSON form to indicate 
     catalog is added/ dropped  successfully or not.
     This class has two functions add and drop to process request accordingly.
     |add function : Parameter which function accepts is CatalogViewModel(explained down) and response is in JSON form to reflect record is added or failed.
-    |drop function: Parameter which function accepts is CatalogViewModel(explained down) and response is in JSON fomr to reflect catalog is dropped or failed.
+    |drop function: Parameter which function accepts is CatalogViewModel(explained down) and response is in JSON form to reflect catalog is dropped or failed.
     
     To add incoming catalog request is redirected to CatalogService.java class in business package.
     To drop incoming catalog request is redirected to CatalogService.java at drop function in business package
+    ------------------------------------------------------
+    QueryRestService.java : This file handles query processing when catalog is added in Presto. How to give input refer to 
+    restful-api.brief.txt
+    
+    
+    
    
