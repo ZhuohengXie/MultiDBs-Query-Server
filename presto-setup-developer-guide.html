@@ -49,7 +49,8 @@ sudo apt-get install oracle-java8-installer</br>
 </br>
 Now install presto-0.97.</br>
 Download link:</br>
-https://repo1.maven.org/maven2/com/facebook/presto/presto-server/0.97/presto-server-0.97.tar.gz</br>
+<a href="https://repo1.maven.org/maven2/com/facebook/presto/presto-server/0.97/presto-server-0.97.tar.gz" target="_blank">
+	https://repo1.maven.org/maven2/com/facebook/presto/presto-server/0.97/presto-server-0.97.tar.gz</a></br>
 </br>
 Unpack it,then go to the where you unpacked. Now you should see presto-server-0.97 folder.</br>
 First create a folder beside presto-server-0.97, named presto-bk.</br>
@@ -125,7 +126,7 @@ bin/launcher restart</br>
 <hr></br>
 <h3 style="color:blue" id="ch4">Chapter4 Concepts, Terms and How to use</h3>
 </br>
-The following shows what the term in presto means.</br>
+The following shows what the term in presto means.</br></br>
 <table>
 	<tr>		
 		<th>presto</th><th>urual term</th>
@@ -140,7 +141,8 @@ The following shows what the term in presto means.</br>
 
 </br>
 Download the cli for presto here: </br>
-https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.97/presto-cli-0.97-executable.jar</br>
+<a href="https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.97/presto-cli-0.97-executable.jar" target="_blank">
+	https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.97/presto-cli-0.97-executable.jar</a></br>
 </br>
 Place it in the presto-server-0.97 folder. Rename it as 'presto'. (so the '.jar' is also removed.)</br>
 </br>
@@ -168,10 +170,10 @@ Suppose we have one datasource(catalog) called 'local'. There are two databases 
 The whole structure should be like this.</br>
 </br>
 -local</br>
-    -db1</br>
-        -table1</br>
-    -db2</br>
-        -table2</br>
+&nbsp&nbsp-db1</br>
+&nbsp&nbsp&nbsp&nbsp        -table1</br>
+&nbsp&nbsp    -db2</br>
+&nbsp&nbsp&nbsp&nbsp        -table2</br>
 </br>
 #to show all catalogs we have, run:</br>
 show catalogs;</br>
@@ -205,9 +207,9 @@ table1</br>
 #to show column information (usually it is useless unless you are only curious about the column names.)</br>
 describe local.db1.table1;</br>
 -----------------------------------</br>
-name    type    null</br>
+name&nbsp&nbsptype&nbsp&nbspnull</br>
 -----------------------------------</br>
-id     bigint   true</br>
+id&nbsp&nbspbigint&nbsp&nbsptrue</br>
 -----------------------------------</br>
 </br>
 </br>
