@@ -146,16 +146,13 @@ Download the cli for presto here: </br>
 </br>
 Place it in the presto-server-0.97 folder. Rename it as 'presto'. (so the '.jar' is also removed.)</br>
 </br>
-#note that you are now at folder 'presto-server-0.97'</br>
+#note that you should now be at folder 'presto-server-0.97'</br></br>
 launch terminal, run:</br>
-sudo chmod +x ./presto</br>
-</br>
+<p style="color:blue">sudo chmod +x ./presto</p>
 First, start(restart the server):</br>
-bin/launcher restart</br>
-</br>
+<p style="color:blue">bin/launcher restart</p>
 Then, run presto cli with command:</br>
-./presto</br>
-</br>
+<p style="color:blue">./presto</p>
 Presto's cli command interface works like the following:</br>
 ./presto --server serverIP:8080 --catalog catalogName --schema databaseName</br>
 </br>
@@ -166,25 +163,25 @@ No other problems otherwise.</br>
 To explore presto and run queries:</br>
 (suppose you run the presto cli with no parameters; remember that a ';' is required in cli after sql statement.)</br>
 (you can view the execution status by visiting http://localhost:8080/)</br>
-Suppose we have one datasource(catalog) called 'local'. There are two databases each containing a table.</br>
+Suppose we have one datasource(catalog) called 'localhost'. There are two databases each containing a table.</br>
 The whole structure should be like this.</br>
 </br>
--local</br>
+-localhost</br>
 &nbsp&nbsp-db1</br>
 &nbsp&nbsp&nbsp&nbsp        -table1</br>
 &nbsp&nbsp    -db2</br>
 &nbsp&nbsp&nbsp&nbsp        -table2</br>
 </br>
 #to show all catalogs we have, run:</br>
-show catalogs;</br>
+<p style="color:blue">show catalogs;</p>
 #should return</br>
 ---------------</br>
 catalog</br>
 ---------------</br>
-local</br>
+localhost</br>
 </br>
 #to show all databases within one catalog:</br>
-show schemas from catalog;</br>
+<p style="color:blue">show schemas from catalog;</p>
 #should return</br>
 -----------------</br>
 schema</br>
@@ -194,7 +191,7 @@ db2</br>
 -----------------</br>
 </br>
 #to show tables in a database, e.g. show tables in database 'db1'</br>
-show tables from local.db1;</br>
+<p style="color:blue">show tables from localhost.db1;</p>
 #should return:</br>
 ---------------</br>
 table</br>
@@ -205,40 +202,50 @@ table1</br>
 (Here note that as you logged in with no parameters, you should specify catalogname.databasename.tablename to access the table.)</br>
 </br>
 #to show column information (usually it is useless unless you are only curious about the column names.)</br>
-describe local.db1.table1;</br>
------------------------------------</br>
-name&nbsp&nbsptype&nbsp&nbspnull</br>
------------------------------------</br>
-id&nbsp&nbspbigint&nbsp&nbsptrue</br>
------------------------------------</br>
+<p style="color:blue">describe local.db1.table1;</p>
+<table>
+	<tr>		
+		<th>name</th><th>type</th><th>null</th>
+	</tr>		
+	<tr>
+		<td>id</td><td>bigint</td><td>true</td>
+	</tr>
+</table>
 </br>
 </br>
-And you can do your own sql queries. But here are things to be careful:</br>
+And you can do your own sql queries. <p style="color:red">But here are things to be careful:</p>
+<p style="color:red">
 1. no inserts!</br>
 2. no drops!</br>
 3. use statement only works in the cli, it won't work in your java. If you use it, extract it and specify it in connection().</br>
-</br>
+</p>
 <hr></br>
 <h3 style="color:blue" id="ch5">Chapter5 About the jdbc</h3>
 Don't do what is said on presto website. Just add presto-jdbc-0.97 as maven dependency in your project.</br>
 </br>
 These following connection string patterns are supported.</br>
+<p style="color:blue">
 jdbc:presto://host:port        (only specifies server)</br>
 jdbc:presto://host:port/catalog    (restricts all things within a single catalog, ignore other catalogs)</br>
 jdbc:presto://host:port/catalog/schema (limit all things inside a single database. won't see more.)</br>
 </br>
+</p>
 The way your program (with a mysql database as real db storage) runs queries is like the following:</br>
+<p style="color:blue">
 1. Your program talks to presto jdbc, to get connection;</br>
 2. Presto jdbc talks to presto-mysql connector. (A connector defines all supports for queries. Use, drop and insert not supported.)</br>
 3. Presto-mysql connector uses mysql-jdbc to run queries.</br>
 4. Connector sends results from mysql-jdbc to presto-jdbc;</br>
 5. Your program gets the result.</br>
+</p>
 
 The usage of presto jdbc is pretty like mysql-jdbc. Note the following:</br>
+<p style="color:blue">
 1. Presto does not enable Batch update. So execute one SQL query at a time.</br>
 2. Presto resultset cannot be iterated as you like. It is only serial, front to end.</br>
 3. Use, drop and insert not supported.</br>
 4. The sql string should not have ';'.</br>
+</p>
 <hr></br>
 In my case, it is very good to have the environment set on the local machine so that you can test it at any time.</br>
 To develop on your local machine, if you are using ubuntu or another linux system, I suggest you to install smartgithg.</br>
