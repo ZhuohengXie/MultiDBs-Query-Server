@@ -33,14 +33,14 @@ public class CatalogRestService {
 			boolean queryResult = service.add(convertViewModelToDB(query));
 			if(!queryResult)
 			{
-				return Response.status(500).entity("{\"error\" : \"please check your input and try again\"}").build();
+				return Response.status(500).entity("{\"error\":\"please check your input and try again\"}").build();
 			}
-			return Response.status(200).entity("{\"success\": \"the record has been saved\"}").build();
+			return Response.status(200).entity("{\"success\":\"the record has been saved\"}").build();
 		} catch (Exception e) {
 			//return Response.status(500).build();
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
 			logger.error("error:",e);
-			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
+			return Response.status(500).entity("{\"error\":\""+e.getClass().getSimpleName()+"\",\"message\":\""+errmsg+"\"}").build();
 		}
 		
 	}
@@ -56,13 +56,13 @@ public class CatalogRestService {
 			boolean queryResult = service.drop(id);
 			if(!queryResult)
 			{
-				return Response.status(500).entity("{\"error\" : \"please check your input and try again\"}").build();
+				return Response.status(500).entity("{\"error\":\"please check your input and try again\"}").build();
 			}
-			return Response.status(200).entity("{\"success\": \"the record has been deleted\"}").build();
+			return Response.status(200).entity("{\"success\":\"the record has been deleted\"}").build();
 		} catch (Exception e) {
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
 			logger.error("error:",e);
-			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
+			return Response.status(500).entity("{\"error\":\""+e.getClass().getSimpleName()+"\",\"message\":\""+errmsg+"\"}").build();
 		}
 	}
 	private CatalogModel convertViewModelToDB(final CatalogViewModel model) {

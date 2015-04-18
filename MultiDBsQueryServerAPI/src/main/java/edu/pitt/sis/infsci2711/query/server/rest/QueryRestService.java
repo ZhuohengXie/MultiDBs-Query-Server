@@ -41,7 +41,7 @@ public class QueryRestService {
 		} catch (Exception e) {
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
 			logger.error("error:",e);
-			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
+			return Response.status(500).entity("{\"error\":\""+e.getClass().getSimpleName()+"\",\"message\":\""+errmsg+"\"}").build();
 		}
 	}
 	
@@ -64,7 +64,7 @@ public class QueryRestService {
 			//return Response.status(500).build();
 			logger.error("error:",e);
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
-			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
+			return Response.status(500).entity("{\"error\":\""+e.getClass().getSimpleName()+"\",\"message\":\""+errmsg+"\"}").build();
 		}
 	}
 	
@@ -84,14 +84,14 @@ public class QueryRestService {
 //			Thread.sleep(8000);
 //			boolean registerResult = queryService.registerInMetastore(convertViewModelToDB(query));
 //			if(!registerResult)
-			{return Response.status(500).entity("{\"error\" : \"error registering datasource on Metastore\"}").build();}
+			{return Response.status(500).entity("{\"error\":\"error registering datasource on Metastore\"}").build();}
 			
-			return Response.status(200).entity("{\"success\": \"the table has been saved\"}").build();
+			return Response.status(200).entity("{\"success\":\"the table has been saved\"}").build();
 		} catch (Exception e) {
 			//return Response.status(500).build();
 			String errmsg=e.getCause()==null?e.getMessage():e.getCause().getMessage();
 			logger.error("error:",e);
-			return Response.status(500).entity("{\"error\" : \""+e.getClass().getSimpleName()+"\" , \"message\" :  \""+errmsg+"\"}").build();
+			return Response.status(500).entity("{\"error\":\""+e.getClass().getSimpleName()+"\",\"message\":\""+errmsg+"\"}").build();
 		}
 		
 	}
