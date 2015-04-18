@@ -249,17 +249,26 @@ public class QueryService {
 		{f.delete();}
 	}
 
-	public boolean registerInMetastore(final SaveQueryModel saveInfo) throws Exception {
+	public boolean registerInMetastore(final SaveQueryModel saveInfo) {
 		int intport=Integer.parseInt(saveInfo.getPort());
 		RegisterViewModel model = new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
 			saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription());
 		
-		Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
-		if (result2.getStatus() != 200) {
+		Response result2;
+		try {
+			result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
+			logger.info("conpleted doPut");
+			if (result2.getStatus() != 200) {
+				return false;
+			}
+			else {
+				return true;
+			}		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("failed at doPut to metastore. error:",e);
 			return false;
 		}
-		else {
-			return true;
-		}
+
 	}
 }
