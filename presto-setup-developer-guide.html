@@ -11,14 +11,21 @@ a valid folder. (See Chapter2 for more description.) If you do not need more con
 you can simply use presto without reading the following.</br></p>
 <hr></br>
 </h3>
-<h3 style="color:blue">Chapter1 About presto</h3>
+<p>
+       <a href="#ch1">1. About presto</a>
+       <a href="#ch2">2. Downloading and configuring</a>
+       <a href="#ch3">3. Add a Catalog</a>
+       <a href="#ch4">4. Terms and How to use</a>
+       <a href="#ch5">5. About the jdbc</a>
+</p>
+<h3 style="color:blue" id="ch1">Chapter1 About presto</h3>
 <p>
 Presto is a distributed query engine. It supports sql queries but it is not a database.
 It only does query stuff. No actual data is stored on presto.
 </p>
 see more at: https://prestodb.io/docs/0.97/</br>
 <hr></br>
-<h3 style="color:blue">Chapter2 Downloading and configuring</h3>
+<h3 style="color:blue" id="ch2">Chapter2 Downloading and configuring</h3>
 </br>
 !!!!presto requires oracle java 8, and a 64-bit mac or linux</br>
 to install java 8 on ubuntu, do the following in terminal:</br>
@@ -67,7 +74,7 @@ node.id=ffffffff-ffff-ffff-ffff-ffffffffffff</br>
 node.data-dir=../../presto-bk</br>
 </br>
 <hr></br>
-<h3 style="color:blue">Chapter3 Add a Catalog</h3>
+<h3 style="color:blue" id="ch3">Chapter3 Add a Catalog</h3>
 </br>
 Create a catalog folder under etc folder, then go inside.</br>
 Here you store catalogs.</br>
@@ -104,7 +111,7 @@ bin/launcher restart</br>
 </br>
 #note that bin/launcher is actually the server code, written in python.</br>
 <hr></br>
-<h3  style="color:blue"></h3>Chapter4 Terms and How to use</h3>
+<h3 style="color:blue" id="ch4">Chapter4 Terms and How to use</h3>
 </br>
 The following shows what the term in presto means.</br>
 ===================|=====================|</br>
@@ -193,7 +200,7 @@ And you can do your own sql queries. But here are things to be careful:</br>
 3. use statement only works in the cli, it won't work in your java. If you use it, extract it and specify it in connection().</br>
 </br>
 <hr></br>
-<h3 style="color:blue">Chapter5 About the jdbc</h3>
+<h3 style="color:blue" id="ch5">Chapter5 About the jdbc</h3>
 Don't do what is said on presto website. Just add presto-jdbc-0.97 as maven dependency in your project.</br>
 </br>
 These following connection string patterns are supported.</br>
