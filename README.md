@@ -3,7 +3,7 @@
 <html>
 <body>
 
-<h2>File Structure of MultiDbsQueryServer Package</h2>
+<h3>File Structure of MultiDbsQueryServer Package</h3>
 
 <ul>
   <li>MultiDbsQueryServer</li>
@@ -44,8 +44,41 @@
    </ul>
   
 </ul>
+------------------------------------------------------------------------
+
+<h2>File Structure of MultiDbsQueryServerAPI</h2>
+
+<ul>
+  <li>MultiDbsQueryServerAPI</li>
+
+  <li> >edu.pitt.sis.infsci2711.query.server.api
+    <ul>
+    <li>QueryServerAPI.java</li>
+    </ul>
+  </li>
+  
+   <li> >edu.pitt.sis.infsci2711.query.server.rest
+    <ul>
+    <li>CatalogRestService.java</li>
+    <li>QueryRestService.java</li>
+    </ul>
+  </li>
+  
+   <li> >edu.pitt.sis.infsci2711.query.server.viewModels
+    <ul>
+    <li>CatalogViewModel.java</li>
+    <li>QueryResultViewModel.java</li>
+    <li>QueryViewModel.java</li>
+    <li>RowViewModel.java</li> 
+    <li>SaveQueryViewModel.java</li>
+    <li>SchemaViewModel.java</li>
+    </ul>
+  </li>
+ 
+</ul>
 
 </body>
+
 </html>
 
 
