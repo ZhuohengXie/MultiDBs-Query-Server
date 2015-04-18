@@ -252,7 +252,7 @@ public class QueryService {
 	public boolean registerInMetastore(final SaveQueryModel saveInfo) throws Exception {
 		int intport=Integer.parseInt(saveInfo.getPort());
 		RegisterViewModel model = new RegisterViewModel( saveInfo.getDBType(),saveInfo.getIP(),intport,saveInfo.getUsername(),
-			saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription()	);
+			saveInfo.getPassword(), saveInfo.getDBname(), saveInfo.getTitle(), saveInfo.getDescription());
 		
 		Response result2 = JerseyClientUtil.doPut(PropertiesPlugin.getMetastoreURL(), PropertiesPlugin.getMetastoreRegister(), model);
 		if (result2.getStatus() != 200) {
