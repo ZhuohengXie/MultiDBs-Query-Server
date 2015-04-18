@@ -16,7 +16,7 @@ Quick Links:
        <a href="#ch1">1. About presto</a></br>
        <a href="#ch2">2. Downloading and configuring</a></br>
        <a href="#ch3">3. Add a Catalog</a></br>
-       <a href="#ch4">4. Terms and How to use</a></br>
+       <a href="#ch4">4. Concepts, Terms and How to use</a></br>
        <a href="#ch5">5. About the jdbc</a></br>
 </p>
 <hr></br>
@@ -46,7 +46,8 @@ Unpack it,then go to the where you unpacked. Now you should see presto-server-0.
 First create a folder beside presto-server-0.97, named presto-bk.</br>
 Go inside presto-server-0.97 folder, create another folder called etc, then go inside.</br>
 create 4 files, each with the following content:</br>
-(visually better see https://prestodb.io/docs/0.97/installation/deployment.html)</br>
+(visually better see <a href="https://prestodb.io/docs/0.97/installation/deployment.html" target="_blank">
+https://prestodb.io/docs/0.97/installation/deployment.html)</a></br>
 </br>
 #file 1: config.properties</br>
 coordinator=true</br>
@@ -113,16 +114,21 @@ bin/launcher restart</br>
 </br>
 #note that bin/launcher is actually the server code, written in python.</br>
 <hr></br>
-<h3 style="color:blue" id="ch4">Chapter4 Terms and How to use</h3>
+<h3 style="color:blue" id="ch4">Chapter4 Concepts, Terms and How to use</h3>
 </br>
 The following shows what the term in presto means.</br>
-===================|=====================|</br>
-       presto      |      usual term     |</br>
-===================|=====================|</br>
-     catalog       | data source, server |</br>
--------------------|---------------------|</br>
-      schema       |      database       |</br>
--------------------|---------------------|</br>
+<table>
+	<tr>		
+		<th>presto</th><th>urual term</th>
+	</tr>		
+	<tr>
+		<td>catalog</td><td>datasource,server</td>
+	</tr>
+	<tr>
+		<td>schema</td><td>database</td>
+	</tr>
+</table>
+
 </br>
 Download the cli for presto here: </br>
 https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.97/presto-cli-0.97-executable.jar</br>
