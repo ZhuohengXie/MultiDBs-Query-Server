@@ -1,4 +1,10 @@
 #This is a guide for *developers* to set up presto on ubuntu 14.01 LTS x64
+
+NOTE that presto-server-0.97 has already been embedded in this github project.
+Just make sure the node.data-dir= in /presto-server-0.97/etc/node.properties file is pointing to
+a valid folder. (See Chpt2 for more description.) If you do not need more configuration, then 
+you can simply use presto without reading the following.
+
 ================================================================================================
 Chpt1 About presto
 
