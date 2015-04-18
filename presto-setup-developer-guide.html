@@ -61,7 +61,7 @@ create 4 files, each with the following content:</br>
 (visually better see <a href="https://prestodb.io/docs/0.97/installation/deployment.html" target="_blank">
 https://prestodb.io/docs/0.97/installation/deployment.html)</a></br>
 </br>
-#file 1: config.properties</br>
+<p style="color:blue">file 1: config.properties</br></p>
 coordinator=true</br>
 node-scheduler.include-coordinator=true</br>
 http-server.http.port=8080</br>
@@ -69,7 +69,7 @@ task.max-memory=1GB</br>
 discovery-server.enabled=true</br>
 discovery.uri=http://localhost:8080</br>
 </br>
-#file 2: jvm.config</br>
+<p style="color:blue">file 2: jvm.config</br></p>
 -server</br>
 -Xmx16G</br>
 -XX:+UseConcMarkSweepGC</br>
@@ -80,10 +80,10 @@ discovery.uri=http://localhost:8080</br>
 -XX:OnOutOfMemoryError=kill -9 %p</br>
 -XX:ReservedCodeCacheSize=150M</br>
 </br>
-#file 3: log.properties</br>
+<p style="color:blue">file 3: log.properties</br></p>
 com.facebook.presto=INFO</br>
 </br>
-#file 4: node.properties</br>
+<p style="color:blue">file 4: node.properties</br></p>
 node.environment=production</br>
 node.id=ffffffff-ffff-ffff-ffff-ffffffffffff</br>
 node.data-dir=../../presto-bk</br>
@@ -95,16 +95,16 @@ Create a catalog folder under etc folder, then go inside.</br>
 Here you store catalogs.</br>
 </br>
 Suppose you have mysql on local machine.</br>
-Create a catalog file named whatever you want, say 'local.properties'.</br>
+Create a catalog file named whatever you want, say 'localhost.properties'.</br>
 </br>
-#catalog file: local.properties</br>
+<p style="color:blue">catalog file: localhost.properties</br></p>
 connector.name=mysql</br>
 connection-url=jdbc:mysql://localhost:3306</br>
 connection-user=USERNAME</br>
 connection-password=PASSWORD</br>
 </br>
 Let's look at this catalog file.</br>
-The file name (local.properties) contains the catalog name. So the catalog is called 'local'.</br>
+The file name (localhost.properties) contains the catalog name. So the catalog is called 'localhost'.</br>
 Any catalog file is catalogName.properties. Catalog is actually a data source. </br>
 This catalog file records how to access the data source for presto.</br>
 </br>
