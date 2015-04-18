@@ -1,23 +1,23 @@
 <html>
 <head>
-This is a guide for *developers* to set up presto on ubuntu 14.01 LTS x64
+<h2>This is a guide for *developers* to set up presto on ubuntu 14.01 LTS x64</h2>
 </head>
 <body>
 </br>
-<h2>
+<h3 style="color:red">
 NOTE that presto-server-0.97 has already been embedded in this github project.</br>
 Just make sure the node.data-dir= in /presto-server-0.97/etc/node.properties file is pointing to</br>
 a valid folder. (See Chapter2 for more description.) If you do not need more configuration, then</br>
 you can simply use presto without reading the following.</br></p>
 <hr></br>
-</h2>
+</h3>
 <h3>Chapter1 About presto</h3>
 <p>
 Presto is a distributed query engine. It supports sql queries but it is not a database.
 It only does query stuff. No actual data is stored on presto.
 </p>
 see more at: https://prestodb.io/docs/0.97/</br>
--------------------------------------------------------------------------------------------------</br>
+<hr></br>
 <h3>Chapter2 Downloading and configuring</h3>
 </br>
 !!!!presto requires oracle java 8, and a 64-bit mac or linux</br>
@@ -66,7 +66,7 @@ node.environment=production</br>
 node.id=ffffffff-ffff-ffff-ffff-ffffffffffff</br>
 node.data-dir=../../presto-bk</br>
 </br>
---------------------------------------------------------------------------------------------------</br>
+<hr></br>
 <h3>Chapter3 Add a Catalog</h3>
 </br>
 Create a catalog folder under etc folder, then go inside.</br>
@@ -103,7 +103,7 @@ So if you added a new catalog file to the server, you should restart the server 
 bin/launcher restart</br>
 </br>
 #note that bin/launcher is actually the server code, written in python.</br>
--------------------------------------------------------------------------------------------------------</br>
+<hr></br>
 Chapter4 Terms and How to use</br>
 </br>
 The following shows what the term in presto means.</br>
@@ -192,7 +192,7 @@ And you can do your own sql queries. But here are things to be careful:</br>
 2. no drops!</br>
 3. use statement only works in the cli, it won't work in your java. If you use it, extract it and specify it in connection().</br>
 </br>
-------------------------------------------------------------------------------------------------------------------------------------</br>
+<hr></br>
 <h3>Chapter5 About the jdbc</h3>
 Don't do what is said on presto website. Just add presto-jdbc-0.97 as maven dependency in your project.</br>
 </br>
@@ -213,7 +213,7 @@ The usage of presto jdbc is pretty like mysql-jdbc. Note the following:</br>
 2. Presto resultset cannot be iterated as you like. It is only serial, front to end.</br>
 3. Use, drop and insert not supported.</br>
 4. The sql string should not have ';'.</br>
----------------------------------------------------------------------------------------------------------------------------------</br>
+<hr></br>
 In my case, it is very good to have the environment set on the local machine so that you can test it at any time.</br>
 To develop on your local machine, if you are using ubuntu or another linux system, I suggest you to install smartgithg.</br>
 Smartgithg is a GUI git, like your Github client. Very convenient.</br>
