@@ -5,5 +5,93 @@
 </head>
 <body>
   <h3 style="color:orange">1. System Requirements</h3></br>
-  
+  To successfully build and run the project, you need the following:</br>
+  <p style="color:blue">
+    1). A 64 bit linux system.</br>
+    2). Oracle java 8.</br>
+    </p>
+    
+    To follow this guide, you'd better use a system with apt-get like ubuntu.</br>
+    In center OS and Redhat, commands are different, especially when installing java8.</br>
+    <a href="https://www.digitalocean.com/community/tutorials/how-to-install-java-on-centos-and-fedora">(See this for more information on installing oracle jdk 8.)</a></br>
+  <h3 style="color:orange">1. System Requirements</h3></br>
+  To successfully build and run the project, you need the following:</br>
+  <p style="color:blue">
+    1). A 64 bit linux system.</br>
+    2). Oracle java 8.</br>
+    </p>    
+
+  <h3 style="color:orange">2. Installing Git And Clone the project</h3></br>
+  To download the project, we need to install git first using this command:</br>
+  <p style="color:blue">
+    sudo apt-get install git
+    </p>
+    After installation, we can begin to clone our project into the server machine.</br>
+    By default, we place the project into /opt/project folder.
+   <p style="color:blue">
+    cd /opt </br>
+    sudo mkdir project</br>
+    cd project</br>
+    sudo git clone https://github.com/infsci2711/MultiDBs-Query-Server.git</br>
+    </p>
+    </br></br>    
+    
+  <h3 style="color:orange">3. Project Basic environments setup</h3></br>
+  We now download all dependencies and initialize the database of the project with the setup.sh script:</br>
+  <p style="color:red">When installing MySQL, please use <b>'proot'</b> as password of root user. Later you may change it.</p>
+  <p style="color:blue">
+    cd MultiDBs-Query-Server</br>
+    sudo chmod +x ./setup.sh</br>
+    ./setup.sh</br>
+    
+    </p>
+    Follow all setup guides in the console.
+    <p style="color:gray">What does the script do?<br>
+    First, it installed java 8.<br>
+    Second, it installed maven, mysql, and nginx.<br>
+    Third, it made a directory for presto logs.<br>
+    Finally, it initialized the database.</p>
+    
+  <h3 style="color:orange">4. Environments that needs to be configured Manually</h3></br>
+  We now have to configure some environments manually:</br>
+  <p style="color:red">1). Configure Java Environment Paths</p>
+  <p style="color:blue">
+    sudo nano /etc/profile</br></p>
+    <p style="color:red">use down arrow to go to the end of the file, press enter<br>
+    Add the following lines:
+    </p>
+    <p style="color:cyan">
+      Path=$PATH:/usr/lib/jvm/java-8-oracle/bin<br>
+      export JAVA_Home=/usr/lib/jvm/java-8-oracle<br>
+      export CLASSPATH=$JAVA_HOME/lib:.<br>
+    </p>
+    <p style="color:red">close the file by ctrl+x, follow the guide to save the file.<br>
+    Then run the following command in terminal:
+    </p>    
+    <p style="color:blue">
+    source /etc/profile</br>
+    </p>
+  <p style="color:red">2). Configure MySQL</p>
+  <p style="color:blue">
+    sudo nano /etc/mysql/my.cnf</br></p>
+    <p style="color:red">use down arrow to search for [client]<br>
+    Add the following line:
+    </p>
+    <p style="color:cyan">
+      default-character-set= utf8
+    </p>
+    <p style="color:red">use down arrow to search for [mysqld]. And just somw lines below, find "bind-address"<br>
+    Change to the following:
+    </p>
+    <p style="color:cyan">
+      bind-address             =0.0.0.0
+    </p>   
+    <p style="color:red">close the file by ctrl+x, follow the guide to save the file.<br>
+    Then run <b>either of</b> the following command in terminal:
+    </p>    
+    <p style="color:blue">
+    sudo service mysql restart</br>
+    sudo /etc/init.d/mysql restart
+    </p>
+    
 </body>
