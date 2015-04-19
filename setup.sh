@@ -20,6 +20,11 @@ cd project
 sudo git clone https://github.com/infsci2711/MultiDBs-Query-WebClient.git
 sudo git clone https://github.com/infsci2711/MultiDBs-Utils.git
 
+#presto backup folder (required)
 sudo mkdir presto-bk
 
+#go back
+cd MultiDBs-Query-Server
+
+#init db
 mysql -u root -pproot < dbinit.sql
