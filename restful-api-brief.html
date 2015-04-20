@@ -60,7 +60,6 @@ Accepts a sql query string (like select ... from databaseid.tablename), and then
 </br>
 
 <h3>2.get table content</h3>
-</br>
 <p style="color:chocolate">description:</p></br>
 Accepts databseid and tableName as parameters, and then returns the table content.</br>
 </br>
@@ -99,9 +98,8 @@ http://54.174.80.167:7654/Query/{databaseid}/{tablename}</br>
 	"error" : "error type",</br>
 	"message" : "description of error"</br>
 }</br>
-</br>
+</br></br>
 <h3>3. save query result as new datasource (debugging)</h3>
-</br>
 <p style="color:chocolate">description:</p></br>
 With user input register information, it saves the query result as a new datasource. Will register on metastore and our matcher.
 Only select queries can be saved.</br>
@@ -157,9 +155,8 @@ http://54.174.80.167:7654/Query/Save/</br>
 	"error" : "error type",</br>
 	"message" : "description of error"</br>
 }</br>
-</br>
+</br></br>
 <h3>4. add catalog (done, only open to metastore)</h3>
-</br>
 <p style="color:chocolate">description:</p></br>
 With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.</br>
 </br>
@@ -209,9 +206,8 @@ http://54.174.80.167:7654/Catalog/add</br>
 	"error" : "error type",</br>
 	"message" : "description of error"</br>
 }</br>
-</br>
+</br></br>
 <h3>5. drop catalog (done, only open to metastore)</h3>
-</br>
 <p style="color:chocolate">description:</p></br>
 Delete both the catalog file and the record in our matcher, where the database id is did.</br>
 </br>
