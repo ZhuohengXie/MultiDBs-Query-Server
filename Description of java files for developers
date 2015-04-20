@@ -18,5 +18,8 @@
     |save    :It will take input as a SaveQueryViewModel and response in JSON form
     
     -------------------------------------------------------------
-    
+    edu.pitt.sis.infsci2711.query.server.viewModels: This package contains classes for different models,models holds data .
+    |CatalogViewModel.java: This model holds the incoming request to add catalog which is in form of JSON.The fields present in class are same as incoming JSON elements. 
+    |RowViewModel.java:This model represents the rows generated in response of a select query,array of String is data type to hold rows.
+   
    
