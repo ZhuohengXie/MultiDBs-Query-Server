@@ -29,7 +29,7 @@
     To follow this guide, you'd better use a system with apt-get like ubuntu.</br>
     In center OS and Redhat, commands are different, especially when installing java8.</br>
     <a href="https://www.digitalocean.com/community/tutorials/how-to-install-java-on-centos-and-fedora">(See this for more information on installing oracle jdk 8.)</a></br>
-
+    </br>
   <h3 style="color:orange" id="ch2">2. Installing Git And Clone the project</h3></br>
   To download the project, we need to install git first using this command:</br>
   <p style="color:blue">
@@ -43,7 +43,7 @@
     cd project</br>
     sudo git clone https://github.com/infsci2711/MultiDBs-Query-Server.git</br>
     </p>
-    </br></br>    
+    </br> 
     
   <h3 style="color:orange" id="ch3">3. Project Basic environments setup</h3></br>
   We now download all dependencies and initialize the database of the project with the setup.sh script:</br>
@@ -59,7 +59,7 @@
     First, it installed java 8.<br>
     Second, it installed maven, mysql, and nginx.<br>
     Third, it made a directory for presto logs.<br>
-    Finally, it initialized the database.</p>
+    Finally, it initialized the database.</p></br>
     
   <h3 style="color:orange" id="ch4">4. Environments that needs to be configured Manually</h3></br>
   We now have to configure some environments manually:</br>
@@ -151,7 +151,8 @@
     mvn install<br>
     cd /opt/project/MultiDBs-Query-Server<br>
     mvn install<br>
-    </p> 
+    </p> </br>
+    
     <h3 style="color:orange" id="ch6">6. launch the server</h3></br>
     Run the following:</br>
     <p style="color:blue">
@@ -159,7 +160,7 @@
     ./start-servers.sh<br>
     </p>
     <p style="color:gray">You can also stop the server by running:</br>
-    ./stop-servers.sh</br></p>
+    ./stop-servers.sh</br></p></br>
     
     <h3 style="color:orange" id="ch7">7. check the web client</h3></br>
     Access your server's url by the ip address of your server.</br>
