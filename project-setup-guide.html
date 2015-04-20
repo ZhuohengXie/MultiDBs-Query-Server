@@ -12,16 +12,9 @@
     1). A 64 bit linux system.</br>
     2). Oracle java 8.</br>
     </p>
-    
     To follow this guide, you'd better use a system with apt-get like ubuntu.</br>
     In center OS and Redhat, commands are different, especially when installing java8.</br>
     <a href="https://www.digitalocean.com/community/tutorials/how-to-install-java-on-centos-and-fedora">(See this for more information on installing oracle jdk 8.)</a></br>
-  <h3 style="color:orange">1. System Requirements</h3></br>
-  To successfully build and run the project, you need the following:</br>
-  <p style="color:blue">
-    1). A 64 bit linux system.</br>
-    2). Oracle java 8.</br>
-    </p>    
 
   <h3 style="color:orange">2. Installing Git And Clone the project</h3></br>
   To download the project, we need to install git first using this command:</br>
@@ -48,7 +41,7 @@
     
     </p>
     Follow all setup guides in the console.
-    <p style="color:gray">What does the script do?<br>
+    <p style="color:gray">What does the script do?</br></br>
     First, it installed java 8.<br>
     Second, it installed maven, mysql, and nginx.<br>
     Third, it made a directory for presto logs.<br>
@@ -80,13 +73,13 @@
     Add the following line:
     </p>
     <p style="color:DodgerBlue">
-      default-character-set= utf8
+      default-character-set = utf8
     </p>
     <p style="color:red">use down arrow to search for [mysqld]. And just somw lines below, find "bind-address"<br>
     Change to the following:
     </p>
     <p style="color:DodgerBlue">
-      bind-address             =0.0.0.0
+      bind-address = 0.0.0.0
     </p>   
     <p style="color:red">close the file by ctrl+x, follow the guide to save the file.<br>
     Then run <b>either of</b> the following command in terminal:
@@ -95,6 +88,66 @@
     sudo service mysql restart</br>
     sudo /etc/init.d/mysql restart
     </p>
+    <p style="color:red">3). Configure project config file</p>
+    <p style="color:blue">
+    cd /opt/project/MultiDBs-Query-Server/MultiDBsQueryServerAPI/src/main/resources</br>
+    sudo nano config.properties</br></p>
+    <p style="color:red">change the following to correct value:
+    </p>
+    <p style="color:DodgerBlue">
+      metastore.rest.base = (url of metastore project)<br>
+    </p>
+    <p style="color:gray">What does parameters mean in this file?<br>
+    "port" is the port you are going to use for the server<br>
+    "metastore.rest.base" is the base url of metastore project<br>
+    "metastore.rest.getAllDatasources" is the path after "metastore.rest.base" which will provide all datasources list<br>
+    "metastore.rest.addDatasource" is the path after "metastore.rest.base" which provides the register restful api</br>
+    "presto.root" is the root folder of presto server</p>
     
+    <p style="color:red">4). Add priviledge to project folder</br>(replace the username with your server login username)</p>
+    <p style="color:blue">
+    cd /opt/</br>
+    sudo chown -R username:username project</br></p>
+    
+    <p style="color:red">5). Enable start-server and stop-server scripts</p>
+    <p style="color:blue">
+    cd /opt/project/MultiDBs-Query-Server/</br>
+    sudo chmod +x ./start-servers.sh</br>
+    sudo chmod +x ./stop-servers.sh</br>
+    </p></br>
+    
+    <p style="color:red">6). Configure the web client</p>
+    <p style="color:blue">
+    cd /usr/share/nginx</br>
+    sudo rm -R html</br>
+    sudo ln -sv /opt/project/MultiDBs-Query-WebClient html</br>
+    cd /opt/project/MultiDBs-Query-WebClient/javascripts/knockout_models</br>
+    sudo nano global.js</br></p>
+    <p style="color:red">change the following to correct value:
+    </p>
+    <p style="color:DodgerBlue">
+      var restBaseUrl = "http://(your ip address):(our server port,default 7654)/";</br>
+      var metaStoreGetDataSourcesURL =  "http://(metastore ip address):(metastore server port,default 7654)/datasources";</br>
+    </p>
+    
+    <h3 style="color:orange">5. Build the project by using maven</h3></br>
+    Run the following:</br>
+    <p style="color:blue">
+    cd /opt/project/MultiDBs-Utils<br>
+    mvn install<br>
+    cd /opt/project/MultiDBs-Query-Server<br>
+    mvn install<br>
+    </p> 
+    <h3 style="color:orange">6. launch the server</h3></br>
+    Run the following:</br>
+    <p style="color:blue">
+    cd /opt/project/MultiDBs-Query-Server<br>
+    ./start-servers.sh<br>
+    </p>
+    <p style="color:gray">You can also stop the server by running:</br>
+    ./stop-servers.sh</br></p>
+    
+    <h3 style="color:orange">7. check the web client</h3></br>
+    Access your server's url by the ip address of your server.</br>
 </body>
 </html>
