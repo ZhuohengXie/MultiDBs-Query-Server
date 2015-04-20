@@ -1,9 +1,11 @@
-<head>
+<!DOCTYPE html>
+<html>
+<head style="background-color:beige">
   <title>Presto Query Project Setup Guide</title>
   <h2 style="color:blue">Server-side Project Setup Guide</h2>
   <hr></br>
 </head>
-<body>
+<body style="background-color:beige">
   <h3 style="color:orange">1. System Requirements</h3></br>
   To successfully build and run the project, you need the following:</br>
   <p style="color:blue">
@@ -60,7 +62,7 @@
     <p style="color:red">use down arrow to go to the end of the file, press enter<br>
     Add the following lines:
     </p>
-    <p style="color:cyan">
+    <p style="color:DodgerBlue">
       Path=$PATH:/usr/lib/jvm/java-8-oracle/bin<br>
       export JAVA_Home=/usr/lib/jvm/java-8-oracle<br>
       export CLASSPATH=$JAVA_HOME/lib:.<br>
@@ -77,13 +79,13 @@
     <p style="color:red">use down arrow to search for [client]<br>
     Add the following line:
     </p>
-    <p style="color:cyan">
+    <p style="color:DodgerBlue">
       default-character-set= utf8
     </p>
     <p style="color:red">use down arrow to search for [mysqld]. And just somw lines below, find "bind-address"<br>
     Change to the following:
     </p>
-    <p style="color:cyan">
+    <p style="color:DodgerBlue">
       bind-address             =0.0.0.0
     </p>   
     <p style="color:red">close the file by ctrl+x, follow the guide to save the file.<br>
@@ -95,3 +97,4 @@
     </p>
     
 </body>
+</html>
