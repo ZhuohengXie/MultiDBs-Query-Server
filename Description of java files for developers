@@ -44,8 +44,7 @@
        -- MySqlConnURL: This function return the url attribute of the properties file.
       Multiple catalog files are created, to maintain uniqueness catalog file name is created with id of the request.
       It also update the matcher table with id's ,filename and db name.
-     |CatalogMatcherManager.java:
-     |PrestoCmdManager.java:
+     |PrestoCmdManager.java: This methods is called to start or stop Pesto Server.
      --------------------------------------------------------------
      
      edu.pitt.sis.infsci2711.query.server.viewmodels
