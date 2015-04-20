@@ -38,7 +38,11 @@
      |Schema.java:This model is to hold values for Column in array of Strings.
      ---------------------------------------------------------------------
      edu.pitt.sis.infsci2711.query.server.utils
-     |CatalogFileBulider.java:
+     |CatalogFileBulider.java:This file is responsible for adding new properties file in /etc/catalog folder and check that db-type
+      is mysql otherwise it will generate error.It has
+       --checkconnector function:This function is  responsible for checking db-type which must be mysql,it has boolean return type. 
+       -- MySqlConnURL: This function return the url attribute of the properties file.
+    
      |CatalogMatcherManager.java:
      |PrestoCmdManager.java:
      --------------------------------------------------------------
