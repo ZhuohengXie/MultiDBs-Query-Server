@@ -80,6 +80,7 @@ response-json-format:</br>
         "row": ["value11", "value12", "value13"]</br>
     }]</br>
 }</p>
+<p style="color:LightCoral">
 -(root)</br>
 &nbsp&nbsp-schema</br>
 &nbsp&nbsp&nbsp&nbsp-columnNames (String[])</br>
@@ -89,7 +90,7 @@ response-json-format:</br>
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp.</br>
 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp.</br>
 &nbsp&nbsp&nbsp&nbsp-row (String[])</br>
-</br>
+</p>
 <p style="color:chocolate">error response:</p></br>
 response-json-format</br>
 {</br>
@@ -125,6 +126,7 @@ http://54.174.80.167:7654/Query/Save/</br>
 	"tablename":"your_table_name",</br>
 	"query":"your query string here"</br>
 }</p>
+<p style="color:LightCoral">
 -(root)</br>
 &nbsp&nbsp-ip String</br>
 &nbsp&nbsp-port String</br>
@@ -136,7 +138,7 @@ http://54.174.80.167:7654/Query/Save/</br>
 &nbsp&nbsp-description String</br>
 &nbsp&nbsp-tablename String</br>
 &nbsp&nbsp-query String</br>
-</br>
+</p>
 <p style="color:chocolate">response:</p></br>
 content-type: application/json</br>
 response-json-format:</br>
@@ -144,9 +146,10 @@ response-json-format:</br>
 {</br>
     "success": "the table has been saved"</br>
 }</p>
+<p style="color:LightCoral">
 -(root)</br>
 &nbsp&nbsp-success String("the table has been saved")</br>
-    </br>
+    </p>
 </br>
 <p style="color:chocolate">error response:</p></br>
 response-json-format</br>
@@ -178,6 +181,7 @@ http://54.174.80.167:7654/Catalog/add</br>
 	"password":"your password",</br>
 	"dbname":"database name"</br>
 }</p>
+<p style="color:LightCoral">
 -root</br>
 &nbsp&nbsp-id String</br>
 &nbsp&nbsp-ip String</br>
@@ -186,7 +190,7 @@ http://54.174.80.167:7654/Catalog/add</br>
 &nbsp&nbsp-username String</br>
 &nbsp&nbsp-password String</br>
 &nbsp&nbsp-dbname String</br>
-</br>
+</p>
 </br>
 <p style="color:chocolate">response:</p></br>
 content-type: application/json</br>
@@ -195,9 +199,10 @@ response-json-format:</br>
 {</br>
     "success": "the record has been saved"</br>
 }</p>
+<p style="color:LightCoral">
 -(root)</br>
 &nbsp&nbsp-success String("the record has been saved")</br>
-    </br>
+    </p>
 </br>
 <p style="color:chocolate">error response:</p></br>
 response-json-format</br>
@@ -223,9 +228,10 @@ response-json-format:</br>
 {</br>
     "success": "the record has been deleted"</br>
 }</p>
+<p style="color:LightCoral">
 -(root)</br>
 &nbsp&nbsp-success String("the record has been deleted")</br>
-    </br>
+    </p>
 </br>
 <p style="color:chocolate">error response:</p></br>
 response-json-format</br>
