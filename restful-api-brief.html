@@ -17,7 +17,6 @@ Accepts a sql query string (like select ... from databaseid.tablename), and then
 <font style="color:blue">content-type:</font>application/json</br>
 <font style="color:blue">request-type:</font> PUT</br>
 <font style="color:blue">request-json-format:</font></br>
-</br>
 <p style="color:DeepSkyBlue">
 {"query":"your query string here"}</p>
 <p style="color:LightCoral">
@@ -28,7 +27,7 @@ Accepts a sql query string (like select ... from databaseid.tablename), and then
 <p style="color:chocolate">response:</p></br>
 <font style="color:blue">content-type:</font>application/json</br>
 <font style="color:blue">response-json-format:</font></br>
-<p style="color:DeepSkyBlue'">
+<p style="color:DeepSkyBlue">
 {</br>
     "schema": {</br>
         "columnNames": ["column1", "column2", "column3"]</br>
@@ -67,9 +66,8 @@ Accepts databseid and tableName as parameters, and then returns the table conten
 http://54.174.80.167:7654/Query/{databaseid}/{tablename}</br>
 </br>
 <p style="color:chocolate">request:</p></br>
-request-type: GET</br>
-request-json-format:</br>
-</br>
+<font style="color:blue">request-type:</font> GET</br>
+
 <p style="color:chocolate">response: (same as above)</p></br>
 content-type: application/json</br>
 response-json-format:</br>
@@ -110,9 +108,9 @@ Only select queries can be saved.</br>
 http://54.174.80.167:7654/Query/Save/</br>
 </br>
 <p style="color:chocolate">request:</p></br>
-content-type: application/json</br>
-request-type: PUT</br>
-request-json-format:</br>
+<font style="color:blue">content-type:</font>application/json</br>
+<font style="color:blue">request-type:</font> PUT</br>
+<font style="color:blue">request-json-format:</font></br>
 {</br>
 	"ip":"xxx.xxx.xxx.xxx",</br>
 	"port":"pppp",</br>
@@ -164,9 +162,9 @@ With input information, it saves datasource connection as presto catalog, and di
 http://54.174.80.167:7654/Catalog/add</br>
 </br>
 <p style="color:chocolate">request:</p></br>
-content-type: application/json</br>
-request-type: PUT</br>
-request-json-format:  (may later extend dbtype to support hive, cassandra, etc.)</br>
+<font style="color:blue">content-type:</font>application/json</br>
+<font style="color:blue">request-type:</font> PUT</br>
+<font style="color:blue">request-json-format:</font></br>
 {</br>
 	"id":"databaseid",</br>
 	"ip":"xxx.xxx.xxx.xxx",</br>
@@ -209,11 +207,10 @@ response-json-format</br>
 Delete both the catalog file and the record in our matcher, where the database id is did.</br>
 </br>
 <p style="color:chocolate">url:</p></br>
-http://54.174.80.167:7654/Catalog/drop/did</br>
+http://54.174.80.167:7654/Catalog/drop/{did}</br>
 </br>
 <p style="color:chocolate">request: did is the database id</p></br>
-request-type: GET</br>
-</br>
+<font style="color:blue">request-type:</font> GET</br>
 <p style="color:chocolate">response:</p></br>
 content-type: application/json</br>
 response-json-format:</br>
