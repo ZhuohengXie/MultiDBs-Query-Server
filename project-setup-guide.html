@@ -3,10 +3,24 @@
 <head style="background-color:beige">
   <title>Presto Query Project Setup Guide</title>
   <h2 style="color:chocolate">Server-side Project Setup Guide</h2>
+  <br>
+  <a href="#ch1">1. System Requirements</a></br>
+  <a href="#ch2">2. Installing Git And Clone the project</a></br>
+  <a href="#ch3">3. Project Basic environments setup</a></br>
+  <a href="#ch4">4. Environments that needs to be configured Manually</a></br>
+  &nbsp&nbsp<a href="#sch1">1). Configure Java Environment Variables</a></br>
+  &nbsp&nbsp<a href="#sch2">2). Configure MySQL</a></br>
+  &nbsp&nbsp<a href="#sch3">3). Configure project config file</a></br>
+  &nbsp&nbsp<a href="#sch4">4). Add priviledge to project folder</a></br>
+  &nbsp&nbsp<a href="#sch5">5). Enable start-server and stop-server scripts</a></br>
+  &nbsp&nbsp<a href="#sch6">6). Configure the web client</a></br>
+  <a href="#ch5">5. Build the project by using maven</a></br>
+  <a href="#ch6">6. launch the server</a></br>
+  <a href="#ch7">7. check the web client</a></br>
   <hr></br>
 </head>
 <body style="background-color:beige">
-  <h3 style="color:orange">1. System Requirements</h3></br>
+  <h3 style="color:orange" id="ch1">1. System Requirements</h3></br>
   To successfully build and run the project, you need the following:</br>
   <p style="color:blue">
     1). A 64 bit linux system.</br>
@@ -16,7 +30,7 @@
     In center OS and Redhat, commands are different, especially when installing java8.</br>
     <a href="https://www.digitalocean.com/community/tutorials/how-to-install-java-on-centos-and-fedora">(See this for more information on installing oracle jdk 8.)</a></br>
 
-  <h3 style="color:orange">2. Installing Git And Clone the project</h3></br>
+  <h3 style="color:orange" id="ch2">2. Installing Git And Clone the project</h3></br>
   To download the project, we need to install git first using this command:</br>
   <p style="color:blue">
     sudo apt-get install git
@@ -31,7 +45,7 @@
     </p>
     </br></br>    
     
-  <h3 style="color:orange">3. Project Basic environments setup</h3></br>
+  <h3 style="color:orange" id="ch3">3. Project Basic environments setup</h3></br>
   We now download all dependencies and initialize the database of the project with the setup.sh script:</br>
   <p style="color:red">When installing MySQL, please use <b>'proot'</b> as password of root user. Later you may change it.</p>
   <p style="color:blue">
@@ -47,9 +61,9 @@
     Third, it made a directory for presto logs.<br>
     Finally, it initialized the database.</p>
     
-  <h3 style="color:orange">4. Environments that needs to be configured Manually</h3></br>
+  <h3 style="color:orange" id="ch4">4. Environments that needs to be configured Manually</h3></br>
   We now have to configure some environments manually:</br>
-  <p style="color:red">1). Configure Java Environment Paths</p>
+  <p style="color:red" id="sch1">1). Configure Java Environment Variables</p>
   <p style="color:blue">
     sudo nano /etc/profile</br></p>
     <p style="color:red">use down arrow to go to the end of the file, press enter<br>
@@ -66,7 +80,7 @@
     <p style="color:blue">
     source /etc/profile</br>
     </p>
-  <p style="color:red">2). Configure MySQL</p>
+  <p style="color:red" id="sch2">2). Configure MySQL</p>
   <p style="color:blue">
     sudo nano /etc/mysql/my.cnf</br></p>
     <p style="color:red">use down arrow to search for [client]<br>
@@ -88,7 +102,7 @@
     sudo service mysql restart</br>
     sudo /etc/init.d/mysql restart
     </p>
-    <p style="color:red">3). Configure project config file</p>
+    <p style="color:red" id="sch3'">3). Configure project config file</p>
     <p style="color:blue">
     cd /opt/project/MultiDBs-Query-Server/MultiDBsQueryServerAPI/src/main/resources</br>
     sudo nano config.properties</br></p>
@@ -97,26 +111,26 @@
     <p style="color:DodgerBlue">
       metastore.rest.base = (url of metastore project)<br>
     </p>
-    <p style="color:gray">What does parameters mean in this file?<br>
+    <p style="color:gray">What does parameters mean in this file?<br></br>
     "port" is the port you are going to use for the server<br>
     "metastore.rest.base" is the base url of metastore project<br>
     "metastore.rest.getAllDatasources" is the path after "metastore.rest.base" which will provide all datasources list<br>
     "metastore.rest.addDatasource" is the path after "metastore.rest.base" which provides the register restful api</br>
     "presto.root" is the root folder of presto server</p>
     
-    <p style="color:red">4). Add priviledge to project folder</br>(replace the username with your server login username)</p>
+    <p style="color:red" id="sch4">4). Add priviledge to project folder</br>(replace the username with your server login username)</p>
     <p style="color:blue">
     cd /opt/</br>
-    sudo chown -R username:username project</br></p>
+    sudo chown -R username:username project</br></p></br>
     
-    <p style="color:red">5). Enable start-server and stop-server scripts</p>
+    <p style="color:red" id="sch5">5). Enable start-server and stop-server scripts</p>
     <p style="color:blue">
     cd /opt/project/MultiDBs-Query-Server/</br>
     sudo chmod +x ./start-servers.sh</br>
     sudo chmod +x ./stop-servers.sh</br>
     </p></br>
     
-    <p style="color:red">6). Configure the web client</p>
+    <p style="color:red" id="sch6">6). Configure the web client</p>
     <p style="color:blue">
     cd /usr/share/nginx</br>
     sudo rm -R html</br>
@@ -128,9 +142,9 @@
     <p style="color:DodgerBlue">
       var restBaseUrl = "http://(your ip address):(our server port,default 7654)/";</br>
       var metaStoreGetDataSourcesURL =  "http://(metastore ip address):(metastore server port,default 7654)/datasources";</br>
-    </p>
+    </p></br>
     
-    <h3 style="color:orange">5. Build the project by using maven</h3></br>
+    <h3 style="color:orange" id="ch5">5. Build the project by using maven</h3></br>
     Run the following:</br>
     <p style="color:blue">
     cd /opt/project/MultiDBs-Utils<br>
@@ -138,7 +152,7 @@
     cd /opt/project/MultiDBs-Query-Server<br>
     mvn install<br>
     </p> 
-    <h3 style="color:orange">6. launch the server</h3></br>
+    <h3 style="color:orange" id="ch6">6. launch the server</h3></br>
     Run the following:</br>
     <p style="color:blue">
     cd /opt/project/MultiDBs-Query-Server<br>
@@ -147,7 +161,7 @@
     <p style="color:gray">You can also stop the server by running:</br>
     ./stop-servers.sh</br></p>
     
-    <h3 style="color:orange">7. check the web client</h3></br>
+    <h3 style="color:orange" id="ch7">7. check the web client</h3></br>
     Access your server's url by the ip address of your server.</br>
 </body>
 </html>
