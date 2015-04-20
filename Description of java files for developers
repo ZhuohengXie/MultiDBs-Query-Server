@@ -27,8 +27,8 @@
     ------------------------------------------------------------------
     >MultiDBSQueryServer
     edu.pitt.sis.infsci2711.query.server.business
-    | Catalog Service.java: 
-    | Query Service.java:
+    | Catalog Service.java: It is responsible for adding properties file in /etc/catalog folder and update the Prestomatch table with the catalog added.
+    | Query Service.java: It services the query such as select, insert. for catalogs.
     ----------------------------------------------------------------
      edu.pitt.sis.infsci2711.query.server.models
      |CatalogModel.java: The model is same as CatalogViewModel in serverAPI package.Request for adding a catalog which is in JSON form is converted to CatalogModel to hold data.
