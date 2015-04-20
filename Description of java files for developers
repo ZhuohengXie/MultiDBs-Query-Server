@@ -19,10 +19,12 @@
     
     -------------------------------------------------------------
     edu.pitt.sis.infsci2711.query.server.viewModels: This package contains classes for different models,models holds data .
-    |CatalogViewModel.java: This model holds the incoming request to add catalog which is in form of JSON.The fields present in class are same as incoming JSON elements. 
+    |CatalogViewModel.java: This model holds the incoming request to add catalog which is in form of JSON.The datatype present in class are same as incoming JSON elements. 
     |RowViewModel.java:This model represents the rows generated in response of a select query,array of String is data type to hold rows.
-    |SchemaViewModel.java:This model represents the columns generated in response of a select query , array og String is data type to hold columns.
+    |SchemaViewModel.java:This model represents the columns generated in response of a select query , array of String is data type to hold columns.
     |QueryResultViewModel.java: This model holds the datatype of RowViewmodel and SchemaViewModel to hold the entire result in one object.
     |QueryViewModel.java: This model holds the incoming request of query which is in form of JSON. The datatype is String which holds the query.
+    ------------------------------------------------------------------
+    
    
    
