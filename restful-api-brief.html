@@ -1,27 +1,30 @@
 <html>
 <head>
+	<title>Restful API Documentation</title>
 </head>
-<body>
-<h3>##  This is a brief restful api documentation of our presto query server  \^o^/</h3>
+<bodystyle="background-color:HoneyDew">
+<h3 style="color:brown">This is a brief restful api documentation of our presto query server  \^o^/</h3>
 
-<h4>1.query</h4>
+<h3>1.query</h3>
 
-<p>#description:
+<p style="color:chocolate">description:</p>
+<p>
 Accepts a sql query string (like select ... from databaseid.tablename), and then returns the result content.</p>
-<p>#url:
-http://54.174.80.167:7654/Query/
+<p style="color:chocolate">url:</p>
+<p>http://54.174.80.167:7654/Query/
 </p>
 
-#request:</br>
+<p style="color:chocolate">request:</p></br>
 content-type: application/json</br>
 request-type: PUT</br>
 request-json-format:</br>
+</br>
 {"query":"your query string here"}</br>
 -root</br>
   -query String</br>
 </br>
 </br>
-#response:</br>
+<p style="color:chocolate">response:</p></br>
 content-type: application/json</br>
 response-json-format:</br>
 {</br>
@@ -42,7 +45,7 @@ response-json-format:</br>
       .</br>
     -row (String[])</br>
 </br>
-#error response:</br>
+<p>error response:</p></br>
 response-json-format</br>
 {</br>
 	"error" : "error type",</br>
@@ -50,19 +53,20 @@ response-json-format</br>
 }</br>
 </br>
 </br>
+
 <h3>2.get table content</h3>
 </br>
-#description:</br>
+<p style="color:chocolate">description:</p></br>
 Accepts databseid and tableName as parameters, and then returns the table content.</br>
 </br>
-#url</br>
+<p style="color:chocolate">url</p></br>
 http://54.174.80.167:7654/Query/{databaseid}/{tablename}</br>
 </br>
-#request:</br>
+<p style="color:chocolate">request:</p></br>
 request-type: GET</br>
 request-json-format:</br>
 </br>
-#response: (same as above)</br>
+<p style="color:chocolate">response: (same as above)</p></br>
 content-type: application/json</br>
 response-json-format:</br>
 {</br>
@@ -83,7 +87,7 @@ response-json-format:</br>
       .</br>
     -row (String[])</br>
 </br>
-#error response:</br>
+<p style="color:chocolate">error response:</p></br>
 response-json-format</br>
 {</br>
 	"error" : "error type",</br>
@@ -94,14 +98,14 @@ response-json-format</br>
 </br>
 <h3>3. save query result as new datasource (debugging)</h3>
 </br>
-#description:</br>
+<p style="color:chocolate">description:</p></br>
 With user input register information, it saves the query result as a new datasource. Will register on metastore and our matcher.
 Only select queries can be saved.</br>
 </br>
-#url:</br>
+<p style="color:chocolate">url:</p></br>
 http://54.174.80.167:7654/Query/Save/</br>
 </br>
-#request:</br>
+<p style="color:chocolate">request:</p></br>
 content-type: application/json</br>
 request-type: PUT</br>
 request-json-format:</br>
@@ -129,7 +133,7 @@ request-json-format:</br>
   -tablename String</br>
   -query String</br>
 </br>
-#response: (may change, e.g. add created database did to it)</br>
+<p style="color:chocolate">response:</p></br>
 content-type: application/json</br>
 response-json-format:</br>
 {</br>
@@ -139,7 +143,7 @@ response-json-format:</br>
   -success String("the table has been saved")</br>
     </br>
 </br>
-#error response:</br>
+<p style="color:chocolate">error response:</p></br>
 response-json-format</br>
 {</br>
 	"error" : "error type",</br>
@@ -149,13 +153,13 @@ response-json-format</br>
 </br>
 <h3>4. add catalog (done, only open to metastore)</h3>
 </br>
-#description:</br>
+<p style="color:chocolate">description:</p></br>
 With input information, it saves datasource connection as presto catalog, and did,catalog,databsename in matcher.</br>
 </br>
-#url:</br>
+<p style="color:chocolate">url:</p></br>
 http://54.174.80.167:7654/Catalog/add</br>
 </br>
-#request:</br>
+<p style="color:chocolate">request:</p></br>
 content-type: application/json</br>
 request-type: PUT</br>
 request-json-format:  (may later extend dbtype to support hive, cassandra, etc.)</br>
@@ -178,7 +182,7 @@ request-json-format:  (may later extend dbtype to support hive, cassandra, etc.)
   -dbname String</br>
 </br>
 </br>
-#response: (may change, e.g. add successful database did or catalog name to it)</br>
+<p style="color:chocolate">response:</p></br>
 content-type: application/json</br>
 response-json-format:</br>
 {</br>
@@ -188,7 +192,7 @@ response-json-format:</br>
   -success String("the record has been saved")</br>
     </br>
 </br>
-#error response:</br>
+<p style="color:chocolate">error response:</p></br>
 response-json-format</br>
 {</br>
 	"error" : "error type",</br>
@@ -197,16 +201,16 @@ response-json-format</br>
 </br>
 <h3>5. drop catalog (done, only open to metastore)</h3>
 </br>
-#description:</br>
+<p style="color:chocolate">description:</p></br>
 Delete both the catalog file and the record in our matcher, where the database id is did.</br>
 </br>
-#url:</br>
+<p style="color:chocolate">url:</p></br>
 http://54.174.80.167:7654/Catalog/drop/did</br>
 </br>
-#request: did is the database id</br>
+<p style="color:chocolate">request: did is the database id</p></br>
 request-type: GET</br>
 </br>
-#response:</br>
+<p style="color:chocolate">response:</p></br>
 content-type: application/json</br>
 response-json-format:</br>
 {</br>
@@ -216,7 +220,7 @@ response-json-format:</br>
   -success String("the record has been deleted")</br>
     </br>
 </br>
-#error response:</br>
+<p style="color:chocolate">error response:</p></br>
 response-json-format</br>
 {</br>
 	"error" : "error type",</br>
