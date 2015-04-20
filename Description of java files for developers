@@ -25,6 +25,24 @@
     |QueryResultViewModel.java: This model holds the datatype of RowViewmodel and SchemaViewModel to hold the entire result in one object.
     |QueryViewModel.java: This model holds the incoming request of query which is in form of JSON. The datatype is String which holds the query.
     ------------------------------------------------------------------
-    
+    >MultiDBSQueryServer
+    edu.pitt.sis.infsci2711.query.server.business
+    | Catalog Service.java:
+    | Query Service.java:
+    ----------------------------------------------------------------
+     edu.pitt.sis.infsci2711.query.server.models
+     |Catalog Model.java:
+     |Query ResultModel.java:
+     |Query Model.java:
+     |Row.java:
+     |Schema.java:
+     ---------------------------------------------------------------------
+     edu.pitt.sis.infsci2711.query.server.utils
+     |CatalogFileBulider.java:
+     |CatalogMatcherManager.java:
+     |PrestoCmdManager.java:
+     --------------------------------------------------------------
+     
+     edu.pitt.sis.infsci2711.query.server.viewmodels
    
    
