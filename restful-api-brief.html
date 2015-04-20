@@ -37,15 +37,15 @@ Accepts a sql query string (like select ... from databaseid.tablename), and then
     }]</br>
 }</p></br>
 <p style="color:LightCoral">
--root</br>
-  -schema</br>
-    -columnNames (String[])</br>
-  -data  (row[])</br>
-    -row (String[])</br>
-      .</br>
-      .</br>
-      .</br>
-    -row (String[])</br>
+-(root)</br>
+&nbsp&nbsp-schema</br>
+&nbsp&nbsp&nbsp&nbsp-columnNames (String[])</br>
+&nbsp&nbsp-data  (row[])</br>
+&nbsp&nbsp&nbsp&nbsp-row (String[])</br>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp.</br>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp.</br>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp.</br>
+&nbsp&nbsp&nbsp&nbsp-row (String[])</br>
 </p>
 </br>
 <p style="color:chocolate">error response:</p></br>
@@ -79,15 +79,15 @@ response-json-format:</br>
         "row": ["value11", "value12", "value13"]</br>
     }]</br>
 }</br>
--root</br>
-  -schema</br>
-    -columnNames (String[])</br>
-  -data  (row[])</br>
-    -row (String[])</br>
-      .</br>
-      .</br>
-      .</br>
-    -row (String[])</br>
+-(root)</br>
+&nbsp&nbsp-schema</br>
+&nbsp&nbsp&nbsp&nbsp-columnNames (String[])</br>
+&nbsp&nbsp-data  (row[])</br>
+&nbsp&nbsp&nbsp&nbsp-row (String[])</br>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp.</br>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp.</br>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp.</br>
+&nbsp&nbsp&nbsp&nbsp-row (String[])</br>
 </br>
 <p style="color:chocolate">error response:</p></br>
 response-json-format</br>
@@ -123,17 +123,17 @@ http://54.174.80.167:7654/Query/Save/</br>
 	"tablename":"your_table_name",</br>
 	"query":"your query string here"</br>
 }</br>
--root</br>
-  -ip String</br>
-  -port String</br>
-  -dbtype String</br>
-  -username String</br>
-  -password String</br>
-  -dbname String</br>
-  -title String</br>
-  -description String</br>
-  -tablename String</br>
-  -query String</br>
+-(root)</br>
+&nbsp&nbsp-ip String</br>
+&nbsp&nbsp-port String</br>
+&nbsp&nbsp-dbtype String</br>
+&nbsp&nbsp-username String</br>
+&nbsp&nbsp-password String</br>
+&nbsp&nbsp-dbname String</br>
+&nbsp&nbsp-title String</br>
+&nbsp&nbsp-description String</br>
+&nbsp&nbsp-tablename String</br>
+&nbsp&nbsp-query String</br>
 </br>
 <p style="color:chocolate">response:</p></br>
 content-type: application/json</br>
@@ -141,8 +141,8 @@ response-json-format:</br>
 {</br>
     "success": "the table has been saved"</br>
 }</br>
--root</br>
-  -success String("the table has been saved")</br>
+-(root)</br>
+&nbsp&nbsp-success String("the table has been saved")</br>
     </br>
 </br>
 <p style="color:chocolate">error response:</p></br>
@@ -175,13 +175,13 @@ http://54.174.80.167:7654/Catalog/add</br>
 	"dbname":"database name"</br>
 }</br>
 -root</br>
-  -id String</br>
-  -ip String</br>
-  -port String</br>
-  -dbtype String</br>
-  -username String</br>
-  -password String</br>
-  -dbname String</br>
+&nbsp&nbsp-id String</br>
+&nbsp&nbsp-ip String</br>
+&nbsp&nbsp-port String</br>
+&nbsp&nbsp-dbtype String</br>
+&nbsp&nbsp-username String</br>
+&nbsp&nbsp-password String</br>
+&nbsp&nbsp-dbname String</br>
 </br>
 </br>
 <p style="color:chocolate">response:</p></br>
@@ -190,8 +190,8 @@ response-json-format:</br>
 {</br>
     "success": "the record has been saved"</br>
 }</br>
--root</br>
-  -success String("the record has been saved")</br>
+-(root)</br>
+&nbsp&nbsp-success String("the record has been saved")</br>
     </br>
 </br>
 <p style="color:chocolate">error response:</p></br>
@@ -217,8 +217,8 @@ response-json-format:</br>
 {</br>
     "success": "the record has been deleted"</br>
 }</br>
--root</br>
-  -success String("the record has been deleted")</br>
+-(root)</br>
+&nbsp&nbsp-success String("the record has been deleted")</br>
     </br>
 </br>
 <p style="color:chocolate">error response:</p></br>
