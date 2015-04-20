@@ -27,15 +27,15 @@
     ------------------------------------------------------------------
     >MultiDBSQueryServer
     edu.pitt.sis.infsci2711.query.server.business
-    | Catalog Service.java:
+    | Catalog Service.java: 
     | Query Service.java:
     ----------------------------------------------------------------
      edu.pitt.sis.infsci2711.query.server.models
-     |Catalog Model.java:
-     |Query ResultModel.java:
-     |Query Model.java:
-     |Row.java:
-     |Schema.java:
+     |CatalogModel.java: The model is same as CatalogViewModel in serverAPI package.Request for adding a catalog which is in JSON form is converted to CatalogModel to hold data.
+     |QueryResultModel.java:The model holds the result of query, data types is Schema and Array of Row type.The result is in JSON form which is modeled by this class.
+     |QueryModel.java:This is model for to hold query in String form.
+     |Row.java:This model is to hold rows of Result Set for a query. The datatype is array of Stirng type.
+     |Schema.java:This model is to hold values for Column in array of Strings.
      ---------------------------------------------------------------------
      edu.pitt.sis.infsci2711.query.server.utils
      |CatalogFileBulider.java:
