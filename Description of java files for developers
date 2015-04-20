@@ -42,7 +42,8 @@
       is mysql otherwise it will generate error.It has
        --checkconnector function:This function is  responsible for checking db-type which must be mysql,it has boolean return type. 
        -- MySqlConnURL: This function return the url attribute of the properties file.
-    
+      Multiple catalog files are created, to maintain uniqueness catalog file name is created with id of the request.
+      It also update the matcher table with id's ,filename and db name.
      |CatalogMatcherManager.java:
      |PrestoCmdManager.java:
      --------------------------------------------------------------
