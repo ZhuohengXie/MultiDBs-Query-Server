@@ -61,7 +61,7 @@ create 4 files, each with the following content:</br>
 (visually better see <a href="https://prestodb.io/docs/0.97/installation/deployment.html" target="_blank">
 https://prestodb.io/docs/0.97/installation/deployment.html)</a></br>
 </br>
-<p style="color:blue">file 1: config.properties</br></p>
+<p style="color:blue">file 1: config.properties (port, url)</br></p>
 coordinator=true</br>
 node-scheduler.include-coordinator=true</br>
 http-server.http.port=8080</br>
@@ -69,7 +69,7 @@ task.max-memory=1GB</br>
 discovery-server.enabled=true</br>
 discovery.uri=http://localhost:8080</br>
 </br>
-<p style="color:blue">file 2: jvm.config</br></p>
+<p style="color:blue">file 2: jvm.config (note the out-of-memory handle method is to kill itself)</br></p>
 -server</br>
 -Xmx16G</br>
 -XX:+UseConcMarkSweepGC</br>
@@ -83,7 +83,7 @@ discovery.uri=http://localhost:8080</br>
 <p style="color:blue">file 3: log.properties</br></p>
 com.facebook.presto=INFO</br>
 </br>
-<p style="color:blue">file 4: node.properties</br></p>
+<p style="color:blue">file 4: node.properties(note that the node.data-dir property is important, it saves the log.)</br></p>
 node.environment=production</br>
 node.id=ffffffff-ffff-ffff-ffff-ffffffffffff</br>
 node.data-dir=../../presto-bk</br>
@@ -121,9 +121,10 @@ Note that this is not the username for a single database, it is for the whole da
 Another problem is that presto does not automatically detect changes in /etc/catalog folder.</br>
 So if you added a new catalog file to the server, you should restart the server to let presto load it.</br>
 </br>
-#note that you are now at folder 'presto-server-0.97'</br>
+<p style="color:blue">
+(use cd command to go to your presto-server-0.97 folder)</br>
 bin/launcher restart</br>
-</br>
+</p>
 #note that bin/launcher is actually the server code, written in python.</br>
 <hr></br>
 <h3 style="color:blue" id="ch4">Chapter4 Concepts, Terms and How to use</h3>
