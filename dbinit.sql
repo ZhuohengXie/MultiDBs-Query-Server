@@ -37,7 +37,7 @@ DROP TABLE IF EXISTS `test1`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test1` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `value` varhar(20) DEFAULT NULL,
+  `value` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
