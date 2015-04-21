@@ -13,7 +13,7 @@ sudo apt-get install nginx
 
 #folders and environments
 cd /opt
-sudo mkdir project
+#sudo mkdir project
 cd project
 
 #clone project
