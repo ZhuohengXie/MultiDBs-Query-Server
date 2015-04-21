@@ -1,3 +1,55 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Maintainance and Future Developer Guide</title>
+  </head>
+  <body style="color:beige">
+    <h2>Project Server Maintainance</h2></br>
+    <h4>1.Upgrade Server</h4>
+    <p>Go to the project folder,stop the server, full from git, build with maven, and start the server.</br>
+    <font style="color:blue">cd /opt/project/MultiDBs-Query-Server/</font></br>
+    <font style="color:blue">./stop-servers.sh</font></br>
+    <font style="color:blue">git pull</font></br>
+    <font style="color:blue">mvn clean install</font></br>
+    <font style="color:blue">./start-servers.sh</font></br>
+    </p></br>
+    <h4>2.Upgrade WebClient</h4>
+    <p>Go to the project folder, full from git.</br>
+    <font style="color:blue">cd /opt/project/MultiDBs-Query-WebClient/</font></br>
+    <font style="color:blue">git pull</font></br>
+    </p></br>
+    <h4>3.Temporary Catalogs Removing</h4>
+    <p>Sometimes when there's error, temporary catalogs cannot be deleted. So we have to delete them manually.</br>
+    <font style="color:blue">cd /opt/project/MultiDBs-Query-Server/presto-server-0.97/etc/catalog/</font></br>
+    <font style="color:blue">find . -type f -name tmp\* -exec rm {} \;</font></br>
+    </p></br> 
+    <h4>4.Outdated datasource info removing:</h4>
+    <p>When metastore deletes a datasource, they should have called our drop catalog api yet they seem not to have called it.</br>
+    So, we have to call it by ourselves. First get all datasources information from metastore (you can do it by opening the webpage).</br>
+    Then, call the url in the browser "http://{your server ip}:{port}/Catalog/drop/{databaseid}" to drop it.
+    </p></br>
+    <hr>
+    <h2>Future development guide</h2></br>
+    <h4>1.Presto catalog listening thread</h4>
+    <p>Currently, the only way for presto to get new catalog loaded or get a catalog removed is to restart.</br>
+    This may cause many issues. Later workers should try to change presto code to add a catalog listening thread to detect catalog changes.</p>
+    <p>
+    Please go to presto github to see more information and be free to ask questions and submit issues.
+    </p></br>
+    
+    <h4>2.Check catalogs when server starts</h4>
+    <p>Currently, we have a class called <b>"CatalogMatcherManager"</b> which has not been implemented.</br>
+    Yet it should be able to handle stuff like:</br>
+    1). Connect to metastore and check lost catalogs.</br>
+    2). Fix lost catalogs.</br>
+    3). Connect to metastore and check catalogs that has been removed from metastore.</br>
+    4). Remove outdated catalogs.</br>
+    5). Remove trash catalogs generated but not deleted caused by errors when using save API in the wrong way. </br>
+    Refer to 3 above in Maintainance part.
+    </p></br>
+    
+    <h4>3.More Catalog Manager APi</h4>
+    <p>Now we only have add and drop. Yet there're some needs that we provide all catalogs we have.</br>
+    </p></br>
+  </body>
 </html>
