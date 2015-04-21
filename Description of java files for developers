@@ -48,6 +48,6 @@
      --------------------------------------------------------------
      
      edu.pitt.sis.infsci2711.query.server.viewmodels
-     |RegisterViewModel:
+     |RegisterViewModel: This model is responisble to handle incoming request to add catalog which is in form of JSON.The models cnvert JSON to Java.
    
    
