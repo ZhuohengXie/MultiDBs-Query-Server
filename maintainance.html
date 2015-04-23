@@ -6,7 +6,7 @@
   <body style="background-color:beige">
     <h2>Project Server Maintainance</h2></br>
     <h4>1.Upgrade Server</h4>
-    <p>Go to the project folder,stop the server, full from git, build with maven, and start the server.</br>
+    <p>Go to the project folder,stop the server, pull from git, build with maven, and start the server.</br>
     <font style="color:blue">cd /opt/project/MultiDBs-Query-Server/</font></br>
     <font style="color:blue">./stop-servers.sh</font></br>
     <font style="color:blue">git pull</font></br>
@@ -59,8 +59,9 @@
     Refer to 3 above in Maintainance part.
     </p></br>
     
-    <h4>3.More Catalog Manager APi</h4>
-    <p>Now we only have add and drop. Yet there're some needs that we provide all catalogs we have.</br>
+    <h4>3.More Presto Manager APIs</h4>
+    <p>Now we only have add and drop catalog APIs. Yet there're some needs that we provide all catalogs we have.</br>
+    Plus, there should be a API to launch presto server if we found that it was down.
     </p></br>
   </body>
 </html>
