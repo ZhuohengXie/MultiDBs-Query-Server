@@ -106,7 +106,8 @@
     <p style="color:blue">
     cd /opt/project/MultiDBs-Query-Server/MultiDBsQueryServerAPI/src/main/resources</br>
     sudo nano config.properties</br></p>
-    <p style="color:red">change the following to correct value:
+    <p style="color:red">change the following to correct value:</br>
+    (e.g. metastore.rest.base = http://54.152.26.131:7654)
     </p>
     <p style="color:DodgerBlue">
       metastore.rest.base = (url of metastore project)<br>
@@ -137,10 +138,12 @@
     sudo ln -sv /opt/project/MultiDBs-Query-WebClient html</br>
     cd /opt/project/MultiDBs-Query-WebClient/javascripts/knockout_models</br>
     sudo nano global.js</br></p>
-    <p style="color:red">change the following to correct value:
+    <p style="color:red">change the following to correct value:</br>
+    (e.g. var restBaseUrl = "http://54.174.80.167:7654/";</br>
+    </br>var metastoreGetDataSourcesUrl = "http://54.152.26.131:7654/datasources";)
     </p>
     <p style="color:DodgerBlue">
-      var restBaseUrl = "http://(your ip address):(our server port,default 7654)/";</br>
+      var restBaseUrl = "http://(your ip address):(your server port,default 7654)/";</br>
       var metaStoreGetDataSourcesURL =  "http://(metastore ip address):(metastore server port,default 7654)/datasources";</br>
     </p></br>
     
