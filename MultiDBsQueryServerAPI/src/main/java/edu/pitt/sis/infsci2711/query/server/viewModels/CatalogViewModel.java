@@ -1,7 +1,7 @@
 package edu.pitt.sis.infsci2711.query.server.viewModels;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class CatalogViewModel {
@@ -22,7 +22,7 @@ public class CatalogViewModel {
 	
 	public CatalogViewModel()
 	{}
-	public CatalogViewModel(String mid,String mIP, String mPort,String mdbType, String mUsername, String mPassword, String mDBname)
+	public CatalogViewModel(final String mid,final String mIP, final String mPort,final String mdbType, final String mUsername, final String mPassword, final String mDBname)
 	{
 		this.id=mid;
 		this.dbtype=mdbType;
@@ -39,4 +39,10 @@ public class CatalogViewModel {
 	public String getPassword(){return this.password;}
 	public String getDBname(){return this.dbname;}
 	public String getDBType(){return this.dbtype;}
+	
+	@Override
+	public String toString() {
+		return String.format("id: %s; ip: %s; port: %s; dbtype: %s; username: %s; password: %s; dbname: %s", 
+				id, ip, port, dbtype, username, password, dbname);
+	}
 }
