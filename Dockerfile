@@ -4,11 +4,12 @@ MAINTAINER Evgeny Karataev <Karataev.Evgeny@gmail.com>
 RUN apt-get update && apt-get install -y \
     openssh-server \
     curl \
-    git
+    git \
+    software-properties-common
 
-RUN apt-get install -y software-properties-common && add-apt-repository ppa:webupd8team/java
+RUN add-apt-repository ppa:webupd8team/java
 
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
 	oracle-java8-installer \
     oracle-java8-set-default
 
