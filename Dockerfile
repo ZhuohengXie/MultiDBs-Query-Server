@@ -1,13 +1,15 @@
 FROM ubuntu:14.04
 MAINTAINER Evgeny Karataev <Karataev.Evgeny@gmail.com>
 
-RUN apt-get install -y software-properties-common && add-apt-repository ppa:webupd8team/java
-
 RUN apt-get update && apt-get install -y \
     openssh-server \
     curl \
-    git \
-    oracle-java8-installer \
+    git
+
+RUN apt-get install -y software-properties-common && add-apt-repository ppa:webupd8team/java
+
+RUN apt-get install -y \
+	oracle-java8-installer \
     oracle-java8-set-default
 
 RUN mkdir -p /var/run/sshd
