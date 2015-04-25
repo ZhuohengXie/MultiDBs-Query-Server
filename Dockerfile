@@ -1,7 +1,9 @@
 FROM ubuntu:14.04
 MAINTAINER Evgeny Karataev <Karataev.Evgeny@gmail.com>
 
-RUN add-apt-repository ppa:webupd8team/java && apt-get update && apt-get install -y \
+RUN apt-get install software-properties-common python-software-properties && add-apt-repository ppa:webupd8team/java
+
+RUN apt-get update && apt-get install -y \
     openssh-server \
     curl \
     git \
