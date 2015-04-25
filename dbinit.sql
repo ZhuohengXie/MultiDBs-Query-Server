@@ -8,7 +8,7 @@ CREATE TABLE `matcher` (
   `catalog` varchar(45) DEFAULT NULL,
   `dbname` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`did`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf-8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE USER 'multidbsuser'@'%' IDENTIFIED BY 'infsci2711';
 grant all privileges on *.* to 'multidbsuser'@'%';
